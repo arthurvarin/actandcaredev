@@ -1,0 +1,29 @@
+[{"id":1,
+  "name":"Roller Coaster",
+  "price":5,
+  "date":"2018-05-13",
+  "deleted":false,
+  "modified":false
+  },
+  {"id":2,
+    "name":"Star Wars",
+    "price":4,
+    "date":"2007-04-12",
+    "deleted":false,
+    "modified":false
+    },
+  {"id":3,
+    "name":"Phantom Manor",
+    "price":4,
+    "date":"2007-03-24",
+    "deleted":false,
+    "modified":false
+    },
+  {"id":4,
+    "name":"Indiana Jones",
+    "price":4,
+    "date":"2005-02-25",
+    "deleted":false,
+    "modified":false
+    }
+]

@@ -1,0 +1,21 @@
+form {
+  background-color: #66c2ff !important;
+  height: 100%;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#titlepage{
+  color: #ff9900;
+}
+
+#addNewElement {
+  margin-top: 60px;
+  background-color:  #ff9900;
+  margin:0 auto;
+  display: block;
+  margin-bottom: 30px;
+  width: 50%;
+}

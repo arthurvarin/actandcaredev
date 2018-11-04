@@ -1,0 +1,25 @@
+[{"id":1,
+  "name":"Batiment 1",
+  "date":"2018-05-13",
+  "deleted":false,
+  "modified":false
+  },
+  {"id":2,
+    "name":"Batiment 2",
+    "date":"2007-04-12",
+    "deleted":false,
+    "modified":false
+    },
+  {"id":3,
+    "name":"Batiment 3",
+    "date":"2007-03-24",
+    "deleted":false,
+    "modified":false
+    },
+  {"id":4,
+    "name":"Batiment 4",
+    "date":"2005-02-25",
+    "deleted":false,
+    "modified":false
+    }
+]

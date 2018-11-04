@@ -1,0 +1,87 @@
+#addElement {
+  margin-top: 60px;
+  background-color: orange;
+  margin:0 auto;
+  display: block;
+  margin-bottom: 30px;
+  width: 70%;
+}
+
+#addNewElement {
+  margin-top: 60px;
+  background-color: orange;
+  margin:0 auto;
+  display: block;
+  margin-bottom: 30px;
+  width: 50%;
+}
+
+.card {
+  margin-top: 400px !important;
+}
+
+.my-collapsible__content { overflow: hidden;}
+
+.notify-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  align-content: flex-start;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.notify-item {
+  width: 250px;
+  margin: 5px 10px;
+  color: #FFF;
+  border-radius: 5px;
+}
+
+.notify-item:hover {
+  opacity: 0.8;
+  box-shadow: 0 0 10px 0 rgb(15, 15, 15);
+}
+
+.notify-item > p {
+  font-family: 'Lora', serif;
+  margin: 10px;
+  opacity: .8;
+}
+
+.notify-item.success {
+  background-color: #008000;
+}
+
+.notify-item.error {
+  background-color: rgba(203, 100, 94, 0.8);
+}
+
+.notify-item.info {
+  background-color: rgba(33, 150, 243, 0.8);
+}
+
+.notify-title {
+  font-weight: 700;
+}
+
+.btn-primary {
+    background-color: orange !important;
+    border-color: orange !important;
+}
+
+.btn-secondary{
+  background-color: #343a40!important;
+  border-color: #343a40!important;
+}
+.form {
+  background-color: #d9cbb8 !important;
+  height: 250px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
