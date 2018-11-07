@@ -79,10 +79,31 @@ export default class AjoutMissions extends React.Component {
       this.setState({commentaires: event.target.value});
   }
 
-  getMissionCount(){
-    let missioncount = 1;
+  getMissionCount(tmpserialnumber){
+    let missioncount = 0;
 
-    // rechercher toutes les missions avec la meme YYYY + MM
+    const missionRef = firebase.database().ref('missions');
+    missionRef.on('child_added', snap =>{
+
+      let mission = snap.val();
+      let serialnumber = "" + mission.datededebut.slice(0,4) + mission.datededebut.slice(5,7);
+
+      if(serialnumber.valueOf() == tmpserialnumber.valueOf() && mission.nomission.length<12)
+      {
+          missioncount ++;
+      }
+
+      if(serialnumber.valueOf() == tmpserialnumber.valueOf() && mission.nomission.length>12)
+      {
+        if(mission.nomission.charAt(12)=='1')
+        {
+          missioncount ++;
+        }
+
+      }
+
+
+    });
 
     return missioncount;
   }
@@ -92,8 +113,6 @@ export default class AjoutMissions extends React.Component {
 
     missioncount = missioncount + 1;
     let serialnumber = "";
-
-
 
     if(missioncount < 10)
       serialnumber= "000" + missioncount;
@@ -110,39 +129,78 @@ export default class AjoutMissions extends React.Component {
     return serialnumber;
   }
 
+  ajouterMission(datededebut,tmpserialnumber,endserialnumber,extra){
+
+
+    this.state.nomission =  "M" + tmpserialnumber + endserialnumber + extra ;
+    const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+    {
+      nomission: this.state.nomission,
+      ville: this.state.ville,
+      typedetablissement: this.state.typedetablissement,
+      region: this.state.region,
+      specialite: this.state.specialite,
+      type: this.state.type,
+      datededebut: datededebut,
+      datedefin: this.state.datedefin,
+      heurededebut: this.state.heurededebut,
+      heuredefin: this.state.heuredefin,
+      remuneration: this.state.remuneration,
+      commentaires: this.state.commentaires,
+      statut: "Recherche en cours"
+    });
+    this.setState({
+      ville: "",
+      typedetablissement: "",
+      region: "",
+      specialite: "",
+      type: "",
+      datededebut:"",
+      datedefin: "",
+      heurededebut: "",
+      heuredefin: "",
+      remuneration: "",
+      commentaires: "",
+    })
+  }
+
+  getDates(date1, date2) {
+    let returnarray = new Array();
+    let currentDate = date1;
+    while (currentDate.valueOf() <= date2.valueOf()) {
+        returnarray.push(new Date (currentDate));
+        currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
+    }
+    return returnarray;
+  }
+
   handleSubmit(e) {
         e.preventDefault();
-        let tmpserialnumber = "" + this.state.datededebut.slice(0,4) + this.state.datededebut.slice(5,7 )
-        this.state.nomission =  "" + tmpserialnumber + this.getSerialNumber(tmpserialnumber);
-        const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
-        {
-          nomission: this.state.nomission,
-          ville: this.state.ville,
-          typedetablissement: this.state.typedetablissement,
-          region: this.state.region,
-          specialite: this.state.specialite,
-          type: this.state.type,
-          datededebut: this.state.datededebut,
-          datedefin: this.state.datedefin,
-          heurededebut: this.state.heurededebut,
-          heuredefin: this.state.heuredefin,
-          remuneration: this.state.remuneration,
-          commentaires: this.state.commentaires,
-          statut: "Recherche en cours"
-        });
-        this.setState({
-          ville: "",
-          typedetablissement: "",
-          region: "",
-          specialite: "",
-          type: "",
-          datededebut:"",
-          datedefin: "",
-          heurededebut: "",
-          heuredefin: "",
-          remuneration: "",
-          commentaires: "",
-        })
+
+    if (this.state.datededebut.length>0 && this.state.datedefin.length == 0)
+    {
+      let tmpserialnumber = "" + this.state.datededebut.slice(0,4) + this.state.datededebut.slice(5,7);
+      let endserialnumber = this.getSerialNumber(tmpserialnumber);
+
+      this.ajouterMission(this.state.datededebut,tmpserialnumber,endserialnumber,"");
+    }
+
+    if (this.state.datededebut.length>0 && this.state.datedefin.length>0)
+    {
+      let datededebut = new Date(this.state.datededebut.slice(0,4),this.state.datededebut.slice(5,7)-1,this.state.datededebut.slice(8,10));
+      let datedefin = new Date(this.state.datedefin.slice(0,4),this.state.datedefin.slice(5,7)-1,this.state.datedefin.slice(8,10));
+
+      let tabdates = [];
+      tabdates = this.getDates(datededebut,datedefin);
+
+      let tmpserialnumber = "" + this.state.datededebut.slice(0,4) + this.state.datededebut.slice(5,7);
+      let endserialnumber = this.getSerialNumber(tmpserialnumber);
+
+      for (let i = 0; i < tabdates.length; i++) {
+        let stringdate = "" + tabdates[i].getFullYear() + "-" + (tabdates[i].getMonth()+1) + "-" + tabdates[i].getDate();
+        this.ajouterMission(stringdate,tmpserialnumber,endserialnumber,"-" + (i+1));
+      }
+    }
 
     }
 
@@ -187,6 +245,7 @@ export default class AjoutMissions extends React.Component {
 
 
     return (
+    <div id="wrapper">
     <div class="container" >
       <h1 > Ajouter une mission {this.state.mission}</h1>
         <form onSubmit={this.handleSubmit.bind(this)} >
@@ -311,6 +370,7 @@ export default class AjoutMissions extends React.Component {
           <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Partager la mission avec les médecins</button>
         </form>
 
+    </div>
     </div>
     );
   }

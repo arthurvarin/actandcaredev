@@ -19,3 +19,17 @@ form {
   margin-bottom: 30px;
   width: 50%;
 }
+
+
+#wrapper {
+  padding-top: 20px;
+  margin-top: 40px;
+  margin-left: 200px;
+  margin-right: 200px;
+  min-width: 800px;
+  height: 900px;
+  background-color: #ccebff;
+  min-height: 1000px;
+  height: 100%;
+  background-color: #fcf9f5;
+}
