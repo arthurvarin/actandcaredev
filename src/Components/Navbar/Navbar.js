@@ -19,7 +19,6 @@ export default class Navbar extends React.Component {
     return (
         <nav id="navigation" class="navbar navbar-static-top navbar-expand-lg navbar-light bg-dark">
         <div class="container">
-<<<<<<< HEAD
           <NavLink class="navbar-brand" to="/" id="title">
             Act & Care
           </NavLink>
@@ -30,27 +29,6 @@ export default class Navbar extends React.Component {
               </li>
               <li class="nav-item" >
                 <NavLink activeClassName = "nav-link active" className="nav-link" to="/recherchermissions">Rechercher des missions</NavLink>
-=======
-          <div class="navbar-brand" to="/" id="title">
-            MY PARK
-          </div>
-          <div  class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item" >
-                <NavLink  activeClassName = "nav-link active" className="nav-link"  to="/attractions">Attractions <span class="sr-only">(current)</span></NavLink>
-              </li>
-              <li class="nav-item" >
-                <NavLink activeClassName = "nav-link active" className="nav-link" to="/batiments">Bâtiments</NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink activeClassName = "nav-link active" className="nav-link" to="/personnel">Personnel</NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink activeClassName = "nav-link active" className="nav-link"  to="/maintenance">Maintenance</NavLink>
-              </li>
-              <li class="nav-item">
-                <NavLink  activeClassName = "nav-link active" className="nav-link"  to="/stats">Visiteurs</NavLink>
->>>>>>> 612e75c64879f5f5951fe0285c762456891efd30
               </li>
 
             </ul>

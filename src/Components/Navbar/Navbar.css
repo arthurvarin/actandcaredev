@@ -17,11 +17,7 @@
 }
 
 .active {
-<<<<<<< HEAD
     background-color: #66c2ff !important;
-=======
-    background-color: #F2E2CD !important;
->>>>>>> 612e75c64879f5f5951fe0285c762456891efd30
     color: black !important;
     font-weight: bold;
 }
@@ -38,11 +34,7 @@
 }
 
 .nav-item {
-<<<<<<< HEAD
 width: 300px;
-=======
-width: 135px;
->>>>>>> 612e75c64879f5f5951fe0285c762456891efd30
 }
 
 .nav-item:hover {
