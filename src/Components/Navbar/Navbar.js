@@ -14,8 +14,8 @@ export default class Navbar extends React.Component {
         this.setState({ tab: true });
     };
   render() {
-    var classNames = require('classnames');
-    let classes = classNames('nav-item', {active: this.state.active});
+    // var classNames = require('classnames');
+    // let classes = classNames('nav-item', {active: this.state.active});
     return (
         <nav id="navigation" class="navbar navbar-static-top navbar-expand-lg navbar-light bg-dark">
         <div class="container">
@@ -28,7 +28,7 @@ export default class Navbar extends React.Component {
                 <NavLink  activeClassName = "nav-link active" className="nav-link"  to="/ajoutmissions">Ajouter des missions<span class="sr-only">(current)</span></NavLink>
               </li>
               <li class="nav-item" >
-                <NavLink activeClassName = "nav-link active" className="nav-link" to="/recherchermissions">Rechercher des missions</NavLink>
+                <NavLink activeClassName = "nav-link active" className="nav-link" to="/recherchemissions">Rechercher des missions</NavLink>
               </li>
 
             </ul>
