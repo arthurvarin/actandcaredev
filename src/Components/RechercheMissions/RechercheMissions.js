@@ -1,35 +1,49 @@
 import React, {Component} from 'react';
 import './AjoutMissions.css'
 import * as firebase from 'firebase';
+import {
+  Navbar,
+  Nav,
+  NavItem,
+  NavLink,
+  NavbarToggler,
+  NavbarBrand,
+  Collapse,
+  DropdownToggle,
+  UncontrolledDropdown,
+  Button,
+ } from 'reactstrap';
 
 
 export default class AjoutMissions extends Component {
   constructor(props) {
         super(props);
         this.state = {
-          nomission:1,
           listMissions:[]
         };
-
-        
-        this.componentDidMount=this.componentDidMount.bind(this)
+        this.onSort = this.onSort.bind(this)
       }
 
   componentDidMount(){
     const ref = firebase.database().ref('missions');
     //this.setState({nomission:3})
-    ref.on('value', snap=>{
+    ref.once('value', snap=>{
       snap.forEach(child=>{
         this.setState({
-          nomission:child.val().nomission,
           listMissions:this.state.listMissions.concat(child.val())
       })
       })})
-    
+    }
+ 
+  onSort(event, sortKey){
+    const listMissions = this.state.listMissions;
+    listMissions.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+    this.setState({listMissions})
   }
+
   displayMissions(){
     let listItem=this.state.listMissions.map((mission, index)=>
-      <li key={index} class="form-group form-row">
+      <li key={index} class="form-group form-row .offset-md-3">
       <br></br>
       <div>
       <h3>Mission: {mission.nomission}</h3>
@@ -47,19 +61,69 @@ export default class AjoutMissions extends Component {
       </li> 
     );
     return(<ul>{listItem}</ul>)
+  }
 
+  // sortByName(a, b) {
+  //   var nameA = a.ville.toUpperCase(); // ignore upper and lowercase
+  //   var nameB = b.ville.toUpperCase(); // ignore upper and lowercase
+  //   if (nameA < nameB) {
+  //     return -1;
+  //   }
+  //   if (nameA > nameB) {
+  //     return 1;
+  //   }
+  
+  //   // names must be equal
+  //   return 0;
+  // }
+
+
+  orderByRegion(){
+
+  }
+  orderByBegDate(){
+
+  }
+  orderByEndDate(){
 
   }
 
   render() {
     return(
       <div id="wrapper">
+
       <div class="container">
-      
-  
         <form>
         <br></br>
 
+
+       <div>
+        <Navbar color="dark" light expand="md">
+            <Nav className="ml-auto" navbar>
+            <UncontrolledDropdown>
+            <DropdownToggle onClick={e => this.onSort(e, 'ville')} nav caret> 
+                Nom de l'hopital
+            </DropdownToggle>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown>
+            <DropdownToggle onClick={e => this.onSort(e, 'region')} nav caret> 
+                 Région
+            </DropdownToggle>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown>
+            <DropdownToggle onClick={e => this.onSort(e, 'datededebut')} nav caret> 
+                 Date de fin
+            </DropdownToggle>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown>
+            <DropdownToggle onClick={e => this.onSort(e, 'datedefin')} nav caret>
+                 Date de début
+            </DropdownToggle>
+            </UncontrolledDropdown>
+            </Nav>
+         </Navbar>
+      </div>
+      
       
       <div class="form-group">
       <div class="form-row"> <div class="col-md-6">
@@ -67,7 +131,8 @@ export default class AjoutMissions extends Component {
       </div></div>
       </div>
       
-      {this.displayMissions()}
+      <div class="offset-md-4">{this.displayMissions()}</div>
+      
 
       </form>
       
