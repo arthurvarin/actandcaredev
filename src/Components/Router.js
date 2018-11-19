@@ -8,7 +8,7 @@ export default class Router extends React.Component {
     return (
         <div>
           <Route path="/ajoutmissions" component={AjoutMissions}/>
-          <Route path="/recherchemissions" component={RechercheMissions}></Route>
+          <Route path="/recherchemissions" component={RechercheMissions}/>
         </div>
     );
   }

@@ -370,6 +370,7 @@ export default class AjoutMissions extends React.Component {
         </div>
 
           <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Partager la mission avec les médecins</button>
+          <br></br>
         </form>
 
     </div>
