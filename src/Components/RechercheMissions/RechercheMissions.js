@@ -6,8 +6,11 @@ import {
   Nav,
   DropdownToggle,
   UncontrolledDropdown,
-  Input
+  Input,
+  Jumbotron,
+  Button,
 } from 'reactstrap';
+import moment from 'moment';
 
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
@@ -19,7 +22,7 @@ export default class RechercheMissions extends Component {
     super(props);
     this.state = {
       listMissions: [],
-      filteredMissions:[], 
+      filteredMissions: [],
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
@@ -38,16 +41,16 @@ export default class RechercheMissions extends Component {
       snap.forEach(child => {
         this.setState({
           listMissions: this.state.listMissions.concat(child.val()),
-          filteredMissions:this.state.listMissions
+          filteredMissions: this.state.listMissions
         })
       })
     })
   }
 
   onSort(event, sortKey) {
-    const listMissions = this.state.listMissions;
-    listMissions.sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
-    this.setState({ listMissions })
+    const filteredMissions = this.state.filteredMissions;
+    filteredMissions.sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
+    this.setState({ filteredMissions })
   }
 
   // handleChange(event) {
@@ -56,10 +59,28 @@ export default class RechercheMissions extends Component {
 
   displayMissions() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
-      <li key={index} class="form-group form-row .offset-md-3">
+      <li key={index} class="list-unstyled">
         <br></br>
         <div>
-          <h3>Mission: {mission.nomission}</h3>
+
+          
+          <Jumbotron className="">
+            <h1 className="display-10">{mission.typedetablissement} de {mission.ville}</h1>
+            <h2>Spécialite: {mission.specialite}</h2>
+            <h3>Rémuneration: {mission.remuneration}</h3>
+            <p className="lead">Date de début: {mission.datededebut}</p>
+            <p className="lead">Date de fin: {mission.datedefin}</p>
+            <p className="lead">Statut: {mission.statut}</p>
+            <p className="lead">Type: {mission.type}</p>
+            <hr className="my-2" />
+            <p>Mission: {mission.nomission}</p>
+            <p>Région: {mission.region}</p>
+            <p className="lead">
+              <Button color="primary">Plus de détails</Button>
+            </p>
+           
+          </Jumbotron>
+          {/* <h3>Mission: {mission.nomission}</h3>
           <p>Date de début: {mission.datededebut}</p>
           <p>Date de fin: {mission.datedefin}</p>
           <p>Heure de fin: {mission.heuredefin}</p>
@@ -69,7 +90,7 @@ export default class RechercheMissions extends Component {
           <p>Statut: {mission.statut}</p>
           <p>Type: {mission.type}</p>
           <p>Type d'établissement: {mission.typedetablissement}</p>
-          <p>Ville: {mission.ville}</p>
+          <p>Ville: {mission.ville}</p> */}
         </div>
       </li>
     );
@@ -81,32 +102,66 @@ export default class RechercheMissions extends Component {
 
     filteredMissions = filteredMissions.filter(
       (mission) => {
-        let param=event.target.name
-        let mission1=mission[param];
+        let param = event.target.name
+        let mission1 = mission[param];
         return mission1.toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
         //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
       }
     );
-    this.setState({ filteredMissions})
+    this.setState({ filteredMissions })
   }
-  filterMissionsDates(event){
+  filterMissionsList(event) {
     let filteredMissions = this.state.listMissions;
 
     filteredMissions = filteredMissions.filter(
       (mission) => {
-        let param=event.target.name
-        let mission1=mission[param];
-        return mission1.toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
+        let param = event.target.name
+        let mission1 = mission[param];
+        return mission1.toUpperCase() === event.target.value.toUpperCase();
         //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
       }
     );
-    this.setState({ filteredMissions})
+    this.setState({ filteredMissions })
   }
+  filterMissionsDates(event) {
+    let filteredMissions = this.state.listMissions;
+
+    filteredMissions = filteredMissions.filter(
+      (mission) => {
+        if (event.target.name === 'datededebut1') return moment(mission.datededebut).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
+        if (event.target.name === 'datededebut2') return moment(mission.datededebut).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
+        if (event.target.name === 'datedefin1') return moment(mission.datedefin).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
+        if (event.target.name === 'datedefin2') return moment(mission.datedefin).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
+        else return 1;
+      }
+    );
+    this.setState({ filteredMissions })
+  }
+
+  filterRem(event) {
+    let filteredMissions = this.state.listMissions;
+
+    filteredMissions = filteredMissions.filter(
+      (mission) => {
+        if (event.target.name === 'remunerationmin') return parseInt(mission.remuneration) >= parseInt(event.target.value);
+        if (event.target.name === 'remunerationmax') return parseInt(mission.remuneration) <= parseInt(event.target.value);
+        else return 1;
+      }
+    );
+    this.setState({ filteredMissions })
+
+
+  }
+
+
   updateSearch(event) {
-    // this.setState({search: event.target.value.substr(0,20)});
-    
     this.setState({ [event.target.name]: event.target.value });
-    this.filterMissions(event)
+
+    //Type of filtering Exact-list style / Search style / Date style
+    if (event.target.name === 'ville' || event.target.name === 'region') this.filterMissions(event)
+    else if (event.target.name === "datededebut1" || event.target.name === "datededebut2" || event.target.name === "datedefin1" || event.target.name === "datedefin2") this.filterMissionsDates(event)
+    else if (event.target.name === "remunerationmin" || event.target.name === "remunerationmax") this.filterRem(event)
+    else this.filterMissionsList(event)
   }
 
 
@@ -157,7 +212,7 @@ export default class RechercheMissions extends Component {
               <div class="card-body">
                 <div class="form-row">
 
-                  <Input type="test"></Input>
+                  <Input type="test" name="region" value={this.state.region} onChange={this.updateSearch}></Input>
 
                 </div>
               </div>
@@ -187,11 +242,11 @@ export default class RechercheMissions extends Component {
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label>Min</label>
-                    <input type="date" class="form-control" id="inputEmail4" placeholder="jj/mm/aaaa"></input>
+                    <input type="date" class="form-control" name="datededebut1" value={this.state.datededebut1} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
                   </div>
                   <div class="form-group col-md-6 text-right">
                     <label>Max</label>
-                    <input type="date" class="form-control" id="inputEmail4" placeholder="jj/mm/aaaa"></input>
+                    <input type="date" class="form-control" name="datededebut2" value={this.state.datededebut2} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
                   </div>
                 </div>
               </div>
@@ -206,11 +261,11 @@ export default class RechercheMissions extends Component {
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label>Min</label>
-                    <input type="date" class="form-control" id="inputEmail4" placeholder="jj/mm/aaaa"></input>
+                    <input type="date" class="form-control" name="datedefin1" value={this.state.datedefin1} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
                   </div>
                   <div class="form-group col-md-6 text-right">
                     <label>Max</label>
-                    <input type="date" class="form-control" id="inputEmail4" placeholder="jj/mm/aaaa"></input>
+                    <input type="date" class="form-control" name="datedefin2" value={this.state.datedefin2} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
                   </div>
                 </div>
               </div>
@@ -244,11 +299,11 @@ export default class RechercheMissions extends Component {
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label>Min</label>
-                    <input type="number" class="form-control" id="inputEmail4" placeholder="$0"></input>
+                    <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.updateSearch} placeholder="$0"></input>
                   </div>
                   <div class="form-group col-md-6 text-right">
                     <label>Max</label>
-                    <input type="number" class="form-control" placeholder="$1,0000"></input>
+                    <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.updateSearch} placeholder="$0"></input>
                   </div>
                 </div>
               </div>
@@ -266,7 +321,7 @@ export default class RechercheMissions extends Component {
                   <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.updateSearch}  >
                     {optionslistespecialite}
 
-                    
+
                   </select>
                 </div>
               </div>
@@ -292,7 +347,7 @@ export default class RechercheMissions extends Component {
 
 
         </div>
-        <div id="container" class="col-md-7">
+        <div id="container" class="col-md-6">
           <br></br>
           <br></br>
           <br></br>
@@ -323,10 +378,12 @@ export default class RechercheMissions extends Component {
                 </UncontrolledDropdown>
               </Nav>
             </Navbar>
+
+            {this.displayMissions()}
           </div>
 
           <br></br>
-          <div class="offset-md-4">{this.displayMissions()}</div>
+          
 
 
         </div>
