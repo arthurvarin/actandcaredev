@@ -24,8 +24,7 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
-
-
+      filters: [],
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
@@ -35,18 +34,20 @@ export default class RechercheMissions extends Component {
     // this.handleChange = this.handleChange.bind(this)
     this.updateSearch = this.updateSearch.bind(this)
     this.filterMissions = this.filterMissions.bind(this)
+    this.onSearch = this.onSearch.bind(this)
+    this.doFilter = this.doFilter.bind(this)
   }
 
 
   componentWillMount() {
     const ref = firebase.database().ref('missions');
-    //this.setState({nomission:3})
+
     ref.on('value', snap => {
       snap.forEach(child => {
         this.setState({
           listMissions: this.state.listMissions.concat(child.val()),
           filteredMissions: this.state.listMissions,
-          tempfilteredMissions:this.state.listMissions,
+          tempfilteredMissions: this.state.listMissions,
         })
       })
     })
@@ -104,23 +105,25 @@ export default class RechercheMissions extends Component {
   }
 
   filterMissions(event) {
-    let tempfilteredMissions = this.state.filteredlistMissions;
+    let tempfilteredMissions = this.state.listMissions;
 
     tempfilteredMissions = tempfilteredMissions.filter(
       (mission) => {
 
         let param = event.target.name
         let mission1 = mission[param];
+
         return mission1.toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
         //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
       }
     );
     this.setState({ tempfilteredMissions })
   }
+
   filterMissionsList(event) {
 
     let tempfilteredMissions = this.state.listMissions;
-   
+
     tempfilteredMissions = tempfilteredMissions.filter(
       (mission) => {
 
@@ -130,30 +133,46 @@ export default class RechercheMissions extends Component {
         //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
       }
     );
-
-    
-
-
-
     this.setState({ tempfilteredMissions })
   }
-  filterMissionsDates(event) {
-    let tempfilteredMissions = this.state.filteredMissions;
 
-    tempfilteredMissions = tempfilteredMissions.filter(
-      (mission) => {
-        if (event.target.name === 'datededebut1') return moment(mission.datededebut).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
-        if (event.target.name === 'datededebut2') return moment(mission.datededebut).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
-        if (event.target.name === 'datedefin1') return moment(mission.datedefin).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
-        if (event.target.name === 'datedefin2') return moment(mission.datedefin).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
-        else return 1;
+
+
+  /*   
+    createFilter = (...filters) => {
+      if (typeof filters[0] === 'string') {
+        filters = [
+          {
+            property: filters[0],
+            value: filters[1]
+          }
+        ];
       }
-    );
-    this.setState({ tempfilteredMissions })
-  }
+      return item => filters.every(filter => doFilter(item, filter));
+    }; 
+  
+  */
+
+
+  /*   filterMissionsDates(event) {
+      let tempfilteredMissions = this.state.listMissions;
+  
+      tempfilteredMissions = tempfilteredMissions.filter(
+        (mission) => {
+          if (event.target.name === 'datededebut1') return moment(mission.datededebut).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
+          if (event.target.name === 'datededebut2') return moment(mission.datededebut).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
+          if (event.target.name === 'datedefin1') return moment(mission.datedefin).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
+          if (event.target.name === 'datedefin2') return moment(mission.datedefin).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
+          else return 1;
+        }
+      );
+      this.setState({ tempfilteredMissions })
+    }
+   */
+
 
   filterRem(event) {
-    let tempfilteredMissions = this.state.filteredMissions;
+    let tempfilteredMissions = this.state.listMissions;
 
     tempfilteredMissions = tempfilteredMissions.filter(
       (mission) => {
@@ -162,6 +181,9 @@ export default class RechercheMissions extends Component {
         else return 1;
       }
     );
+
+
+
     this.setState({ tempfilteredMissions })
 
 
@@ -172,16 +194,75 @@ export default class RechercheMissions extends Component {
 
 
     this.setState({ [event.target.name]: event.target.value });
+    this.setState({ filters: this.state.filters.concat({ [event.target.name]: event.target.value }) })
 
-    //Type of filtering Exact-list style / Search style / Date style
-    if (event.target.name === 'ville') this.filterMissions(event)
-    else if (event.target.name === "datededebut1" || event.target.name === "datededebut2" || event.target.name === "datedefin1" || event.target.name === "datedefin2") this.filterMissionsDates(event)
-    else if (event.target.name === "remunerationmin" || event.target.name === "remunerationmax") this.filterRem(event)
-    else if (event.target.value === "Veuillez selectionner une spécialité" || event.target.value === "Veuillez selectionner un type de mission" || event.target.value === "Veuillez selectionner un type d'établissement" || event.target.value === "Veuillez selectionner une région")
-      this.setState({ filteredMissions: this.state.listMissions });
-    else this.filterMissionsList(event)
+    /*  Type of filtering Exact-list style / Search style / Date style
+  
+  
+      if (event.target.name === 'ville') this.filterMissions(event)
+      else if (event.target.name === "datededebut1" || event.target.name === "datededebut2" || event.target.name === "datedefin1" || event.target.name === "datedefin2") this.filterMissionsDates(event)
+      else if (event.target.name === "remunerationmin" || event.target.name === "remunerationmax") this.filterRem(event)
+      else if (event.target.value === "Veuillez selectionner une spécialité" || event.target.value === "Veuillez selectionner un type de mission" || event.target.value === "Veuillez selectionner un type d'établissement" || event.target.value === "Veuillez selectionner une région")
+        this.setState({ filteredMissions: this.state.listMissions });
+      else this.filterMissionsList(event)
+  
+  
+      https://moduscreate.com/blog/ext-js-to-react-load-sort-and-filter-data-with-react/
+      return item => filters.every(filter => doFilter(item, filter)); */
 
   }
+
+  doFilter(element) {
+
+    //let tempfilteredMissions = this.state.tempfilteredMissions;
+    
+    this.setState({filteredMissions:null})
+
+    if (element[1] == null) this.setState({
+      filteredMissions:null});
+    else {
+
+      this.setState({
+        filteredMissions:null,
+        
+        tempfilteredMissions : this.state.tempfilteredMissions.filter(
+
+          (mission) => {
+
+            let param = element[0]
+            let mission1 = mission[param];
+
+            if (element[0] === 'datededebut1') return moment(mission.datededebut).format("YYYY-MM-DD") >= moment(element[1]).format("YYYY-MM-DD");
+            if (element[0] === 'datededebut2') return moment(mission.datededebut).format("YYYY-MM-DD") <= moment(element[1]).format("YYYY-MM-DD");
+            if (element[0] === 'datedefin1') return moment(mission.datedefin).format("YYYY-MM-DD") >= moment(element[1]).format("YYYY-MM-DD");
+            if (element[0] === 'datedefin2') return moment(mission.datedefin).format("YYYY-MM-DD") <= moment(element[1]).format("YYYY-MM-DD");
+            if (element[0] == 'listetypedetablissement' || element[0] == 'type') return mission1.toUpperCase() === element[1].toUpperCase();
+
+            else return 1;
+          }
+
+
+        )
+
+      })
+    }
+
+  }
+
+  onSearch() {
+    
+    let filters = this.state.filters;
+  
+    //filters.every(this.doFilter);
+    
+    // for(let i=0; i<filters; i++){
+    //   this.doFilter(filters[i]);
+    //   this.setState({ filteredMissions: null })
+    // }
+
+    this.setState({ filteredMissions: this.state.tempfilteredMissions })
+  }
+
 
 
 
@@ -377,7 +458,8 @@ export default class RechercheMissions extends Component {
                 <div class="form-row">
 
                 </div>
-                <Button onClick={() => { this.setState({ filteredMissions: this.state.tempfilteredMissions }) }} color="primary">Rechercher</Button>
+                {/* <Button onClick={() => { this.setState({ filteredMissions: this.state.tempfilteredMissions }) }} color="primary">Rechercher</Button> */}
+                <Button onClick={this.onSearch} color="primary">Rechercher</Button>
               </div>
             </div>
           </div>
