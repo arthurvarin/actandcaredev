@@ -15,6 +15,7 @@ import moment from 'moment';
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
+import listeregions from '../../Jasons/listeregions.json'
 
 
 export default class RechercheMissions extends Component {
@@ -23,28 +24,33 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
+
+
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
+      listeregions: listeregions,
     };
     this.onSort = this.onSort.bind(this)
     // this.handleChange = this.handleChange.bind(this)
     this.updateSearch = this.updateSearch.bind(this)
     this.filterMissions = this.filterMissions.bind(this)
-
   }
 
-  componentDidMount() {
+
+  componentWillMount() {
     const ref = firebase.database().ref('missions');
     //this.setState({nomission:3})
     ref.on('value', snap => {
       snap.forEach(child => {
         this.setState({
           listMissions: this.state.listMissions.concat(child.val()),
-          filteredMissions: this.state.listMissions
+          filteredMissions: this.state.listMissions,
+          tempfilteredMissions:this.state.listMissions,
         })
       })
     })
+    this.forceUpdate();
   }
 
   onSort(event, sortKey) {
@@ -63,7 +69,7 @@ export default class RechercheMissions extends Component {
         <br></br>
         <div>
 
-          
+
           <Jumbotron className="">
             <h1 className="display-10">{mission.typedetablissement} de {mission.ville}</h1>
             <h2>Spécialite: {mission.specialite}</h2>
@@ -78,7 +84,7 @@ export default class RechercheMissions extends Component {
             <p className="lead">
               <Button color="primary">Plus de détails</Button>
             </p>
-           
+
           </Jumbotron>
           {/* <h3>Mission: {mission.nomission}</h3>
           <p>Date de début: {mission.datededebut}</p>
@@ -98,35 +104,43 @@ export default class RechercheMissions extends Component {
   }
 
   filterMissions(event) {
-    let filteredMissions = this.state.listMissions;
+    let tempfilteredMissions = this.state.filteredlistMissions;
 
-    filteredMissions = filteredMissions.filter(
+    tempfilteredMissions = tempfilteredMissions.filter(
       (mission) => {
+
         let param = event.target.name
         let mission1 = mission[param];
         return mission1.toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
         //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
       }
     );
-    this.setState({ filteredMissions })
+    this.setState({ tempfilteredMissions })
   }
   filterMissionsList(event) {
-    let filteredMissions = this.state.listMissions;
 
-    filteredMissions = filteredMissions.filter(
+    let tempfilteredMissions = this.state.listMissions;
+   
+    tempfilteredMissions = tempfilteredMissions.filter(
       (mission) => {
+
         let param = event.target.name
         let mission1 = mission[param];
         return mission1.toUpperCase() === event.target.value.toUpperCase();
         //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
       }
     );
-    this.setState({ filteredMissions })
+
+    
+
+
+
+    this.setState({ tempfilteredMissions })
   }
   filterMissionsDates(event) {
-    let filteredMissions = this.state.listMissions;
+    let tempfilteredMissions = this.state.filteredMissions;
 
-    filteredMissions = filteredMissions.filter(
+    tempfilteredMissions = tempfilteredMissions.filter(
       (mission) => {
         if (event.target.name === 'datededebut1') return moment(mission.datededebut).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
         if (event.target.name === 'datededebut2') return moment(mission.datededebut).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
@@ -135,33 +149,38 @@ export default class RechercheMissions extends Component {
         else return 1;
       }
     );
-    this.setState({ filteredMissions })
+    this.setState({ tempfilteredMissions })
   }
 
   filterRem(event) {
-    let filteredMissions = this.state.listMissions;
+    let tempfilteredMissions = this.state.filteredMissions;
 
-    filteredMissions = filteredMissions.filter(
+    tempfilteredMissions = tempfilteredMissions.filter(
       (mission) => {
         if (event.target.name === 'remunerationmin') return parseInt(mission.remuneration) >= parseInt(event.target.value);
         if (event.target.name === 'remunerationmax') return parseInt(mission.remuneration) <= parseInt(event.target.value);
         else return 1;
       }
     );
-    this.setState({ filteredMissions })
+    this.setState({ tempfilteredMissions })
 
 
   }
 
 
   updateSearch(event) {
+
+
     this.setState({ [event.target.name]: event.target.value });
 
     //Type of filtering Exact-list style / Search style / Date style
-    if (event.target.name === 'ville' || event.target.name === 'region') this.filterMissions(event)
+    if (event.target.name === 'ville') this.filterMissions(event)
     else if (event.target.name === "datededebut1" || event.target.name === "datededebut2" || event.target.name === "datedefin1" || event.target.name === "datedefin2") this.filterMissionsDates(event)
     else if (event.target.name === "remunerationmin" || event.target.name === "remunerationmax") this.filterRem(event)
+    else if (event.target.value === "Veuillez selectionner une spécialité" || event.target.value === "Veuillez selectionner un type de mission" || event.target.value === "Veuillez selectionner un type d'établissement" || event.target.value === "Veuillez selectionner une région")
+      this.setState({ filteredMissions: this.state.listMissions });
     else this.filterMissionsList(event)
+
   }
 
 
@@ -175,6 +194,13 @@ export default class RechercheMissions extends Component {
       return (
         <option >{listetypedetablissement}</option>
       )
+    })
+    let optionslisteregions;
+    optionslisteregions = this.state.listeregions.map(listeregions => {
+      return (
+        <option >{listeregions}</option>
+      )
+
     })
     let optionslistespecialite;
     optionslistespecialite = this.state.listespecialite.map(listespecialite => {
@@ -212,7 +238,9 @@ export default class RechercheMissions extends Component {
               <div class="card-body">
                 <div class="form-row">
 
-                  <Input type="test" name="region" value={this.state.region} onChange={this.updateSearch}></Input>
+                  <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.updateSearch} >
+                    {optionslisteregions}
+                  </select>
 
                 </div>
               </div>
@@ -320,8 +348,6 @@ export default class RechercheMissions extends Component {
                 <div class="form-row">
                   <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.updateSearch}  >
                     {optionslistespecialite}
-
-
                   </select>
                 </div>
               </div>
@@ -342,6 +368,20 @@ export default class RechercheMissions extends Component {
               </div>
             </div>
           </div>
+
+
+          <div class="card">
+
+            <div class="filter-content">
+              <div class="card-body">
+                <div class="form-row">
+
+                </div>
+                <Button onClick={() => { this.setState({ filteredMissions: this.state.tempfilteredMissions }) }} color="primary">Rechercher</Button>
+              </div>
+            </div>
+          </div>
+
 
 
 
@@ -383,7 +423,7 @@ export default class RechercheMissions extends Component {
           </div>
 
           <br></br>
-          
+
 
 
         </div>

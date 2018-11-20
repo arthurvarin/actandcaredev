@@ -3,6 +3,7 @@ import './AjoutMissions.css'
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
+import listeregions from '../../Jasons/listeregions.json'
 import * as firebase from 'firebase';
 
 
@@ -26,6 +27,7 @@ export default class AjoutMissions extends React.Component {
           listetypedetablissement: listetypedetablissement,
           listespecialite: listespecialite,
           listetype: listetype,
+          listeregions: listeregions,
           mission: "",
 
         };
@@ -132,24 +134,46 @@ export default class AjoutMissions extends React.Component {
   ajouterMission(datededebut,tmpserialnumber,endserialnumber,extra){
 
     this.setState({nomission:"M" + tmpserialnumber + endserialnumber + extra})
-    //this.state.nomission =  "M" + tmpserialnumber + endserialnumber + extra ;
-    
-    // const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
-    // {
-    //   nomission: this.state.nomission,
-    //   ville: this.state.ville,
-    //   typedetablissement: this.state.typedetablissement,
-    //   region: this.state.region,
-    //   specialite: this.state.specialite,
-    //   type: this.state.type,
-    //   datededebut: datededebut,
-    //   datedefin: this.state.datedefin,
-    //   heurededebut: this.state.heurededebut,
-    //   heuredefin: this.state.heuredefin,
-    //   remuneration: this.state.remuneration,
-    //   commentaires: this.state.commentaires,
-    //   statut: "Recherche en cours"
-    // });
+    this.state.nomission =  "M" + tmpserialnumber + endserialnumber + extra ;
+
+    if(extra == ""){
+      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+      {
+        nomission: this.state.nomission,
+        ville: this.state.ville,
+        typedetablissement: this.state.typedetablissement,
+        region: this.state.region,
+        specialite: this.state.specialite,
+        type: this.state.type,
+        datededebut: datededebut,
+        datedefin: datededebut,
+        heurededebut: this.state.heurededebut,
+        heuredefin: this.state.heuredefin,
+        remuneration: this.state.remuneration,
+        commentaires: this.state.commentaires,
+        statut: "Recherche en cours"
+      });
+    }else{
+      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+      {
+        nomission: this.state.nomission,
+        ville: this.state.ville,
+        typedetablissement: this.state.typedetablissement,
+        region: this.state.region,
+        specialite: this.state.specialite,
+        type: this.state.type,
+        datededebut: datededebut,
+        datedefin: this.state.datedefin,
+        heurededebut: this.state.heurededebut,
+        heuredefin: this.state.heuredefin,
+        remuneration: this.state.remuneration,
+        commentaires: this.state.commentaires,
+        statut: "Recherche en cours"
+      });
+    }
+
+
+
     this.setState({
       ville: "",
       typedetablissement: "",
@@ -166,8 +190,7 @@ export default class AjoutMissions extends React.Component {
   }
 
   getDates(date1, date2) {
-    let returnarray= new []();
-    //let returnarray= new Array();
+    let returnarray= new Array();
     let currentDate = date1;
     while (currentDate.valueOf() <= date2.valueOf()) {
         returnarray.push(new Date (currentDate));
@@ -228,6 +251,15 @@ export default class AjoutMissions extends React.Component {
 
     })
 
+    let optionslisteregions;
+    optionslisteregions = this.state.listeregions.map(listeregions => {
+        return(
+          <option >{listeregions}</option>
+        )
+
+    })
+
+
     let optionslistespecialite;
     optionslistespecialite = this.state.listespecialite.map(listespecialite => {
         return(
@@ -287,8 +319,9 @@ export default class AjoutMissions extends React.Component {
               <label for="region"><b>Région</b></label>
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" value={this.state.region} onChange={this.handleregionChange}  />
-            </div>
+            <select type="text" class="form-control" value={this.state.region} onChange={this.handleregionChange}  >
+              {optionslisteregions}
+              </select>  </div>
           </div>
         </div>
 
