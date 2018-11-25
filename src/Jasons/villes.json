@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Bordeaux",
+    "region": "Nouvelle-Aquitaine"
+  },
+  {
+    "name": "Brest",
+    "region": "Finistère"
+  },
+  {
+    "name": "Caen",
+    "region": "Normandie"
+  },
+  {
+    "name": "Carcassone",
+    "region": "Occitanie"
+  },
+  {
+    "name": "Marseille",
+    "region": "Bouches du Rhône"
+  },
+  {
+    "name": "Paris",
+    "region": "Ile-de-France"
+  },
+  {
+    "name": "Pau",
+    "region": "Nouvelle-Aquitaine"
+  } 
+]

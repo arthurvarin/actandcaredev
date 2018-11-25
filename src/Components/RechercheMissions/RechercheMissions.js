@@ -16,6 +16,7 @@ import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listeregions from '../../Jasons/listeregions.json'
+import cities from '../../Jasons/villes.json';
 
 
 export default class RechercheMissions extends Component {
@@ -28,12 +29,19 @@ export default class RechercheMissions extends Component {
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
+      ////////////////////////////////////
+      cities:cities,
+      fcities:cities,
+      ////////////////////////////////////
       listeregions: listeregions,
     };
     this.onSort = this.onSort.bind(this)
     // this.handleChange = this.handleChange.bind(this)
     this.updateSearch = this.updateSearch.bind(this)
     this.filterMissions = this.filterMissions.bind(this)
+
+    this.filterCities=this.filterCities.bind(this)
+    
     this.onSearch = this.onSearch.bind(this)
     this.doFilter = this.doFilter.bind(this)
   }
@@ -58,6 +66,11 @@ export default class RechercheMissions extends Component {
     const filteredMissions = this.state.filteredMissions;
     filteredMissions.sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
     this.setState({ filteredMissions })
+  }
+  onSortCities() {
+    const cities = this.state.cities;
+    cities.sort((a, b) => a["name"].localeCompare(b["name"]))
+    this.setState({ cities })
   }
 
   // handleChange(event) {
@@ -136,6 +149,8 @@ export default class RechercheMissions extends Component {
     this.setState({ tempfilteredMissions })
   }
 
+  
+
 
 
   /*   
@@ -185,16 +200,17 @@ export default class RechercheMissions extends Component {
 
 
     this.setState({ tempfilteredMissions })
+    }
 
-
-  }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   updateSearch(event) {
 
 
     this.setState({ [event.target.name]: event.target.value });
     this.setState({ filters: this.state.filters.concat({ [event.target.name]: event.target.value }) })
+
+    if (event.target.name === 'ville') this.filterCities(event)
 
     /*  Type of filtering Exact-list style / Search style / Date style
   
@@ -211,6 +227,7 @@ export default class RechercheMissions extends Component {
       return item => filters.every(filter => doFilter(item, filter)); */
 
   }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   doFilter(element) {
 
@@ -236,7 +253,7 @@ export default class RechercheMissions extends Component {
             if (element[0] === 'datededebut2') return moment(mission.datededebut).format("YYYY-MM-DD") <= moment(element[1]).format("YYYY-MM-DD");
             if (element[0] === 'datedefin1') return moment(mission.datedefin).format("YYYY-MM-DD") >= moment(element[1]).format("YYYY-MM-DD");
             if (element[0] === 'datedefin2') return moment(mission.datedefin).format("YYYY-MM-DD") <= moment(element[1]).format("YYYY-MM-DD");
-            if (element[0] == 'listetypedetablissement' || element[0] == 'type') return mission1.toUpperCase() === element[1].toUpperCase();
+            if (element[0] === 'listetypedetablissement' || element[0] === 'type') return mission1.toUpperCase() === element[1].toUpperCase();
 
             else return 1;
           }
@@ -264,7 +281,19 @@ export default class RechercheMissions extends Component {
   }
 
 
+////////////////////////////////////////////////////////////////////////////////////
+  
+  filterCities(event){
+    let fcities = this.state.cities;
+    fcities = fcities.filter(
+      (city) => {
+        return city["name"].toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
+      }
+    );
+    this.setState({fcities})
+  }
 
+////////////////////////////////////////////////////////////////////////////////////
 
 
   render() {
@@ -296,6 +325,15 @@ export default class RechercheMissions extends Component {
       )
     })
 
+////////////////////////////////////////////////////////////////////////////
+    let optionscities;
+    optionscities = this.state.fcities.map(city=>{
+    return(
+        <option>{city.name}</option>
+      )
+
+    })
+////////////////////////////////////////////////////////////////////////////
 
 
     return (
@@ -336,7 +374,13 @@ export default class RechercheMissions extends Component {
               <div class="card-body">
                 <div class="form-row">
 
-                  <Input type="text" name="ville" value={this.state.ville} onChange={this.updateSearch}></Input>
+                  <Input id="search_city" type="text" name="ville" value={this.state.ville} onChange={this.updateSearch}></Input>
+                  <br></br>
+                  <br></br>
+                  <select type="text" class="form-control" name="city" value={this.state.city} onChange={this.updateSearch} >
+                                   
+              {optionscities}
+                  </select>
 
                 </div>
               </div>
