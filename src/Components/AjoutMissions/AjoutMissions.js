@@ -13,6 +13,7 @@ export default class AjoutMissions extends React.Component {
         this.state = {
           missioncount: "",
           nomission: Math.floor((Math.random()*1000)),
+          nomdusite: "",
           ville: "",
           typedetablissement: "",
           region: "",
@@ -29,8 +30,10 @@ export default class AjoutMissions extends React.Component {
           listetype: listetype,
           listeregions: listeregions,
           mission: "",
+          nomdusitemanual: false
 
         };
+        this.handlenomdusiteChange = this.handlenomdusiteChange.bind(this);
         this.handlevilleChange = this.handlevilleChange.bind(this);
         this.handletypedetablissementChange = this.handletypedetablissementChange.bind(this);
         this.handleregionChange = this.handleregionChange.bind(this);
@@ -42,16 +45,34 @@ export default class AjoutMissions extends React.Component {
         this.handleheuredefinChange = this.handleheuredefinChange.bind(this);
         this.handleremunerationChange = this.handleremunerationChange.bind(this);
         this.handlecommentairesChange = this.handlecommentairesChange.bind(this);
+        this.getnomdusite = this.getnomdusite.bind(this);
       }
 
 
+  getnomdusite(){
+    if(this.state.nomdusitemanual === false){
 
+    let toreturn = "";
+
+    if(this.state.ville !== undefined && this.state.ville !== "" && this.state.typedetablissement !== undefined && this.state.typedetablissement !== ""){
+      toreturn = "" + this.state.typedetablissement + " de " + this.state.ville;
+    }
+
+    this.setState({nomdusite: toreturn});
+    }
+  }
 
   handlevilleChange(event) {
       this.setState({ville: event.target.value});
+      this.getnomdusite()
+  }
+  handlenomdusiteChange(event) {
+
+      this.setState({nomdusite: event.target.value, nomdusitemanual: true});
   }
   handletypedetablissementChange(event) {
       this.setState({typedetablissement: event.target.value});
+      this.getnomdusite()
   }
   handleregionChange(event) {
       this.setState({region: event.target.value});
@@ -101,10 +122,7 @@ export default class AjoutMissions extends React.Component {
         {
           missioncount ++;
         }
-
       }
-
-
     });
 
     return missioncount;
@@ -133,6 +151,25 @@ export default class AjoutMissions extends React.Component {
 
   ajouterMission(datededebut,tmpserialnumber,endserialnumber,extra){
 
+    let typedetablissement = this.state.typedetablissement;
+    let type = this.state.type;
+    let region = this.state.region;
+    let specialite = this.state.specialite;
+    let nomdusite = this.state.nomdusite;
+
+    if(typedetablissement === "Veuillez selectionner un type d'établissement")
+        typedetablissement = "";
+
+    if(type === "Veuillez selectionner un type de mission")
+        type = "";
+
+    if(specialite === "Veuillez selectionner une spécialité")
+        specialite = "";
+
+    if(region === "Veuillez selectionner une région")
+        region = "";
+
+
     this.setState({nomission:"M" + tmpserialnumber + endserialnumber + extra})
     this.state.nomission =  "M" + tmpserialnumber + endserialnumber + extra ;
 
@@ -141,10 +178,11 @@ export default class AjoutMissions extends React.Component {
       {
         nomission: this.state.nomission,
         ville: this.state.ville,
-        typedetablissement: this.state.typedetablissement,
-        region: this.state.region,
-        specialite: this.state.specialite,
-        type: this.state.type,
+        nomdusite: nomdusite,
+        typedetablissement: typedetablissement,
+        region: region,
+        specialite: specialite,
+        type: type,
         datededebut: datededebut,
         datedefin: datededebut,
         heurededebut: this.state.heurededebut,
@@ -158,10 +196,11 @@ export default class AjoutMissions extends React.Component {
       {
         nomission: this.state.nomission,
         ville: this.state.ville,
-        typedetablissement: this.state.typedetablissement,
-        region: this.state.region,
-        specialite: this.state.specialite,
-        type: this.state.type,
+        nomdusite: nomdusite,
+        typedetablissement: typedetablissement,
+        region: region,
+        specialite: specialite,
+        type: type,
         datededebut: datededebut,
         datedefin: this.state.datedefin,
         heurededebut: this.state.heurededebut,
@@ -172,11 +211,10 @@ export default class AjoutMissions extends React.Component {
       });
     }
 
-
-
     this.setState({
       ville: "",
       typedetablissement: "",
+      nomdusite: "",
       region: "",
       specialite: "",
       type: "",
@@ -229,16 +267,28 @@ export default class AjoutMissions extends React.Component {
 
     }
 
-  componentDidMount(){
+    componentDidMount() {
 
-    const missionRef = firebase.database().ref('missions');
-    missionRef.on('value', snap =>{
-      this.setState({
-        missioncount : snap.val()
+      const missionRef = firebase.database().ref('missions');
+      missionRef.on('value', snap =>{
+        this.setState({
+          missioncount : snap.val()
+        });
       });
-    });
+      
+      this.timerID = setInterval(
+        () => this.tick(),
+        500
+      );
+    }
 
-  }
+    componentWillUnmount() {
+      clearInterval(this.timerID);
+    }
+
+    tick() {
+      this.getnomdusite();
+    }
 
 
   render() {
@@ -286,8 +336,31 @@ export default class AjoutMissions extends React.Component {
 
         <br/>
 
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <label for="specialite"><b>Spécialité</b></label>
+            </div>
+            <div class="col-md-6">
+              <select type="text" class="form-control" value={this.state.specialite} onChange={this.handlespecialiteChange}  >
+              {optionslistespecialite}
+              </select>
+            </div>
+          </div>
+        </div>
 
-
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <label for="type"><b>Type de mission</b></label>
+            </div>
+            <div class="col-md-6">
+              <select type="text" class="form-control" value={this.state.type} onChange={this.handletypeChange}  >
+              {optionslistetype}
+              </select>
+            </div>
+          </div>
+        </div>
 
         <div class="form-group">
           <div class="form-row">
@@ -325,30 +398,13 @@ export default class AjoutMissions extends React.Component {
           </div>
         </div>
 
-
-
         <div class="form-group">
           <div class="form-row">
             <div class="col-md-6">
-              <label for="specialite"><b>Spécialité</b></label>
+              <label for="typedetablissement"><b>Nom du site</b></label>
             </div>
             <div class="col-md-6">
-              <select type="text" class="form-control" value={this.state.specialite} onChange={this.handlespecialiteChange}  >
-              {optionslistespecialite}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="form-row">
-            <div class="col-md-6">
-              <label for="type"><b>Type de mission</b></label>
-            </div>
-            <div class="col-md-6">
-              <select type="text" class="form-control" value={this.state.type} onChange={this.handletypeChange}  >
-              {optionslistetype}
-              </select>
+              <input type="text" class="form-control" value={this.state.nomdusite} onChange={this.handlenomdusiteChange}/>
             </div>
           </div>
         </div>

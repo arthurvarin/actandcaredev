@@ -24,166 +24,257 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
-
-
+      sortkeys: [],
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
       listeregions: listeregions,
+      display: "",
+      nomdusite: "",
+      ville: "",
+      region: "",
+      remunerationmin: "",
+      remunerationmax: "",
+      datededebut: "",
+      datedefin: "",
+      filtersnames: "",
+      filtervalues: "",
+      specialite: "",
+      typedetablissement: "",
+      type: "",
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.updateDisplay = this.updateDisplay.bind(this);
+    this.resetfilter = this.resetfilter.bind(this);
     this.onSort = this.onSort.bind(this)
-    // this.handleChange = this.handleChange.bind(this)
-    this.updateSearch = this.updateSearch.bind(this)
-    this.filterMissions = this.filterMissions.bind(this)
+
+  }
+
+  handleChange(event) {
+     this.setState({ [event.target.name]: event.target.value });
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      500
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.updateDisplay();
+    this.callFilters();
+  }
+
+  onSort(event, sortKey) {
+    const sortkeys = this.state.sortkeys;
+
+    sortkeys.push(sortKey);
+
+    this.setState({ sortkeys: sortkeys})
+  }
+
+  resetListMissions(){
     const ref = firebase.database().ref('missions');
-    //this.setState({nomission:3})
     ref.on('value', snap => {
       snap.forEach(child => {
         this.setState({
           listMissions: this.state.listMissions.concat(child.val()),
-          filteredMissions: this.state.listMissions,
-          tempfilteredMissions:this.state.listMissions,
+          filteredMissions: this.state.listMissions
         })
+
       })
     })
-    this.forceUpdate();
-  }
-
-  onSort(event, sortKey) {
-    const filteredMissions = this.state.filteredMissions;
-    filteredMissions.sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
-    this.setState({ filteredMissions })
-  }
-
-  // handleChange(event) {
-  //   this.setState({ [event.target.name]: event.target.value });
-  // }
-
-  displayMissions() {
-    let listItem = this.state.filteredMissions.map((mission, index) =>
-      <li key={index} class="list-unstyled">
-        <br></br>
-        <div>
-
-
-          <Jumbotron className="">
-            <h1 className="display-10">{mission.typedetablissement} de {mission.ville}</h1>
-            <h2>Spécialite: {mission.specialite}</h2>
-            <h3>Rémuneration: {mission.remuneration}</h3>
-            <p className="lead">Date de début: {mission.datededebut}</p>
-            <p className="lead">Date de fin: {mission.datedefin}</p>
-            <p className="lead">Statut: {mission.statut}</p>
-            <p className="lead">Type: {mission.type}</p>
-            <hr className="my-2" />
-            <p>Mission: {mission.nomission}</p>
-            <p>Région: {mission.region}</p>
-            <p className="lead">
-              <Button color="primary">Plus de détails</Button>
-            </p>
-
-          </Jumbotron>
-          {/* <h3>Mission: {mission.nomission}</h3>
-          <p>Date de début: {mission.datededebut}</p>
-          <p>Date de fin: {mission.datedefin}</p>
-          <p>Heure de fin: {mission.heuredefin}</p>
-          <p>Région: {mission.region}</p>
-          <p>Rémuneration: {mission.remuneration}</p>
-          <p>Spécialite: {mission.specialite}</p>
-          <p>Statut: {mission.statut}</p>
-          <p>Type: {mission.type}</p>
-          <p>Type d'établissement: {mission.typedetablissement}</p>
-          <p>Ville: {mission.ville}</p> */}
-        </div>
-      </li>
-    );
-    return (<ul>{listItem}</ul>)
-  }
-
-  filterMissions(event) {
-    let tempfilteredMissions = this.state.filteredlistMissions;
-
-    tempfilteredMissions = tempfilteredMissions.filter(
-      (mission) => {
-
-        let param = event.target.name
-        let mission1 = mission[param];
-        return mission1.toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
-        //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
-      }
-    );
-    this.setState({ tempfilteredMissions })
-  }
-  filterMissionsList(event) {
-
-    let tempfilteredMissions = this.state.listMissions;
-   
-    tempfilteredMissions = tempfilteredMissions.filter(
-      (mission) => {
-
-        let param = event.target.name
-        let mission1 = mission[param];
-        return mission1.toUpperCase() === event.target.value.toUpperCase();
-        //return mission.ville.toUpperCase().indexOf(this.state.search.toUpperCase()) !== -1;
-      }
-    );
-
-    
-
-
-
-    this.setState({ tempfilteredMissions })
-  }
-  filterMissionsDates(event) {
-    let tempfilteredMissions = this.state.filteredMissions;
-
-    tempfilteredMissions = tempfilteredMissions.filter(
-      (mission) => {
-        if (event.target.name === 'datededebut1') return moment(mission.datededebut).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
-        if (event.target.name === 'datededebut2') return moment(mission.datededebut).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
-        if (event.target.name === 'datedefin1') return moment(mission.datedefin).format("YYYY-MM-DD") >= moment(event.target.value).format("YYYY-MM-DD");
-        if (event.target.name === 'datedefin2') return moment(mission.datedefin).format("YYYY-MM-DD") <= moment(event.target.value).format("YYYY-MM-DD");
-        else return 1;
-      }
-    );
-    this.setState({ tempfilteredMissions })
-  }
-
-  filterRem(event) {
-    let tempfilteredMissions = this.state.filteredMissions;
-
-    tempfilteredMissions = tempfilteredMissions.filter(
-      (mission) => {
-        if (event.target.name === 'remunerationmin') return parseInt(mission.remuneration) >= parseInt(event.target.value);
-        if (event.target.name === 'remunerationmax') return parseInt(mission.remuneration) <= parseInt(event.target.value);
-        else return 1;
-      }
-    );
-    this.setState({ tempfilteredMissions })
-
-
   }
 
 
-  updateSearch(event) {
+  callFilters(){
+
+    let filteredmissions = [];
+    let sortkeys = this.state.sortkeys;
+    const ref = firebase.database().ref('missions');
+    ref.on('value', snap => {
+      snap.forEach(child => {
+
+          let count = 0;
+
+          for(let i=0; i < this.state.filtersnames.length; i++){
+            console.log(this.state.filtersnames[i] + "" + this.state.filtersvalues[i]);
+
+              if(this.state.filtersnames[i] !== "remunerationmin" && this.state.filtersnames[i] !== "remunerationmax" && this.state.filtersnames[i] !== "datededebut" && this.state.filtersnames[i] !== "datedefin")
+                  if(child.val()[this.state.filtersnames[i]] !== this.state.filtersvalues[i])
+                      count = count + 1;
+
+              if(this.state.filtersnames[i] === "remunerationmin")
+                  if(child.val()['remuneration'] < parseInt(this.state.filtersvalues[i]))
+                      count = count + 1;
+
+              if(this.state.filtersnames[i] === "remunerationmax")
+                  if(child.val()['remuneration'] > parseInt(this.state.filtersvalues[i]))
+                      count = count + 1;
+
+              if(this.state.filtersnames[i] === "datededebut")
+                  if( moment(child.val()['datededebut']).format("YYYY-MM-DD") < moment(this.state.filtersvalues[i]).format("YYYY-MM-DD"))
+                      count = count + 1;
+
+              if(this.state.filtersnames[i] === "datedefin")
+                  if( moment(child.val()['datededebut']).format("YYYY-MM-DD") > moment(this.state.filtersvalues[i]).format("YYYY-MM-DD"))
+                      count = count + 1;
+
+         }
+         if(count === 0)
+             filteredmissions.push(child.val());
+
+      })
+    })
 
 
-    this.setState({ [event.target.name]: event.target.value });
 
-    //Type of filtering Exact-list style / Search style / Date style
-    if (event.target.name === 'ville') this.filterMissions(event)
-    else if (event.target.name === "datededebut1" || event.target.name === "datededebut2" || event.target.name === "datedefin1" || event.target.name === "datedefin2") this.filterMissionsDates(event)
-    else if (event.target.name === "remunerationmin" || event.target.name === "remunerationmax") this.filterRem(event)
-    else if (event.target.value === "Veuillez selectionner une spécialité" || event.target.value === "Veuillez selectionner un type de mission" || event.target.value === "Veuillez selectionner un type d'établissement" || event.target.value === "Veuillez selectionner une région")
-      this.setState({ filteredMissions: this.state.listMissions });
-    else this.filterMissionsList(event)
+    for(let i=0; i<sortkeys.length; i++){
 
+        if(i === (sortkeys.length - 1))
+            filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
+
+        if(sortkeys[i] === 'remuneration'){
+            console.log("remuneration")
+            filteredmissions.sort((a, b) => parseInt(a[sortkeys[i]]) - parseInt(b[sortkeys[i]]))
+        }
+
+        filteredmissions.sort((a, b) => a[sortkeys[i]].localeCompare(b[sortkeys[i]]))
+    }
+
+
+
+    this.setState({filteredMissions: filteredmissions});
   }
 
+  updateDisplay(){
+      let listItem = this.state.filteredMissions.map((mission, index) =>
+      <tr>
+        <th>{mission.nomission}</th>
+        <th>{mission.specialite}</th>
+        <th>{mission.type}</th>
+        <th>{mission.remuneration}</th>
+        <th>{mission.nomdusite}</th>
+        <th>{mission.typedetablissement}</th>
+        <th>{mission.ville}</th>
+        <th>{mission.region}</th>
+        <th>{mission.datededebut}</th>
+        <th>{mission.datedefin}</th>
+        <th>{mission.statut} </th>
+      </tr>
+      );
+      this.setState({display :<table class="table table-striped">
+        <tr>
+          <th scope="col" >N° de mission</th>
+          <th scope="col" >Specialité</th>
+          <th scope="col" >Type de mission</th>
+          <th scope="col" >Rémunération</th>
+          <th scope="col" >Nom du site</th>
+          <th scope="col" >Type d'établissement</th>
+          <th scope="col" >Ville</th>
+          <th scope="col" >Région</th>
+          <th scope="col" >Date de début</th>
+          <th scope="col" >Date de fin</th>
+          <th scope="col" >Statut</th>
+        </tr>
+        {listItem}
+      </table>});
+  }
 
+  resetfilter(){
+    this.setState({
+      filtersnames: "",
+      filtervalues: "",
+      nomdusite: "",
+      ville: "",
+      region: "",
+      remunerationmin: "",
+      remunerationmax: "",
+      datededebut: "",
+      datedefin: "",
+      specialite: "",
+      typedetablissement: "",
+      type: "",
+    })
+  }
+
+  handleSubmit(event) {
+        event.preventDefault();
+
+        let tmpfilternames = [];
+        let tmpfiltervalues = [];
+
+        if(this.state.region !== "" && this.state.region !== "Veuillez selectionner une région" && this.state.region !== undefined)
+        {
+            tmpfilternames.push("region");
+            tmpfiltervalues.push(this.state.region);
+        }
+
+        if(this.state.specialite !== "" && this.state.specialite !== "Veuillez selectionner une spécialité" && this.state.specialite !== undefined)
+        {
+            tmpfilternames.push("specialite");
+            tmpfiltervalues.push(this.state.specialite);
+        }
+
+        if(this.state.typedetablissement !== "" && this.state.typedetablissement !== "Veuillez selectionner un type d'établissement" && this.state.typedetablissement !== undefined)
+        {
+            tmpfilternames.push("typedetablissement");
+            tmpfiltervalues.push(this.state.typedetablissement);
+        }
+
+        if(this.state.type !== "" && this.state.type !== "Veuillez selectionner un type de mission" && this.state.type !== undefined)
+        {
+            tmpfilternames.push("type");
+            tmpfiltervalues.push(this.state.type);
+        }
+
+        if(this.state.ville !== "" && this.state.ville !== undefined)
+        {
+            tmpfilternames.push("ville");
+            tmpfiltervalues.push(this.state.ville);
+        }
+
+        if(this.state.nomdusite !== "" && this.state.nomdusite !== undefined)
+        {
+            tmpfilternames.push("nomdusite");
+            tmpfiltervalues.push(this.state.nomdusite);
+        }
+
+        if(this.state.remunerationmin !== "" && this.state.remunerationmin !== undefined)
+        {
+            tmpfilternames.push("remunerationmin");
+            tmpfiltervalues.push(this.state.remunerationmin);
+        }
+
+        if(this.state.remunerationmax !== "" && this.state.remunerationmax !== undefined)
+        {
+            tmpfilternames.push("remunerationmax");
+            tmpfiltervalues.push(this.state.remunerationmax);
+        }
+
+        if(this.state.datededebut !== "" && this.state.datededebut !== undefined)
+        {
+            tmpfilternames.push("datededebut");
+            tmpfiltervalues.push(this.state.datededebut);
+        }
+
+        if(this.state.datedefin !== "" && this.state.datedefin !== undefined)
+        {
+            tmpfilternames.push("datedefin");
+            tmpfiltervalues.push(this.state.datedefin);
+        }
+
+        this.setState({filtersnames: tmpfilternames});
+        this.setState({filtersvalues: tmpfiltervalues});
+
+
+}
 
 
   render() {
@@ -197,9 +288,9 @@ export default class RechercheMissions extends Component {
     })
     let optionslisteregions;
     optionslisteregions = this.state.listeregions.map(listeregions => {
-      return (
-        <option >{listeregions}</option>
-      )
+        return(
+          <option >{listeregions}</option>
+        )
 
     })
     let optionslistespecialite;
@@ -221,174 +312,92 @@ export default class RechercheMissions extends Component {
 
       <div class="row" id="whole_page">
 
-        <div class="offset-md-1 col-md-3">
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br><br></br>
-          <br></br>
-          <br></br>
+        <div class="col-md-3">
+        <br></br>
+        <br></br>
 
+          <form  onSubmit={this.handleSubmit.bind(this)}>
+          <br></br>
           <div class="card">
             <header class="card-header">
-              <h6 class="title">Région</h6>
+              <h6 class="title"><h4>Choisissez vos critères de recherche</h4></h6>
             </header>
             <div class="filter-content">
               <div class="card-body">
-                <div class="form-row">
-
-                  <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.updateSearch} >
-                    {optionslisteregions}
-                  </select>
-
-                </div>
+              <div class="form-group">
+              <label><b>Nom du site</b></label>
+              <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
               </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <header class="card-header">
-              <h6 class="title">Nom de l'hopital = Ville</h6>
-            </header>
-            <div class="filter-content">
-              <div class="card-body">
-                <div class="form-row">
-
-                  <Input type="text" name="ville" value={this.state.ville} onChange={this.updateSearch}></Input>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <header class="card-header">
-              <h6 class="title">Date de début</h6>
-            </header>
-            <div class="filter-content">
-              <div class="card-body">
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label>Min</label>
-                    <input type="date" class="form-control" name="datededebut1" value={this.state.datededebut1} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
-                  </div>
-                  <div class="form-group col-md-6 text-right">
-                    <label>Max</label>
-                    <input type="date" class="form-control" name="datededebut2" value={this.state.datededebut2} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <header class="card-header">
-              <h6 class="title">Date de fin</h6>
-            </header>
-            <div class="filter-content">
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label>Min</label>
-                    <input type="date" class="form-control" name="datedefin1" value={this.state.datedefin1} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
-                  </div>
-                  <div class="form-group col-md-6 text-right">
-                    <label>Max</label>
-                    <input type="date" class="form-control" name="datedefin2" value={this.state.datedefin2} onChange={this.updateSearch} placeholder="aaaa-mm-jj"></input>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <header class="card-header">
-              <h6 class="title">Type d'établissement</h6>
-            </header>
-            <div class="filter-content">
-              <div class="card-body">
-                <div class="form-row">
-
-
-                  <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.updateSearch}  >
-                    {optionslistetypedetablissement}
-
-                  </select>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <header class="card-header">
-              <h6 class="title">Rémuneration</h6>
-            </header>
-            <div class="filter-content">
-              <div class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label>Min</label>
-                    <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.updateSearch} placeholder="$0"></input>
-                  </div>
-                  <div class="form-group col-md-6 text-right">
-                    <label>Max</label>
-                    <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.updateSearch} placeholder="$0"></input>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="card">
-            <header class="card-header">
-              <h6 class="title">Spécialité</h6>
-            </header>
-            <div class="filter-content">
-              <div class="card-body">
-                <div class="form-row">
-                  <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.updateSearch}  >
+                  <label><b>Spécialité</b></label>
+                  <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
                     {optionslistespecialite}
                   </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <header class="card-header">
-              <h6 class="title">Type de mission</h6>
-            </header>
-            <div class="filter-content">
-              <div class="card-body">
-                <div class="form-row">
-                  <select type="text" class="form-control" name="type" value={this.state.type} onChange={this.updateSearch}  >
+                      </div>
+                  <div class="form-group col-md-6 ">
+                  <label><b>Type de mission</b></label>
+                  <select type="text" class="form-control" name="type" value={this.state.type}  onChange={this.handleChange} >
                     {optionslistetype}
                   </select>
+                      </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="card">
-
-            <div class="filter-content">
-              <div class="card-body">
+                <div class="form-group">
+                <label><b>Type d'établissement</b></label>
+                <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement}  onChange={this.handleChange}>
+                  {optionslistetypedetablissement}
+                </select>
+                </div>
                 <div class="form-row">
+                  <div class="form-group col-md-6">
+                  <label><b>Ville</b></label>
+                  <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
+                  </div>
+                  <div class="form-group col-md-6 ">
+                  <label><b>Région</b></label>
+                  <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
+                    {optionslisteregions}
+                    </select>
 
+                      </div>
                 </div>
-                <Button onClick={() => { this.setState({ filteredMissions: this.state.tempfilteredMissions }) }} color="primary">Rechercher</Button>
+                <label><b>Rémunération</b></label>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                  <label>Min</label>
+                  <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
+                      </div>
+                  <div class="form-group col-md-6 ">
+                  <label>Max</label>
+                  <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
+                      </div>
+                </div>
+                <label><b>Dates</b></label>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                  <label>Date de début</label>
+                  <input type="date" class="form-control" name="datededebut" value={this.state.datededebut} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
+                  </div>
+                  <div class="form-group col-md-6 ">
+                  <label>Date de fin</label>
+                  <input type="date" class="form-control" name="datedefin" value={this.state.datedefin} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div class="form-row">
+            <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
+            <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
             </div>
           </div>
 
 
+          </form>
 
 
 
         </div>
-        <div id="container" class="col-md-6">
-          <br></br>
+        <div id="container" class="col-md-9">
           <br></br>
           <br></br>
 
@@ -396,9 +405,34 @@ export default class RechercheMissions extends Component {
           <div>
             <Navbar color="dark" light expand="md">
               <Nav className="ml-auto" navbar>
+              <UncontrolledDropdown>
+                <DropdownToggle onClick={e => this.onSort(e, 'specialite')} nav caret>
+                  Spécialité
+          </DropdownToggle>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown>
+                <DropdownToggle onClick={e => this.onSort(e, 'type')} nav caret>
+                  Type de mission
+          </DropdownToggle>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown>
+                <DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} nav caret>
+                  Type d'établissement
+          </DropdownToggle>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown>
+                <DropdownToggle onClick={e => this.onSort(e, 'remuneration')} nav caret>
+                  Remunération
+          </DropdownToggle>
+              </UncontrolledDropdown>
+              <UncontrolledDropdown>
+                <DropdownToggle onClick={e => this.onSort(e, 'nomdusite')} nav caret>
+                  Nom du site
+          </DropdownToggle>
+              </UncontrolledDropdown>
                 <UncontrolledDropdown>
                   <DropdownToggle onClick={e => this.onSort(e, 'ville')} nav caret>
-                    Nom de l'hopital
+                    Ville
             </DropdownToggle>
                 </UncontrolledDropdown>
                 <UncontrolledDropdown>
@@ -407,19 +441,14 @@ export default class RechercheMissions extends Component {
             </DropdownToggle>
                 </UncontrolledDropdown>
                 <UncontrolledDropdown>
-                  <DropdownToggle onClick={e => this.onSort(e, 'datededebut')} nav caret>
-                    Date de fin
-            </DropdownToggle>
-                </UncontrolledDropdown>
-                <UncontrolledDropdown>
                   <DropdownToggle onClick={e => this.onSort(e, 'datedefin')} nav caret>
-                    Date de début
+                    Date
             </DropdownToggle>
                 </UncontrolledDropdown>
               </Nav>
             </Navbar>
 
-            {this.displayMissions()}
+            {this.state.display}
           </div>
 
           <br></br>
