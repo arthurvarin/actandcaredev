@@ -24,6 +24,8 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
+      filternames: [],
+      filtervalues: [],
       sortkeys: [],
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
@@ -37,16 +39,17 @@ export default class RechercheMissions extends Component {
       remunerationmax: "",
       datededebut: "",
       datedefin: "",
-      filtersnames: "",
-      filtervalues: "",
       specialite: "",
       typedetablissement: "",
       type: "",
+      filtersdisplay: ""
     };
     this.handleChange = this.handleChange.bind(this);
+    this.updateFiltersDisplay = this.updateFiltersDisplay.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
     this.resetfilter = this.resetfilter.bind(this);
     this.onSort = this.onSort.bind(this)
+    this.deleteFilter = this.deleteFilter.bind(this)
 
   }
 
@@ -54,6 +57,14 @@ export default class RechercheMissions extends Component {
      this.setState({ [event.target.name]: event.target.value });
   }
 
+  deleteFilter(i){
+    let newnames = this.state.filternames;
+      newnames.splice(i, 1);
+    let newvalues = this.state.filtervalues;
+      newvalues.splice(i, 1);
+
+    this.setState({filternames: newnames, filtervalues: newvalues})
+  }
 
   componentDidMount() {
     this.timerID = setInterval(
@@ -68,6 +79,7 @@ export default class RechercheMissions extends Component {
 
   tick() {
     this.updateDisplay();
+    this.updateFiltersDisplay();
     this.callFilters();
   }
 
@@ -102,33 +114,44 @@ export default class RechercheMissions extends Component {
       snap.forEach(child => {
 
           let count = 0;
+          let countmultiples = 0;
+          let countmultiplesref = 0;
 
-          for(let i=0; i < this.state.filtersnames.length; i++){
-            console.log(this.state.filtersnames[i] + "" + this.state.filtersvalues[i]);
+          for(let i=0; i < this.state.filternames.length; i++){
 
-              if(this.state.filtersnames[i] !== "remunerationmin" && this.state.filtersnames[i] !== "remunerationmax" && this.state.filtersnames[i] !== "datededebut" && this.state.filtersnames[i] !== "datedefin")
-                  if(child.val()[this.state.filtersnames[i]] !== this.state.filtersvalues[i])
+              if(this.state.filternames[i] !== "remunerationmin" && this.state.filternames[i] !== "remunerationmax" && this.state.filternames[i] !== "datededebut" && this.state.filternames[i] !== "datedefin")
+              {
+                if(child.val()[this.state.filternames[i]] === this.state.filtervalues[i])
+                      countmultiples = countmultiples + 1;
+
+                countmultiplesref = countmultiplesref + 1;
+
+              }
+
+              if(this.state.filternames[i] === "remunerationmin")
+                  if(child.val()['remuneration'] < parseInt(this.state.filtervalues[i]))
                       count = count + 1;
 
-              if(this.state.filtersnames[i] === "remunerationmin")
-                  if(child.val()['remuneration'] < parseInt(this.state.filtersvalues[i]))
+              if(this.state.filternames[i] === "remunerationmax")
+                  if(child.val()['remuneration'] > parseInt(this.state.filtervalues[i]))
                       count = count + 1;
 
-              if(this.state.filtersnames[i] === "remunerationmax")
-                  if(child.val()['remuneration'] > parseInt(this.state.filtersvalues[i]))
+              if(this.state.filternames[i] === "datededebut")
+                  if( moment(child.val()['datededebut']).format("YYYY-MM-DD") < moment(this.state.filtervalues[i]).format("YYYY-MM-DD"))
                       count = count + 1;
 
-              if(this.state.filtersnames[i] === "datededebut")
-                  if( moment(child.val()['datededebut']).format("YYYY-MM-DD") < moment(this.state.filtersvalues[i]).format("YYYY-MM-DD"))
-                      count = count + 1;
-
-              if(this.state.filtersnames[i] === "datedefin")
-                  if( moment(child.val()['datededebut']).format("YYYY-MM-DD") > moment(this.state.filtersvalues[i]).format("YYYY-MM-DD"))
+              if(this.state.filternames[i] === "datedefin")
+                  if( moment(child.val()['datededebut']).format("YYYY-MM-DD") > moment(this.state.filtervalues[i]).format("YYYY-MM-DD"))
                       count = count + 1;
 
          }
-         if(count === 0)
-             filteredmissions.push(child.val());
+         if(count === 0 )
+          if(countmultiplesref===0)
+            filteredmissions.push(child.val());
+          else if (countmultiples > 0)
+            filteredmissions.push(child.val());
+
+
 
       })
     })
@@ -141,7 +164,6 @@ export default class RechercheMissions extends Component {
             filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
 
         if(sortkeys[i] === 'remuneration'){
-            console.log("remuneration")
             filteredmissions.sort((a, b) => parseInt(a[sortkeys[i]]) - parseInt(b[sortkeys[i]]))
         }
 
@@ -151,6 +173,41 @@ export default class RechercheMissions extends Component {
 
 
     this.setState({filteredMissions: filteredmissions});
+  }
+
+  updateFiltersDisplay(){
+
+    let toreturn = [];
+    let tmpname = "";
+
+    for(let i=0; i<this.state.filternames.length; i++){
+
+      if(this.state.filternames[i] == "region")
+        tmpname = "Région";
+      if(this.state.filternames[i] == "ville")
+        tmpname = "Ville";
+      if(this.state.filternames[i] == "typedetablissement")
+        tmpname = "Type d'établissement";
+      if(this.state.filternames[i] == "specialite")
+        tmpname = "Spécialité";
+      if(this.state.filternames[i] == "type")
+        tmpname = "Type de mission";
+      if(this.state.filternames[i] == "nomdusite")
+        tmpname = "Nom du site";
+
+      if(this.state.filternames[i] == "nomdusite" || this.state.filternames[i] == "region" || this.state.filternames[i] == "ville" || this.state.filternames[i] == "typedetablissement" || this.state.filternames[i] == "specialite" || this.state.filternames[i] == "type")
+        toreturn.push(
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {"" + tmpname + " : " + this.state.filtervalues[i]}
+        <button type="button" onClick={() => this.deleteFilter(i)} class="close" data-dismiss="alert" aria-label="Close">
+          <span  aria-hidden="true">&times;</span>
+        </button>
+        </div>);
+    }
+
+    let filtersdisplay = toreturn;
+
+    this.setState({filtersdisplay: filtersdisplay});
   }
 
   updateDisplay(){
@@ -169,7 +226,7 @@ export default class RechercheMissions extends Component {
         <th>{mission.statut} </th>
       </tr>
       );
-      this.setState({display :<table class="table table-striped">
+      this.setState({display :<div class="table-responsive"><table class="table table-striped">
         <tr>
           <th scope="col" >N° de mission</th>
           <th scope="col" >Specialité</th>
@@ -184,13 +241,13 @@ export default class RechercheMissions extends Component {
           <th scope="col" >Statut</th>
         </tr>
         {listItem}
-      </table>});
+      </table></div>});
   }
 
   resetfilter(){
     this.setState({
-      filtersnames: "",
-      filtervalues: "",
+      filternames: [],
+      filtervalues: [],
       nomdusite: "",
       ville: "",
       region: "",
@@ -207,8 +264,9 @@ export default class RechercheMissions extends Component {
   handleSubmit(event) {
         event.preventDefault();
 
-        let tmpfilternames = [];
-        let tmpfiltervalues = [];
+        let tmpfilternames = this.state.filternames;
+        let tmpfiltervalues = this.state.filtervalues;
+
 
         if(this.state.region !== "" && this.state.region !== "Veuillez selectionner une région" && this.state.region !== undefined)
         {
@@ -269,9 +327,9 @@ export default class RechercheMissions extends Component {
             tmpfilternames.push("datedefin");
             tmpfiltervalues.push(this.state.datedefin);
         }
-
-        this.setState({filtersnames: tmpfilternames});
-        this.setState({filtersvalues: tmpfiltervalues});
+        console.log(tmpfilternames.length)
+        this.setState({filternames: tmpfilternames});
+        this.setState({filtervalues: tmpfiltervalues});
 
 
 }
@@ -390,8 +448,10 @@ export default class RechercheMissions extends Component {
             <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
             </div>
           </div>
-
-
+          <br/>
+          <div>
+          {this.state.filtersdisplay}
+          </div>
           </form>
 
 
