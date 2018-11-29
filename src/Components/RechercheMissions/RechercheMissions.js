@@ -15,7 +15,8 @@ import moment from 'moment';
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
-import listeregions from '../../Jasons/listeregions.json'
+import listeregions from '../../Jasons/regions.json'
+import listevilles from '../../Jasons/cities.json'
 
 
 export default class RechercheMissions extends Component {
@@ -31,6 +32,7 @@ export default class RechercheMissions extends Component {
       listespecialite: listespecialite,
       listetype: listetype,
       listeregions: listeregions,
+      listevilles:listevilles,
       display: "",
       nomdusite: "",
       ville: "",
@@ -42,7 +44,7 @@ export default class RechercheMissions extends Component {
       specialite: "",
       typedetablissement: "",
       type: "",
-      filtersdisplay: ""
+      filtersdisplay: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.updateFiltersDisplay = this.updateFiltersDisplay.bind(this);
@@ -347,9 +349,16 @@ export default class RechercheMissions extends Component {
       )
     })
     let optionslisteregions;
-    optionslisteregions = this.state.listeregions.map(listeregions => {
+    optionslisteregions = this.state.listeregions.map(region => {
         return(
-          <option >{listeregions}</option>
+          <option >{region.name}</option>
+        )
+
+    })
+    let optionslistevilles;
+    optionslistevilles = this.state.listevilles.map(ville => {
+        return(
+          <option >{ville.name}</option>
         )
 
     })
@@ -411,7 +420,11 @@ export default class RechercheMissions extends Component {
                 <div class="form-row">
                   <div class="form-group col-md-6">
                   <label><b>Ville</b></label>
-                  <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
+                
+                  <select type="text" class="form-control" name="ville" value={this.state.ville}  onChange={this.handleChange}>
+                  {optionslistevilles}
+                  </select>
+                  
                   </div>
                   <div class="form-group col-md-6 ">
                   <label><b>Région</b></label>
@@ -514,9 +527,6 @@ export default class RechercheMissions extends Component {
           </div>
 
           <br></br>
-
-
-
         </div>
 
         <div class="col-md-1"></div>
