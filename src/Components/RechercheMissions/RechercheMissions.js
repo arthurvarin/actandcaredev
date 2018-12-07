@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import './RMissions.css'
 import * as firebase from 'firebase';
 import {
-  Navbar,
-  Nav,
   DropdownToggle,
   UncontrolledDropdown,
   Input,
-  Jumbotron,
-  Button,
 } from 'reactstrap';
 import moment from 'moment';
 
@@ -177,7 +173,7 @@ export default class RechercheMissions extends Component {
 
         filteredmissions.sort((a, b) => a[sortkeys[i]].localeCompare(b[sortkeys[i]]))
     }
-    if(sortkeys.length == 0){
+    if(sortkeys.length === 0){
       filteredmissions.sort((a, b) => a['nomdusite'].localeCompare(b['nomdusite']))
       filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
     }
@@ -196,22 +192,22 @@ export default class RechercheMissions extends Component {
 
     for(let i=0; i<this.state.filternames.length; i++){
 
-      if(this.state.filternames[i] == "region")
+      if(this.state.filternames[i] === "region")
         tmpname = "Région";
-      if(this.state.filternames[i] == "statut")
+      if(this.state.filternames[i] === "statut")
         tmpname = "Statut";
-      if(this.state.filternames[i] == "ville")
+      if(this.state.filternames[i] === "ville")
         tmpname = "Ville";
-      if(this.state.filternames[i] == "typedetablissement")
+      if(this.state.filternames[i] === "typedetablissement")
         tmpname = "Type d'établissement";
-      if(this.state.filternames[i] == "specialite")
+      if(this.state.filternames[i] === "specialite")
         tmpname = "Spécialité";
-      if(this.state.filternames[i] == "type")
+      if(this.state.filternames[i] === "type")
         tmpname = "Type de mission";
-      if(this.state.filternames[i] == "nomdusite")
+      if(this.state.filternames[i] === "nomdusite")
         tmpname = "Nom du site";
 
-      if(this.state.filternames[i] == "nomdusite" || this.state.filternames[i] == "statut" || this.state.filternames[i] == "region" || this.state.filternames[i] == "ville" || this.state.filternames[i] == "typedetablissement" || this.state.filternames[i] == "specialite" || this.state.filternames[i] == "type")
+      if(this.state.filternames[i] === "nomdusite" || this.state.filternames[i] === "statut" || this.state.filternames[i] === "region" || this.state.filternames[i] === "ville" || this.state.filternames[i] === "typedetablissement" || this.state.filternames[i] === "specialite" || this.state.filternames[i] === "type")
         toreturn.push(
         <div class="alert alert-info alert-dismissible fade show" role="alert">
         {"" + tmpname + " : " + this.state.filtervalues[i]}
@@ -229,23 +225,15 @@ export default class RechercheMissions extends Component {
 
   handleChangeStatusTab(event){
 
-    let splittedarray = (event.target.name).split("_");
-    let index = splittedarray[0];
-    let nomission = splittedarray[1];
-
-    const missionsetRef = firebase.database().ref('missions/' + nomission).update({statut: event.target.value})
+    firebase.database().ref('missions/' + event.target.name).update({statut: event.target.value})
 
   }
 
   updateDisplay(){
-      let i = 0
-
-
-
       let listItem = this.state.filteredMissions.map((mission, index) =>
       <tr>
         <th>{mission.nomission}</th>
-        <th><select type="text" class="form-control" name={(i++)+"_"+mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
+        <th><select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
           {this.state.listestatut.map(listestatut => {return (<option >{listestatut}</option>) })}
         </select></th>
         <th>{mission.specialite}</th>
