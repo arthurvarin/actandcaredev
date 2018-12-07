@@ -15,8 +15,8 @@ import moment from 'moment';
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
-import listeregions from '../../Jasons/regions.json'
-import listevilles from '../../Jasons/cities.json'
+import listeregions from '../../Jasons/listeregions.json'
+import listestatut from '../../Jasons/listestatut.json'
 
 
 export default class RechercheMissions extends Component {
@@ -32,11 +32,13 @@ export default class RechercheMissions extends Component {
       listespecialite: listespecialite,
       listetype: listetype,
       listeregions: listeregions,
-      listevilles:listevilles,
+      listestatut: listestatut,
       display: "",
       nomdusite: "",
       ville: "",
       region: "",
+      statut:"",
+      tmpstatut:"",
       remunerationmin: "",
       remunerationmax: "",
       datededebut: "",
@@ -44,7 +46,7 @@ export default class RechercheMissions extends Component {
       specialite: "",
       typedetablissement: "",
       type: "",
-      filtersdisplay: "",
+      filtersdisplay: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.updateFiltersDisplay = this.updateFiltersDisplay.bind(this);
@@ -52,11 +54,15 @@ export default class RechercheMissions extends Component {
     this.resetfilter = this.resetfilter.bind(this);
     this.onSort = this.onSort.bind(this)
     this.deleteFilter = this.deleteFilter.bind(this)
+    this.handleChangeStatusTab = this.handleChangeStatusTab.bind(this)
+
+
 
   }
 
   handleChange(event) {
      this.setState({ [event.target.name]: event.target.value });
+
   }
 
   deleteFilter(i){
@@ -162,21 +168,25 @@ export default class RechercheMissions extends Component {
 
     for(let i=0; i<sortkeys.length; i++){
 
-      if(sortkeys[i] === 'remuneration'){
-        console.log("remuneration")
-        filteredmissions.sort((a, b) => (parseInt(a[sortkeys[i]]) - parseInt(b[sortkeys[i]])))
-    } 
-        else if(i === (sortkeys.length - 1))
+        if(i === (sortkeys.length - 1))
             filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
 
-       
-      else{filteredmissions.sort((a, b) => a[sortkeys[i]].localeCompare(b[sortkeys[i]]))}
+        if(sortkeys[i] === 'remuneration'){
+            filteredmissions.sort((a, b) => parseInt(a[sortkeys[i]]) - parseInt(b[sortkeys[i]]))
+        }
 
+        filteredmissions.sort((a, b) => a[sortkeys[i]].localeCompare(b[sortkeys[i]]))
+    }
+    if(sortkeys.length == 0){
+      filteredmissions.sort((a, b) => a['nomdusite'].localeCompare(b['nomdusite']))
+      filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
     }
 
 
 
+
     this.setState({filteredMissions: filteredmissions});
+
   }
 
   updateFiltersDisplay(){
@@ -188,6 +198,8 @@ export default class RechercheMissions extends Component {
 
       if(this.state.filternames[i] == "region")
         tmpname = "Région";
+      if(this.state.filternames[i] == "statut")
+        tmpname = "Statut";
       if(this.state.filternames[i] == "ville")
         tmpname = "Ville";
       if(this.state.filternames[i] == "typedetablissement")
@@ -199,7 +211,7 @@ export default class RechercheMissions extends Component {
       if(this.state.filternames[i] == "nomdusite")
         tmpname = "Nom du site";
 
-      if(this.state.filternames[i] == "nomdusite" || this.state.filternames[i] == "region" || this.state.filternames[i] == "ville" || this.state.filternames[i] == "typedetablissement" || this.state.filternames[i] == "specialite" || this.state.filternames[i] == "type")
+      if(this.state.filternames[i] == "nomdusite" || this.state.filternames[i] == "statut" || this.state.filternames[i] == "region" || this.state.filternames[i] == "ville" || this.state.filternames[i] == "typedetablissement" || this.state.filternames[i] == "specialite" || this.state.filternames[i] == "type")
         toreturn.push(
         <div class="alert alert-info alert-dismissible fade show" role="alert">
         {"" + tmpname + " : " + this.state.filtervalues[i]}
@@ -214,35 +226,53 @@ export default class RechercheMissions extends Component {
     this.setState({filtersdisplay: filtersdisplay});
   }
 
+
+  handleChangeStatusTab(event){
+
+    let splittedarray = (event.target.name).split("_");
+    let index = splittedarray[0];
+    let nomission = splittedarray[1];
+
+    const missionsetRef = firebase.database().ref('missions/' + nomission).update({statut: event.target.value})
+
+  }
+
   updateDisplay(){
+      let i = 0
+
+
+
       let listItem = this.state.filteredMissions.map((mission, index) =>
       <tr>
         <th>{mission.nomission}</th>
+        <th><select type="text" class="form-control" name={(i++)+"_"+mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
+          {this.state.listestatut.map(listestatut => {return (<option >{listestatut}</option>) })}
+        </select></th>
         <th>{mission.specialite}</th>
+        <th>{mission.datededebut}</th>
+        <th>{mission.region}</th>
+        <th>{mission.nomdusite}</th>
+        <th>{mission.ville}</th>
+        <th>{mission.typedetablissement}</th>
         <th>{mission.type}</th>
         <th>{mission.remuneration}</th>
-        <th>{mission.nomdusite}</th>
-        <th>{mission.typedetablissement}</th>
-        <th>{mission.ville}</th>
-        <th>{mission.region}</th>
-        <th>{mission.datededebut}</th>
-        <th>{mission.datedefin}</th>
-        <th>{mission.statut} </th>
       </tr>
       );
       this.setState({display :<div class="table-responsive"><table class="table table-striped">
         <tr>
-          <th scope="col" >N° de mission</th>
-          <th scope="col" >Specialité</th>
-          <th scope="col" >Type de mission</th>
-          <th scope="col" >Rémunération</th>
-          <th scope="col" >Nom du site</th>
-          <th scope="col" >Type d'établissement</th>
-          <th scope="col" >Ville</th>
-          <th scope="col" >Région</th>
-          <th scope="col" >Date de début</th>
-          <th scope="col" >Date de fin</th>
-          <th scope="col" >Statut</th>
+
+
+
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'nomission')} > N° de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'region')} > Région </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'nomdusite')} > Nom du site </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'établissement </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
         </tr>
         {listItem}
       </table></div>});
@@ -255,6 +285,7 @@ export default class RechercheMissions extends Component {
       nomdusite: "",
       ville: "",
       region: "",
+      statut:"",
       remunerationmin: "",
       remunerationmax: "",
       datededebut: "",
@@ -282,6 +313,12 @@ export default class RechercheMissions extends Component {
         {
             tmpfilternames.push("specialite");
             tmpfiltervalues.push(this.state.specialite);
+        }
+
+        if(this.state.statut !== "" && this.state.statut !== "Veuillez selectionner un type de statut de mission" && this.state.statut !== undefined)
+        {
+            tmpfilternames.push("statut");
+            tmpfiltervalues.push(this.state.statut);
         }
 
         if(this.state.typedetablissement !== "" && this.state.typedetablissement !== "Veuillez selectionner un type d'établissement" && this.state.typedetablissement !== undefined)
@@ -349,16 +386,9 @@ export default class RechercheMissions extends Component {
       )
     })
     let optionslisteregions;
-    optionslisteregions = this.state.listeregions.map(region => {
+    optionslisteregions = this.state.listeregions.map(listeregions => {
         return(
-          <option >{region.name}</option>
-        )
-
-    })
-    let optionslistevilles;
-    optionslistevilles = this.state.listevilles.map(ville => {
-        return(
-          <option >{ville.name}</option>
+          <option >{listeregions}</option>
         )
 
     })
@@ -372,6 +402,12 @@ export default class RechercheMissions extends Component {
     optionslistetype = this.state.listetype.map(listetype => {
       return (
         <option >{listetype}</option >
+      )
+    })
+    let optionslistestatut;
+    optionslistestatut = this.state.listestatut.map(listestatut => {
+      return (
+        <option >{listestatut}</option >
       )
     })
 
@@ -394,68 +430,76 @@ export default class RechercheMissions extends Component {
             <div class="filter-content">
               <div class="card-body">
               <div class="form-group">
+              <label><b>Spécialité</b></label>
+              <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
+                {optionslistespecialite}
+              </select>
+              </div>
+              <div class="form-group">
+              <label><b>Statut</b></label>
+              <select type="text" class="form-control" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+                {optionslistestatut}
+              </select>
+              </div>
+              <label><b>Dates</b></label>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                <label>Date de début</label>
+                <input type="date" class="form-control" name="datededebut" value={this.state.datededebut} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
+                </div>
+                <div class="form-group col-md-6 ">
+                <label>Date de fin</label>
+                <input type="date" class="form-control" name="datedefin" value={this.state.datedefin} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                <label><b>Région</b></label>
+                <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
+                  {optionslisteregions}
+                  </select>
+                </div>
+                <div class="form-group col-md-6 ">
+                <label><b>Ville</b></label>
+                <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
+                </div>
+              </div>
+              <br></br>
+              <div class="form-group">
               <label><b>Nom du site</b></label>
               <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
               </div>
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                  <label><b>Spécialité</b></label>
-                  <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
-                    {optionslistespecialite}
-                  </select>
-                      </div>
-                  <div class="form-group col-md-6 ">
-                  <label><b>Type de mission</b></label>
-                  <select type="text" class="form-control" name="type" value={this.state.type}  onChange={this.handleChange} >
-                    {optionslistetype}
-                  </select>
-                      </div>
-                </div>
-                <div class="form-group">
-                <label><b>Type d'établissement</b></label>
-                <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement}  onChange={this.handleChange}>
-                  {optionslistetypedetablissement}
-                </select>
-                </div>
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                  <label><b>Ville</b></label>
-                
-                  <select type="text" class="form-control" name="ville" value={this.state.ville}  onChange={this.handleChange}>
-                  {optionslistevilles}
-                  </select>
-                  
-                  </div>
-                  <div class="form-group col-md-6 ">
-                  <label><b>Région</b></label>
-                  <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
-                    {optionslisteregions}
-                    </select>
 
-                      </div>
-                </div>
-                <label><b>Rémunération</b></label>
+              <label><b>Rémunération</b></label>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                <label>Min</label>
+                <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
+                    </div>
+                <div class="form-group col-md-6 ">
+                <label>Max</label>
+                <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
+                    </div>
+              </div>
+
                 <div class="form-row">
+                <div class="form-group col-md-6 ">
+                <label><b>Type de mission</b></label>
+                <select type="text" class="form-control" name="type" value={this.state.type}  onChange={this.handleChange} >
+                  {optionslistetype}
+                </select>
+                    </div>
                   <div class="form-group col-md-6">
-                  <label>Min</label>
-                  <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
-                      </div>
-                  <div class="form-group col-md-6 ">
-                  <label>Max</label>
-                  <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
-                      </div>
-                </div>
-                <label><b>Dates</b></label>
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                  <label>Date de début</label>
-                  <input type="date" class="form-control" name="datededebut" value={this.state.datededebut} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
-                  </div>
-                  <div class="form-group col-md-6 ">
-                  <label>Date de fin</label>
-                  <input type="date" class="form-control" name="datedefin" value={this.state.datedefin} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
+                  <label><b>Type d'établissement</b></label>
+                  <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement}  onChange={this.handleChange}>
+                    {optionslistetypedetablissement}
+                  </select>
                   </div>
                 </div>
+
+
+
+
               </div>
             </div>
             <div class="form-row">
@@ -478,55 +522,11 @@ export default class RechercheMissions extends Component {
 
 
           <div>
-            <Navbar color="dark" light expand="md">
-              <Nav className="ml-auto" navbar>
-              <UncontrolledDropdown>
-                <DropdownToggle onClick={e => this.onSort(e, 'specialite')} nav caret>
-                  Spécialité
-          </DropdownToggle>
-              </UncontrolledDropdown>
-              <UncontrolledDropdown>
-                <DropdownToggle onClick={e => this.onSort(e, 'type')} nav caret>
-                  Type de mission
-          </DropdownToggle>
-              </UncontrolledDropdown>
-              <UncontrolledDropdown>
-                <DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} nav caret>
-                  Type d'établissement
-          </DropdownToggle>
-              </UncontrolledDropdown>
-              <UncontrolledDropdown>
-                <DropdownToggle onClick={e => this.onSort(e, 'remuneration')} nav caret>
-                  Remunération
-          </DropdownToggle>
-              </UncontrolledDropdown>
-              <UncontrolledDropdown>
-                <DropdownToggle onClick={e => this.onSort(e, 'nomdusite')} nav caret>
-                  Nom du site
-          </DropdownToggle>
-              </UncontrolledDropdown>
-                <UncontrolledDropdown>
-                  <DropdownToggle onClick={e => this.onSort(e, 'ville')} nav caret>
-                    Ville
-            </DropdownToggle>
-                </UncontrolledDropdown>
-                <UncontrolledDropdown>
-                  <DropdownToggle onClick={e => this.onSort(e, 'region')} nav caret>
-                    Région
-            </DropdownToggle>
-                </UncontrolledDropdown>
-                <UncontrolledDropdown>
-                  <DropdownToggle onClick={e => this.onSort(e, 'datedefin')} nav caret>
-                    Date
-            </DropdownToggle>
-                </UncontrolledDropdown>
-              </Nav>
-            </Navbar>
 
             {this.state.display}
           </div>
-
           <br></br>
+
         </div>
 
         <div class="col-md-1"></div>
