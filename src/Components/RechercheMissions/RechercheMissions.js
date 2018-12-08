@@ -389,7 +389,7 @@ export default class RechercheMissions extends Component {
       )
 
     })
-    let optionslistevilles = this.listeville();
+    //let optionslistevilles = this.listeville();
 
     let optionslistespecialite;
     optionslistespecialite = this.state.listespecialite.map(listespecialite => {
@@ -452,7 +452,7 @@ export default class RechercheMissions extends Component {
                     </div>
 
 
-                    <div class="form-row">
+                    {/* <div class="form-row">
                       <div class="form-group col-md-6">
                         <label><b>Ville</b></label>
 
@@ -461,7 +461,7 @@ export default class RechercheMissions extends Component {
                           {optionslistevilles}
                         </select>
                       </div>
-                    </div>
+                    </div> */}
 
                       <div class="form-row">
                         <div class="form-group col-md-6">
