@@ -338,6 +338,25 @@ export default class RechercheMissions extends Component {
 
 }
 
+ 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+listeville(){
+  let optionslistevilles = this.state.listevilles.map((ville) => 
+       <option >{ville.name}</option>
+ )
+ return optionslistevilles;
+}
+filtercities(){
+  let cities=this.state.cities;
+  cities=cities.filter(
+    (city)=>{
+      return city.toUpperCase().indexOf(this.state.cityfilter.toUpperCase()) !=-1;
+    }
+  )
+  this.setState({cities})
+}  
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   render() {
 
@@ -355,13 +374,8 @@ export default class RechercheMissions extends Component {
         )
 
     })
-    let optionslistevilles;
-    optionslistevilles = this.state.listevilles.map(ville => {
-        return(
-          <option >{ville.name}</option>
-        )
+    let optionslistevilles=this.listeville();
 
-    })
     let optionslistespecialite;
     optionslistespecialite = this.state.listespecialite.map(listespecialite => {
       return (
@@ -420,7 +434,8 @@ export default class RechercheMissions extends Component {
                 <div class="form-row">
                   <div class="form-group col-md-6">
                   <label><b>Ville</b></label>
-                
+                  
+                  <Input name="ville" value={this.state.ville} onChange={this.handleChange}></Input>
                   <select type="text" class="form-control" name="ville" value={this.state.ville}  onChange={this.handleChange}>
                   {optionslistevilles}
                   </select>
