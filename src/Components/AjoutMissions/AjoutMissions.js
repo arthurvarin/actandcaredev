@@ -171,10 +171,9 @@ export default class AjoutMissions extends React.Component {
 
 
     this.setState({nomission:"M" + tmpserialnumber + endserialnumber + extra})
-    this.state.nomission =  "M" + tmpserialnumber + endserialnumber + extra ;
 
-    if(extra == ""){
-      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+    if(extra === ""){
+      firebase.database().ref('missions/' + this.state.nomission).set(
       {
         nomission: this.state.nomission,
         ville: this.state.ville,
@@ -192,7 +191,7 @@ export default class AjoutMissions extends React.Component {
         statut: "Recherche en cours"
       });
     }else{
-      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+      firebase.database().ref('missions/' + this.state.nomission).set(
       {
         nomission: this.state.nomission,
         ville: this.state.ville,
@@ -228,7 +227,7 @@ export default class AjoutMissions extends React.Component {
   }
 
   getDates(date1, date2) {
-    let returnarray= new Array();
+    let returnarray = [];
     let currentDate = date1;
     while (currentDate.valueOf() <= date2.valueOf()) {
         returnarray.push(new Date (currentDate));
@@ -275,7 +274,7 @@ export default class AjoutMissions extends React.Component {
           missioncount : snap.val()
         });
       });
-      
+
       this.timerID = setInterval(
         () => this.tick(),
         500
