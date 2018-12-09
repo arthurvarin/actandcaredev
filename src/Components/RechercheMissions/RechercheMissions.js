@@ -11,8 +11,8 @@ import moment from 'moment';
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
-import listeregions from '../../Jasons/listeregions.json'
 import listestatut from '../../Jasons/listestatut.json'
+import listeregions1 from '../../Jasons/regions.json'
 
 
 export default class RechercheMissions extends Component {
@@ -27,7 +27,6 @@ export default class RechercheMissions extends Component {
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
-      listeregions: listeregions,
       listestatut: listestatut,
       display: "",
       nomdusite: "",
@@ -42,7 +41,10 @@ export default class RechercheMissions extends Component {
       specialite: "",
       typedetablissement: "",
       type: "",
-      filtersdisplay: ""
+      filtersdisplay: "",
+      coderegion: 0,
+      filteredVilles: [{ "nom": "Choisir une ville" }],
+      filteredRegions: listeregions1
     };
     this.handleChange = this.handleChange.bind(this);
     this.updateFiltersDisplay = this.updateFiltersDisplay.bind(this);
@@ -52,7 +54,13 @@ export default class RechercheMissions extends Component {
     this.deleteFilter = this.deleteFilter.bind(this)
     this.handleChangeStatusTab = this.handleChangeStatusTab.bind(this)
 
-
+    //Gestion des villes 
+    this.displayVilles = this.displayVilles.bind(this)
+    this.displayRegions=this.displayRegions.bind(this)
+    this.handleChangeRegion = this.handleChangeRegion.bind(this)
+    this.handleChangeVille=this.handleChangeVille.bind(this)
+    this.filterVilles = this.filterVilles.bind(this)
+    this.handleVilleSelection=this.handleVilleSelection.bind(this)
 
   }
 
@@ -317,9 +325,9 @@ export default class RechercheMissions extends Component {
       tmpfiltervalues.push(this.state.type);
     }
 
-    if (this.state.ville !== "" && this.state.ville !== undefined) {
+    if (this.state.ville_selected !== "" && this.state.ville_selected !== undefined) {
       tmpfilternames.push("ville");
-      tmpfiltervalues.push(this.state.ville);
+      tmpfiltervalues.push(this.state.ville_selected);
     }
 
     if (this.state.nomdusite !== "" && this.state.nomdusite !== undefined) {
@@ -356,22 +364,65 @@ export default class RechercheMissions extends Component {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  listeville() {
-    let optionslistevilles = this.state.listevilles.map((ville) =>
-      <option >{ville.name}</option>
+  //Gestion ville région 
+  displayVilles() {
+    return this.state.filteredVilles.map((ville) =>
+      <option>{ville.nom}</option>
     )
-    return optionslistevilles;
   }
-  filtercities() {
-    let cities = this.state.cities;
-    cities = cities.filter(
+  displayRegions() {
+    return this.state.filteredRegions.map((region) =>
+      <option code={region.code}>{region.nom}</option>
+    )
+  }
+  handleChangeRegion(event) {
+    var index = event.target.selectedIndex;
+    var optionElement = event.target.childNodes[index]
+    var region_code = optionElement.getAttribute('code');
+
+    this.setState({ region_code, region_selected: event.target.value }, () => {
+      this.loadCities()
+    })
+  }
+  handleChangeVille(event) {
+    this.setState({ ville_nom: event.target.value }, () => {
+      this.loadCities_2(event)
+    })
+  }
+  handleVilleSelection(event) {
+    console.log(event.target.value)
+    this.setState({
+      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
+      ville_selected: event.target.value
+    })
+  }
+  loadCities() {
+    fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
+      .then(result => result.json())
+      .then(regionVilles => this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles }));
+  }
+  loadCities_2(event) {
+    fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
+      .then(result => result.json())
+      .then(villeVilles => {
+        let region_selected = [villeVilles[0].region.nom]
+        let ville_selected = [villeVilles[0].nom]
+        this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected })
+      });
+  }
+  filterVilles(event) { // N'est pris en compte qu'avec la boucle choix région puis choix ville:
+    let filteredVilles = this.state.regionVilles;
+    filteredVilles = filteredVilles.filter(
       (city) => {
-        return city.toUpperCase().indexOf(this.state.cityfilter.toUpperCase()) != -1;
+        return city["nom"].toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
       }
-    )
-    this.setState({ cities })
+    );
+    //let  filteredRegions=[{ "nom": "....", "code":"" }]
+    this.setState({ filteredVilles })
   }
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   render() {
 
@@ -382,15 +433,6 @@ export default class RechercheMissions extends Component {
         <option >{listetypedetablissement}</option>
       )
     })
-    let optionslisteregions;
-    optionslisteregions = this.state.listeregions.map(region => {
-      return (
-        <option >{region.name}</option>
-      )
-
-    })
-    //let optionslistevilles = this.listeville();
-
     let optionslistespecialite;
     optionslistespecialite = this.state.listespecialite.map(listespecialite => {
       return (
@@ -452,100 +494,111 @@ export default class RechercheMissions extends Component {
                     </div>
 
 
-                    {/* <div class="form-row">
+                    {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+                    {/* Gestion ville region */}
+                    <div class="form-row">
                       <div class="form-group col-md-6">
                         <label><b>Ville</b></label>
-
-                        <Input name="ville" value={this.state.ville} onChange={this.handleChange}></Input>
-                        <select type="text" class="form-control" name="ville" value={this.state.ville} onChange={this.handleChange}>
-                          {optionslistevilles}
+                        <Input name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></Input>
+                        <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
+                          {this.displayVilles()}
                         </select>
                       </div>
-                    </div> */}
-
-                      <div class="form-row">
+                      <div class="form-group col-md-6 ">
+                        <label><b>Région</b></label>
+                        <select type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
+                          {/* <select type="text" class="form-control" name="region" value={this.state.region}  > */}
+                          {this.displayRegions()}
+                        </select>
+                      </div>
+                    </div>
+                    {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+                    <div class="form-group col-md-6 ">
+                      <label><b>Ville</b></label>
+                      <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group col-md-6">
                           <label><b>Région</b></label>
                           <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
-                            {optionslisteregions}
+                            {this.displayRegions()}
                           </select>
                         </div>
                       </div>
 
-                        <div class="form-group col-md-6 ">
-                          <label><b>Ville</b></label>
-                          <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
-                        </div>
-                      </div>
-                      <br></br>
-                      <div class="form-group">
-                        <label><b>Nom du site</b></label>
-                        <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
-                      </div>
-
-                      <label><b>Rémunération</b></label>
-                      <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label>Min</label>
-                          <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
-                        </div>
-                        <div class="form-group col-md-6 ">
-                          <label>Max</label>
-                          <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
-                        </div>
-                      </div>
-
-                      <div class="form-row">
-                        <div class="form-group col-md-6 ">
-                          <label><b>Type de mission</b></label>
-                          <select type="text" class="form-control" name="type" value={this.state.type} onChange={this.handleChange} >
-                            {optionslistetype}
-                          </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label><b>Type d'établissement</b></label>
-                          <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
-                            {optionslistetypedetablissement}
-                          </select>
-                        </div>
-                      </div>
+                    {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
 
+                  </div>
+                  <br></br>
+                  <div class="form-group">
+                    <label><b>Nom du site</b></label>
+                    <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
+                  </div>
 
-
+                  <label><b>Rémunération</b></label>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label>Min</label>
+                      <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
+                    </div>
+                    <div class="form-group col-md-6 ">
+                      <label>Max</label>
+                      <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
                     </div>
                   </div>
+
                   <div class="form-row">
-                    <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
-                    <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
+                    <div class="form-group col-md-6 ">
+                      <label><b>Type de mission</b></label>
+                      <select type="text" class="form-control" name="type" value={this.state.type} onChange={this.handleChange} >
+                        {optionslistetype}
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label><b>Type d'établissement</b></label>
+                      <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
+                        {optionslistetypedetablissement}
+                      </select>
+                    </div>
                   </div>
+
+
+
+
                 </div>
-                <br />
-                <div>
-                  {this.state.filtersdisplay}
-                </div>
+              </div>
+              <div class="form-row">
+                <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
+                <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
+              </div>
+            </div>
+            <br />
+            <div>
+              {this.state.filtersdisplay}
+            </div>
           </form>
 
 
 
-            </div>
-            <div id="container" class="col-md-9">
-              <br></br>
-              <br></br>
+        </div>
+        <div id="container" class="col-md-9">
+          <br></br>
+          <br></br>
 
 
-              <div>
+          <div>
 
-                {this.state.display}
-              </div>
-              <br></br>
+            {this.state.display}
+          </div>
+          <br></br>
 
-            </div>
+        </div>
 
-            <div class="col-md-1"></div>
-            </div>
+        <div class="col-md-1"></div>
+      </div>
 
-          );
-      
-        }
-      }
+    );
+
+  }
+}

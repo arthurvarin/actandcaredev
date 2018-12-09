@@ -1,1 +1,78 @@
-[{"id":1,"code":"01","name":"Guadeloupe","slug":"guadeloupe"},{"id":2,"code":"02","name":"Martinique","slug":"martinique"},{"id":3,"code":"03","name":"Guyane","slug":"guyane"},{"id":4,"code":"04","name":"La R\u00e9union","slug":"la reunion"},{"id":5,"code":"06","name":"Mayotte","slug":"mayotte"},{"id":6,"code":"11","name":"\u00cele-de-France","slug":"ile de france"},{"id":7,"code":"24","name":"Centre-Val de Loire","slug":"centre val de loire"},{"id":8,"code":"27","name":"Bourgogne-Franche-Comt\u00e9","slug":"bourgogne franche comte"},{"id":9,"code":"28","name":"Normandie","slug":"normandie"},{"id":10,"code":"32","name":"Hauts-de-France","slug":"hauts de france"},{"id":11,"code":"44","name":"Grand Est","slug":"grand est"},{"id":12,"code":"52","name":"Pays de la Loire","slug":"pays de la loire"},{"id":13,"code":"53","name":"Bretagne","slug":"bretagne"},{"id":14,"code":"75","name":"Nouvelle-Aquitaine","slug":"nouvelle aquitaine"},{"id":15,"code":"76","name":"Occitanie","slug":"occitanie"},{"id":16,"code":"84","name":"Auvergne-Rh\u00f4ne-Alpes","slug":"auvergne rhone alpes"},{"id":17,"code":"93","name":"Provence-Alpes-C\u00f4te d'Azur","slug":"provence alpes cote dazur"},{"id":18,"code":"94","name":"Corse","slug":"corse"},{"id":19,"code":"COM","name":"Collectivit\u00e9s d'Outre-Mer","slug":"collectivites doutre mer"}]
+[
+  {
+    "nom": "Choisir une région",
+    "code":"000000000000"
+  },
+  {
+    "nom": "Guadeloupe",
+    "code": "01"
+  },
+  {
+    "nom": "Martinique",
+    "code": "02"
+  },
+  {
+    "nom": "Guyane",
+    "code": "03"
+  },
+  {
+    "nom": "La Réunion",
+    "code": "04"
+  },
+  {
+    "nom": "Mayotte",
+    "code": "06"
+  },
+  {
+    "nom": "Île-de-France",
+    "code": "11"
+  },
+  {
+    "nom": "Centre-Val de Loire",
+    "code": "24"
+  },
+  {
+    "nom": "Bourgogne-Franche-Comté",
+    "code": "27"
+  },
+  {
+    "nom": "Normandie",
+    "code": "28"
+  },
+  {
+    "nom": "Hauts-de-France",
+    "code": "32"
+  },
+  {
+    "nom": "Grand Est",
+    "code": "44"
+  },
+  {
+    "nom": "Pays de la Loire",
+    "code": "52"
+  },
+  {
+    "nom": "Bretagne",
+    "code": "53"
+  },
+  {
+    "nom": "Nouvelle-Aquitaine",
+    "code": "75"
+  },
+  {
+    "nom": "Occitanie",
+    "code": "76"
+  },
+  {
+    "nom": "Auvergne-Rhône-Alpes",
+    "code": "84"
+  },
+  {
+    "nom": "Provence-Alpes-Côte d'Azur",
+    "code": "93"
+  },
+  {
+    "nom": "Corse",
+    "code": "94"
+  }
+]
