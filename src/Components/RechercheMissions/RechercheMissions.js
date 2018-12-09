@@ -405,8 +405,18 @@ export default class RechercheMissions extends Component {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
       .then(result => result.json())
       .then(villeVilles => {
-        let region_selected = [villeVilles[0].region.nom]
-        let ville_selected = [villeVilles[0].nom]
+        let region_selected 
+        let ville_selected
+        console.log(villeVilles)
+        if (villeVilles !== undefined) {
+          region_selected = villeVilles[0].region.nom
+          ville_selected = villeVilles[0].nom
+        }
+        else{
+          region_selected=""
+          ville_selected =""
+        }
+       
         this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected })
       });
   }
