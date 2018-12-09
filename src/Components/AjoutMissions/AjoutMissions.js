@@ -182,44 +182,45 @@ export default class AjoutMissions extends React.Component {
       region = "";
 
 
-    this.setState({ nomission: "M" + tmpserialnumber + endserialnumber + extra })
+    this.setState({nomission:"M" + tmpserialnumber + endserialnumber + extra})
+    this.state.nomission =  "M" + tmpserialnumber + endserialnumber + extra ;
 
-    if (extra === "") {
-      firebase.database().ref('missions/' + this.state.nomission).set(
-        {
-          nomission: this.state.nomission,
-          ville: this.state.ville_selected,
-          nomdusite: nomdusite,
-          typedetablissement: typedetablissement,
-          region: this.state.region_selected,
-          specialite: specialite,
-          type: type,
-          datededebut: datededebut,
-          datedefin: datededebut,
-          heurededebut: this.state.heurededebut,
-          heuredefin: this.state.heuredefin,
-          remuneration: this.state.remuneration,
-          commentaires: this.state.commentaires,
-          statut: "Recherche en cours"
-        });
-    } else {
-      firebase.database().ref('missions/' + this.state.nomission).set(
-        {
-          nomission: this.state.nomission,
-          ville: this.state.ville,
-          nomdusite: nomdusite,
-          typedetablissement: typedetablissement,
-          region: region,
-          specialite: specialite,
-          type: type,
-          datededebut: datededebut,
-          datedefin: this.state.datedefin,
-          heurededebut: this.state.heurededebut,
-          heuredefin: this.state.heuredefin,
-          remuneration: this.state.remuneration,
-          commentaires: this.state.commentaires,
-          statut: "Recherche en cours"
-        });
+    if(extra == ""){
+      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+      {
+        nomission: this.state.nomission,
+        ville: this.state.ville_selected,
+        nomdusite: nomdusite,
+        typedetablissement: typedetablissement,
+        region: region_selected,
+        specialite: specialite,
+        type: type,
+        datededebut: datededebut,
+        datedefin: datededebut,
+        heurededebut: this.state.heurededebut,
+        heuredefin: this.state.heuredefin,
+        remuneration: this.state.remuneration,
+        commentaires: this.state.commentaires,
+        statut: "Recherche en cours"
+      });
+    }else{
+      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+      {
+        nomission: this.state.nomission,
+        ville: this.state.ville,
+        nomdusite: nomdusite,
+        typedetablissement: typedetablissement,
+        region: region,
+        specialite: specialite,
+        type: type,
+        datededebut: datededebut,
+        datedefin: this.state.datedefin,
+        heurededebut: this.state.heurededebut,
+        heuredefin: this.state.heuredefin,
+        remuneration: this.state.remuneration,
+        commentaires: this.state.commentaires,
+        statut: "Recherche en cours"
+      });
     }
 
     this.setState({
@@ -239,7 +240,7 @@ export default class AjoutMissions extends React.Component {
   }
 
   getDates(date1, date2) {
-    let returnarray = [];
+    let returnarray= new Array();
     let currentDate = date1;
     while (currentDate.valueOf() <= date2.valueOf()) {
       returnarray.push(new Date(currentDate));
