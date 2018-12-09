@@ -342,7 +342,7 @@ export default class AjoutMissions extends React.Component {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
       .then(result => result.json())
       .then(villeVilles => {
-        let region_selected 
+        let region_selected
         let ville_selected
         console.log(villeVilles)
         if (villeVilles !== undefined) {
@@ -353,7 +353,7 @@ export default class AjoutMissions extends React.Component {
           region_selected=""
           ville_selected =""
         }
-       
+
         this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected })
       });
   }
@@ -478,7 +478,7 @@ export default class AjoutMissions extends React.Component {
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label><b>Ville</b></label>
-                <input type="text" name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></input>
+                <input type="text" class="form-control" name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></input>
                 <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
                   {this.displayVilles()}
                 </select>
