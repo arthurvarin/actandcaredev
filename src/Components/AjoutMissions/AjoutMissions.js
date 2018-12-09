@@ -55,12 +55,12 @@ export default class AjoutMissions extends React.Component {
     //// Ville & région
 
     this.displayVilles = this.displayVilles.bind(this)
-    this.displayRegions=this.displayRegions.bind(this)
+    this.displayRegions = this.displayRegions.bind(this)
     this.handleChangeRegion = this.handleChangeRegion.bind(this)
-    this.handleChangeVille=this.handleChangeVille.bind(this)
+    this.handleChangeVille = this.handleChangeVille.bind(this)
     this.filterVilles = this.filterVilles.bind(this)
-    this.handleVilleSelection=this.handleVilleSelection.bind(this)
-   
+    this.handleVilleSelection = this.handleVilleSelection.bind(this)
+
   }
 
 
@@ -182,45 +182,45 @@ export default class AjoutMissions extends React.Component {
       region = "";
 
 
-    this.setState({nomission:"M" + tmpserialnumber + endserialnumber + extra})
-    this.state.nomission =  "M" + tmpserialnumber + endserialnumber + extra ;
+    this.setState({ nomission: "M" + tmpserialnumber + endserialnumber + extra })
+    this.state.nomission = "M" + tmpserialnumber + endserialnumber + extra;
 
-    if(extra == ""){
+    if (extra == "") {
       const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
-      {
-        nomission: this.state.nomission,
-        ville: this.state.ville_selected,
-        nomdusite: nomdusite,
-        typedetablissement: typedetablissement,
-        region: region_selected,
-        specialite: specialite,
-        type: type,
-        datededebut: datededebut,
-        datedefin: datededebut,
-        heurededebut: this.state.heurededebut,
-        heuredefin: this.state.heuredefin,
-        remuneration: this.state.remuneration,
-        commentaires: this.state.commentaires,
-        statut: "Recherche en cours"
-      });
-    }else{
+        {
+          nomission: this.state.nomission,
+          ville: this.state.ville_selected,
+          nomdusite: nomdusite,
+          typedetablissement: typedetablissement,
+          region: this.state.region_selected,
+          specialite: specialite,
+          type: type,
+          datededebut: datededebut,
+          datedefin: datededebut,
+          heurededebut: this.state.heurededebut,
+          heuredefin: this.state.heuredefin,
+          remuneration: this.state.remuneration,
+          commentaires: this.state.commentaires,
+          statut: "Recherche en cours"
+        });
+    } else {
       const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
-      {
-        nomission: this.state.nomission,
-        ville: this.state.ville,
-        nomdusite: nomdusite,
-        typedetablissement: typedetablissement,
-        region: region,
-        specialite: specialite,
-        type: type,
-        datededebut: datededebut,
-        datedefin: this.state.datedefin,
-        heurededebut: this.state.heurededebut,
-        heuredefin: this.state.heuredefin,
-        remuneration: this.state.remuneration,
-        commentaires: this.state.commentaires,
-        statut: "Recherche en cours"
-      });
+        {
+          nomission: this.state.nomission,
+          ville: this.state.ville_selected,
+          nomdusite: nomdusite,
+          typedetablissement: typedetablissement,
+          region: this.state.region_selected,
+          specialite: specialite,
+          type: type,
+          datededebut: datededebut,
+          datedefin: this.state.datedefin,
+          heurededebut: this.state.heurededebut,
+          heuredefin: this.state.heuredefin,
+          remuneration: this.state.remuneration,
+          commentaires: this.state.commentaires,
+          statut: "Recherche en cours"
+        });
     }
 
     this.setState({
@@ -240,7 +240,7 @@ export default class AjoutMissions extends React.Component {
   }
 
   getDates(date1, date2) {
-    let returnarray= new Array();
+    let returnarray = new Array();
     let currentDate = date1;
     while (currentDate.valueOf() <= date2.valueOf()) {
       returnarray.push(new Date(currentDate));
@@ -317,20 +317,20 @@ export default class AjoutMissions extends React.Component {
     var optionElement = event.target.childNodes[index]
     var region_code = optionElement.getAttribute('code');
 
-    this.setState({ region_code, region_selected:event.target.value }, () => {
+    this.setState({ region_code, region_selected: event.target.value }, () => {
       this.loadCities()
     })
   }
   handleChangeVille(event) {
     //if(event.target.value="")this.setState({   filteredVilles: [{ "nom": "Choisir une ville", "region":{"nom":""}}],})
-    this.setState({ville_nom:event.target.value}, () => {
+    this.setState({ ville_nom: event.target.value }, () => {
       this.loadCities_2(event)
     })
   }
-  handleVilleSelection(event){
+  handleVilleSelection(event) {
     this.setState({
-      region_selected:[this.state.filteredVilles[event.target.selectedIndex].region.nom],
-      ville_selected:event.target.value
+      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
+      ville_selected: event.target.value
     })
   }
   loadCities() {
@@ -342,12 +342,22 @@ export default class AjoutMissions extends React.Component {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
       .then(result => result.json())
       .then(villeVilles => {
-        let region_selected=[villeVilles[0].region.nom]
-        let ville_selected=[villeVilles[0].nom]
-        this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected})
+        let region_selected 
+        let ville_selected
+        console.log(villeVilles)
+        if (villeVilles !== undefined) {
+          region_selected = villeVilles[0].region.nom
+          ville_selected = villeVilles[0].nom
+        }
+        else{
+          region_selected=""
+          ville_selected =""
+        }
+       
+        this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected })
       });
   }
-  
+
   // N'est pris en compte qu'avec la boucle choix région puis choix ville:
   filterVilles(event) {
     let filteredVilles = this.state.regionVilles;
@@ -357,7 +367,7 @@ export default class AjoutMissions extends React.Component {
       }
     );
     //let  filteredRegions=[{ "nom": "....", "code":"" }]
-    this.setState({ filteredVilles})
+    this.setState({ filteredVilles })
   }
 
 
@@ -388,9 +398,6 @@ export default class AjoutMissions extends React.Component {
       )
 
     })
-
-
-
 
 
 
