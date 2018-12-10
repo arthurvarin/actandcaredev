@@ -237,15 +237,18 @@ export default class RechercheMissions extends Component {
     firebase.database().ref('missions/' + event.target.name).update({ statut: event.target.value })
 
   }
+  
 
   updateDisplay() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
+    
       <tr>
         <th>{mission.nomission}</th>
         <th><select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
           {this.state.listestatut.map(listestatut => { return (<option >{listestatut}</option>) })}
         </select></th>
         <th>{mission.specialite}</th>
+        <th>{Date.parse((mission.datededebut)).toLocaleDateString('fr-FR')}</th>
         <th>{mission.datededebut}</th>
         <th>{mission.region}</th>
         <th>{mission.nomdusite}</th>
