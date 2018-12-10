@@ -13,6 +13,7 @@ import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listestatut from '../../Jasons/listestatut.json'
 import listeregions1 from '../../Jasons/regions.json'
+var dateFormat = require('dateformat');
 
 
 export default class RechercheMissions extends Component {
@@ -54,13 +55,14 @@ export default class RechercheMissions extends Component {
     this.deleteFilter = this.deleteFilter.bind(this)
     this.handleChangeStatusTab = this.handleChangeStatusTab.bind(this)
 
-    //Gestion des villes 
+    //Gestion des villes
     this.displayVilles = this.displayVilles.bind(this)
     this.displayRegions=this.displayRegions.bind(this)
     this.handleChangeRegion = this.handleChangeRegion.bind(this)
     this.handleChangeVille=this.handleChangeVille.bind(this)
     this.filterVilles = this.filterVilles.bind(this)
     this.handleVilleSelection=this.handleVilleSelection.bind(this)
+    this.extraireDateFrancais = this.extraireDateFrancais.bind(this)
 
   }
 
@@ -178,8 +180,6 @@ export default class RechercheMissions extends Component {
       else if (i === (sortkeys.length - 1))
         filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
 
-     
-
       else filteredmissions.sort((a, b) => a[sortkeys[i]].localeCompare(b[sortkeys[i]]))
     }
     if (sortkeys.length === 0) {
@@ -231,6 +231,55 @@ export default class RechercheMissions extends Component {
     this.setState({ filtersdisplay: filtersdisplay });
   }
 
+  extraireDateFrancais(date){
+
+    let jour = dateFormat(date, "dddd").toString();
+    let mois = dateFormat(date, "mmmm").toString();
+    let numero = dateFormat(date, "dd").toString();
+
+    if(jour === "Monday")
+      jour = "Lundi";
+    if(jour === "Tuesday")
+      jour = "Mardi";
+    if(jour === "Wednesday")
+      jour = "Mercredi";
+    if(jour === "Thursday")
+      jour = "Jeudi";
+    if(jour === "Friday")
+      jour = "Vendredi";
+    if(jour === "Saturday")
+      jour = "Samedi";
+    if(jour === "Sunday")
+      jour = "Dimanche";
+
+    if(mois === "January")
+      mois = "Janvier";
+    if(mois === "February")
+      mois = "Février";
+    if(mois === "March")
+      mois = "Mars";
+    if(mois === "April")
+      mois = "Avril";
+    if(mois === "May")
+      mois = "Mai";
+    if(mois === "June")
+      mois = "Juin";
+    if(mois === "July")
+      mois = "Juillet";
+    if(mois === "August")
+      mois = "Aout";
+    if(mois === "September")
+      mois = "Septembre";
+    if(mois === "October")
+      mois = "Octobre";
+    if(mois === "November")
+      mois = "Novembre";
+    if(mois === "December")
+      mois = "Décembre";
+
+    return  jour + " " + numero + " " + mois;
+
+  }
 
   handleChangeStatusTab(event) {
 
@@ -248,8 +297,7 @@ export default class RechercheMissions extends Component {
           {this.state.listestatut.map(listestatut => { return (<option >{listestatut}</option>) })}
         </select></th>
         <th>{mission.specialite}</th>
-        <th>{Date.parse((mission.datededebut)).toLocaleDateString('fr-FR')}</th>
-        <th>{mission.datededebut}</th>
+        <th>{this.extraireDateFrancais(mission.datededebut)}</th>
         <th>{mission.region}</th>
         <th>{mission.nomdusite}</th>
         <th>{mission.ville}</th>
@@ -369,7 +417,7 @@ export default class RechercheMissions extends Component {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  //Gestion ville région 
+  //Gestion ville région
   displayVilles() {
     return this.state.filteredVilles.map((ville) =>
       <option>{ville.nom}</option>
@@ -410,7 +458,7 @@ export default class RechercheMissions extends Component {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
       .then(result => result.json())
       .then(villeVilles => {
-        let region_selected 
+        let region_selected
         let ville_selected
         console.log(villeVilles)
         if (villeVilles !== undefined) {
@@ -421,7 +469,7 @@ export default class RechercheMissions extends Component {
           region_selected=""
           ville_selected =""
         }
-       
+
         this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected })
       });
   }
