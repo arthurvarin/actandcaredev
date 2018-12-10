@@ -173,14 +173,14 @@ export default class RechercheMissions extends Component {
 
     for (let i = 0; i < sortkeys.length; i++) {
 
+      if (i === (sortkeys.length - 1))
+        filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
+
       if (sortkeys[i] === 'remuneration') {
         filteredmissions.sort((a, b) => parseInt(a[sortkeys[i]]) - parseInt(b[sortkeys[i]]))
       }
-
-      else if (i === (sortkeys.length - 1))
-        filteredmissions.sort((a, b) => a['datedefin'].localeCompare(b['datedefin']))
-
-      else filteredmissions.sort((a, b) => a[sortkeys[i]].localeCompare(b[sortkeys[i]]))
+      else
+        filteredmissions.sort((a, b) => a[sortkeys[i]].localeCompare(b[sortkeys[i]]))
     }
     if (sortkeys.length === 0) {
       filteredmissions.sort((a, b) => a['nomdusite'].localeCompare(b['nomdusite']))
