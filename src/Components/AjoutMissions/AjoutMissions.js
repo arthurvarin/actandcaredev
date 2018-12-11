@@ -15,6 +15,8 @@ export default class AjoutMissions extends React.Component {
       nomission: Math.floor((Math.random() * 1000)),
       nomdusite: "",
       ville: "",
+      ville_selected:"",
+      region_selected:"",
       typedetablissement: "",
       region: "",
       specialite: "",
@@ -162,12 +164,14 @@ export default class AjoutMissions extends React.Component {
   }
 
   ajouterMission(datededebut, tmpserialnumber, endserialnumber, extra) {
-
     let typedetablissement = this.state.typedetablissement;
     let type = this.state.type;
-    let region = this.state.region;
+    let ville = this.state.ville_selected;
+    let region = this.state.region_selected;
     let specialite = this.state.specialite;
     let nomdusite = this.state.nomdusite;
+    console.log(region)
+    console.log(ville)
 
     if (typedetablissement === "Veuillez selectionner un type d'établissement")
       typedetablissement = "";
@@ -189,10 +193,10 @@ export default class AjoutMissions extends React.Component {
       const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
         {
           nomission: this.state.nomission,
-          ville: this.state.ville_selected,
+          ville: ville,
           nomdusite: nomdusite,
           typedetablissement: typedetablissement,
-          region: this.state.region_selected,
+          region: region,
           specialite: specialite,
           type: type,
           datededebut: datededebut,
@@ -207,10 +211,10 @@ export default class AjoutMissions extends React.Component {
       const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
         {
           nomission: this.state.nomission,
-          ville: this.state.ville_selected,
+          ville: ville,
           nomdusite: nomdusite,
           typedetablissement: typedetablissement,
-          region: this.state.region_selected,
+          region: region,
           specialite: specialite,
           type: type,
           datededebut: datededebut,

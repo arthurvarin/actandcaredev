@@ -576,7 +576,8 @@ export default class RechercheMissions extends Component {
                       </div>
                     </div>
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-                    <div class="form-group col-md-6 ">
+                   
+                    {/* <div class="form-group col-md-6 ">
                       <label><b>Ville</b></label>
                       <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
                     </div>
@@ -587,7 +588,7 @@ export default class RechercheMissions extends Component {
                             {this.displayRegions()}
                           </select>
                         </div>
-                      </div>
+                      </div> */}
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
