@@ -350,7 +350,7 @@ export default class AjoutMissions extends React.Component {
         let region_selected
         let ville_selected
         console.log(villeVilles)
-        if (villeVilles !== undefined) {
+        if (villeVilles[0] !== undefined) {
           region_selected = villeVilles[0].region.nom
           ville_selected = villeVilles[0].nom
         }
