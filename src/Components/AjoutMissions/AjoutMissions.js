@@ -71,8 +71,8 @@ export default class AjoutMissions extends React.Component {
 
       let toreturn = "";
 
-      if (this.state.ville !== undefined && this.state.ville !== "" && this.state.typedetablissement !== undefined && this.state.typedetablissement !== "") {
-        toreturn = "" + this.state.typedetablissement + " de " + this.state.ville;
+      if (this.state.ville_selected !== undefined && this.state.ville_selected !== "" && this.state.typedetablissement !== undefined && this.state.typedetablissement !== "") {
+        toreturn = "" + this.state.typedetablissement + " de " + this.state.ville_selected;
       }
 
       this.setState({ nomdusite: toreturn });
@@ -336,6 +336,7 @@ export default class AjoutMissions extends React.Component {
       region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
       ville_selected: event.target.value
     })
+    this.getnomdusite()
   }
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)

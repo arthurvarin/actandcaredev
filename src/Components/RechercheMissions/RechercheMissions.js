@@ -236,6 +236,7 @@ export default class RechercheMissions extends Component {
     let jour = dateFormat(date, "dddd").toString();
     let mois = dateFormat(date, "mmmm").toString();
     let numero = dateFormat(date, "dd").toString();
+    let annee = dateFormat(date, "yyyy").toString();
 
     if(jour === "Monday")
       jour = "Lundi";
@@ -277,7 +278,7 @@ export default class RechercheMissions extends Component {
     if(mois === "December")
       mois = "Décembre";
 
-    return  jour + " " + numero + " " + mois;
+    return  jour + " " + numero + " " + mois + " " + annee;
 
   }
 
@@ -286,11 +287,11 @@ export default class RechercheMissions extends Component {
     firebase.database().ref('missions/' + event.target.name).update({ statut: event.target.value })
 
   }
-  
+
 
   updateDisplay() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
-    
+
       <tr>
         <th>{mission.nomission}</th>
         <th><select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
@@ -378,9 +379,9 @@ export default class RechercheMissions extends Component {
       tmpfiltervalues.push(this.state.type);
     }
 
-    if (this.state.ville_selected !== "" && this.state.ville_selected !== undefined) {
+    if (this.state.ville !== "" && this.state.ville !== undefined) {
       tmpfilternames.push("ville");
-      tmpfiltervalues.push(this.state.ville_selected);
+      tmpfiltervalues.push(this.state.ville);
     }
 
     if (this.state.nomdusite !== "" && this.state.nomdusite !== undefined) {
@@ -559,24 +560,21 @@ export default class RechercheMissions extends Component {
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
                     {/* Gestion ville region */}
-                    {/* <div class="form-row">
+                    <div class="form-row">
                       <div class="form-group col-md-6">
                         <label><b>Ville</b></label>
-                        <Input name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></Input>
-                        <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
-                          {this.displayVilles()}
-                        </select>
+                        <Input name="ville" value={this.state.ville} onChange={this.handleChange}></Input>
                       </div>
                       <div class="form-group col-md-6 ">
                         <label><b>Région</b></label>
-                        <select type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
+                        <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
                           {this.displayRegions()}
                         </select>
                       </div>
-                    </div> */}
+                    </div>
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-                   
-                    <div class="form-group col-md-6 ">
+
+                    {/* <div class="form-group col-md-6 ">
                       <label><b>Ville</b></label>
                       <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
                     </div>
@@ -587,7 +585,7 @@ export default class RechercheMissions extends Component {
                             {this.displayRegions()}
                           </select>
                         </div>
-                      </div>
+                      </div> */}
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
