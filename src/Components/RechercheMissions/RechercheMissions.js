@@ -57,11 +57,11 @@ export default class RechercheMissions extends Component {
 
     //Gestion des villes
     this.displayVilles = this.displayVilles.bind(this)
-    this.displayRegions=this.displayRegions.bind(this)
+    this.displayRegions = this.displayRegions.bind(this)
     this.handleChangeRegion = this.handleChangeRegion.bind(this)
-    this.handleChangeVille=this.handleChangeVille.bind(this)
+    this.handleChangeVille = this.handleChangeVille.bind(this)
     this.filterVilles = this.filterVilles.bind(this)
-    this.handleVilleSelection=this.handleVilleSelection.bind(this)
+    this.handleVilleSelection = this.handleVilleSelection.bind(this)
     this.extraireDateFrancais = this.extraireDateFrancais.bind(this)
 
   }
@@ -231,54 +231,54 @@ export default class RechercheMissions extends Component {
     this.setState({ filtersdisplay: filtersdisplay });
   }
 
-  extraireDateFrancais(date){
+  extraireDateFrancais(date) {
 
     let jour = dateFormat(date, "dddd").toString();
     let mois = dateFormat(date, "mmmm").toString();
     let numero = dateFormat(date, "dd").toString();
     let annee = dateFormat(date, "yyyy").toString();
 
-    if(jour === "Monday")
+    if (jour === "Monday")
       jour = "Lundi";
-    if(jour === "Tuesday")
+    if (jour === "Tuesday")
       jour = "Mardi";
-    if(jour === "Wednesday")
+    if (jour === "Wednesday")
       jour = "Mercredi";
-    if(jour === "Thursday")
+    if (jour === "Thursday")
       jour = "Jeudi";
-    if(jour === "Friday")
+    if (jour === "Friday")
       jour = "Vendredi";
-    if(jour === "Saturday")
+    if (jour === "Saturday")
       jour = "Samedi";
-    if(jour === "Sunday")
+    if (jour === "Sunday")
       jour = "Dimanche";
 
-    if(mois === "January")
+    if (mois === "January")
       mois = "Janvier";
-    if(mois === "February")
+    if (mois === "February")
       mois = "Février";
-    if(mois === "March")
+    if (mois === "March")
       mois = "Mars";
-    if(mois === "April")
+    if (mois === "April")
       mois = "Avril";
-    if(mois === "May")
+    if (mois === "May")
       mois = "Mai";
-    if(mois === "June")
+    if (mois === "June")
       mois = "Juin";
-    if(mois === "July")
+    if (mois === "July")
       mois = "Juillet";
-    if(mois === "August")
+    if (mois === "August")
       mois = "Aout";
-    if(mois === "September")
+    if (mois === "September")
       mois = "Septembre";
-    if(mois === "October")
+    if (mois === "October")
       mois = "Octobre";
-    if(mois === "November")
+    if (mois === "November")
       mois = "Novembre";
-    if(mois === "December")
+    if (mois === "December")
       mois = "Décembre";
 
-    return  jour + " " + numero + " " + mois + " " + annee;
+    return jour + " " + numero + " " + mois + " " + annee;
 
   }
 
@@ -462,13 +462,13 @@ export default class RechercheMissions extends Component {
         let region_selected
         let ville_selected
         console.log(villeVilles)
-        if (villeVilles !== undefined) {
+        if (villeVilles[0] !== undefined) {
           region_selected = villeVilles[0].region.nom
           ville_selected = villeVilles[0].nom
         }
-        else{
-          region_selected=""
-          ville_selected =""
+        else {
+          region_selected = ""
+          ville_selected = ""
         }
 
         this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected })
@@ -560,32 +560,35 @@ export default class RechercheMissions extends Component {
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
                     {/* Gestion ville region */}
-                    <div class="form-row">
+                        <div class="form-row">
                       <div class="form-group col-md-6">
                         <label><b>Ville</b></label>
-                        <Input name="ville" value={this.state.ville} onChange={this.handleChange}></Input>
+                        <Input name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></Input>
+                        <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
+                          {this.displayVilles()}
+                        </select>
                       </div>
                       <div class="form-group col-md-6 ">
                         <label><b>Région</b></label>
-                        <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
+                        <select type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
                           {this.displayRegions()}
                         </select>
                       </div>
                     </div>
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-                   
+
                     {/* <div class="form-group col-md-6 ">
                       <label><b>Ville</b></label>
                       <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label><b>Région</b></label>
-                          <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
-                            {this.displayRegions()}
-                          </select>
-                        </div>
-                      </div> */}
+                      <div class="form-group col-md-6">
+                        <label><b>Région</b></label>
+                        <select type="text" class="form-control" name="region" value={this.state.region} onChange={this.handleChange}  >
+                          {this.displayRegions()}
+                        </select>
+                      </div>
+                    </div> */}
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
