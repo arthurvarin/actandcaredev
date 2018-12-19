@@ -293,17 +293,14 @@ export default class RechercheMissions extends Component {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
       <tr>
-        <th>{mission.nomission}</th>
         <th><select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
           {this.state.listestatut.map(listestatut => { return (<option >{listestatut}</option>) })}
         </select></th>
         <th>{mission.specialite}</th>
         <th>{this.extraireDateFrancais(mission.datededebut)}</th>
-        <th>{mission.region}</th>
-        <th>{mission.nomdusite}</th>
         <th>{mission.ville}</th>
-        <th>{mission.typedetablissement}</th>
         <th>{mission.type}</th>
+        <th>{mission.typedetablissement}</th>
         <th>{mission.remuneration}</th>
       </tr>
     );
@@ -313,15 +310,12 @@ export default class RechercheMissions extends Component {
 
 
 
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'nomission')} > N° de mission </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'region')} > Région </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'nomdusite')} > Nom du site </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'établissement </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
         </tr>
         {listItem}
