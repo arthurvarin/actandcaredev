@@ -137,8 +137,7 @@ export default class RechercheMissions extends Component {
             if (child.val()[this.state.filternames[i]] === this.state.filtervalues[i])
               countmultiples = countmultiples + 1;
 
-            countmultiplesref = countmultiplesref + 1;
-
+          countmultiplesref = countmultiplesref + 1;
           }
 
           if (this.state.filternames[i] === "remunerationmin")
@@ -161,7 +160,7 @@ export default class RechercheMissions extends Component {
         if (count === 0)
           if (countmultiplesref === 0)
             filteredmissions.push(child.val());
-          else if (countmultiples > 0)
+          else if  (countmultiples === countmultiplesref)
             filteredmissions.push(child.val());
 
 
@@ -345,9 +344,12 @@ export default class RechercheMissions extends Component {
     this.setState({
       filternames: [],
       filtervalues: [],
+      filteredVilles: [],
       nomdusite: "",
       ville: "",
       region: "",
+      region_selected: "",
+      ville_selected: "",
       statut: "",
       remunerationmin: "",
       remunerationmax: "",
@@ -362,13 +364,16 @@ export default class RechercheMissions extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    let tmpfilternames = this.state.filternames;
-    let tmpfiltervalues = this.state.filtervalues;
+    let tmpfilternames = [];
+    let tmpfiltervalues = [];
 
+<<<<<<< HEAD
     console.log("this.state.ville" + this.state.ville)
     console.log("this.state.ville_selected" + this.state.ville_selected)
     console.log("this.state.region" + this.state.region)
     console.log("this.state.region_selected" + this.state.region_selected)
+=======
+>>>>>>> f7c784b5dbea6b5978179b367ab312a572db3ee5
 
     if (this.state.region_selected !== "" && this.state.region_selected !== "Veuillez selectionner une région" && this.state.region_selected !== undefined) {
       tmpfilternames.push("region");
