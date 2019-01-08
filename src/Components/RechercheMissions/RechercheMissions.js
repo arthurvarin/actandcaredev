@@ -22,8 +22,8 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
-      filternames: [],
-      filtervalues: [],
+      filternames: ["statut"],
+      filtervalues: ["Recherche en cours"],
       sortkeys: [],
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
@@ -347,10 +347,14 @@ export default class RechercheMissions extends Component {
     let tmpfilternames = this.state.filternames;
     let tmpfiltervalues = this.state.filtervalues;
 
+    console.log("this.state.ville"+ this.state.ville)
+    console.log("this.state.ville_selected"+ this.state.ville_selected)
+    console.log("this.state.region"+ this.state.region)
+    console.log("this.state.region_selected"+ this.state.region_selected)
 
-    if (this.state.region !== "" && this.state.region !== "Veuillez selectionner une région" && this.state.region !== undefined) {
+    if (this.state.region_selected !== "" && this.state.region_selected !== "Veuillez selectionner une région" && this.state.region_selected !== undefined) {
       tmpfilternames.push("region");
-      tmpfiltervalues.push(this.state.region);
+      tmpfiltervalues.push(this.state.region_selected);
     }
 
     if (this.state.specialite !== "" && this.state.specialite !== "Veuillez selectionner une spécialité" && this.state.specialite !== undefined) {
@@ -373,9 +377,9 @@ export default class RechercheMissions extends Component {
       tmpfiltervalues.push(this.state.type);
     }
 
-    if (this.state.ville !== "" && this.state.ville !== undefined) {
+    if (this.state.ville_selected !== "" && this.state.ville_selected !== undefined) {
       tmpfilternames.push("ville");
-      tmpfiltervalues.push(this.state.ville);
+      tmpfiltervalues.push(this.state.ville_selected);
     }
 
     if (this.state.nomdusite !== "" && this.state.nomdusite !== undefined) {
