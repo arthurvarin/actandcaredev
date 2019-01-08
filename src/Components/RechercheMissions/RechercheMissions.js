@@ -287,15 +287,36 @@ export default class RechercheMissions extends Component {
     firebase.database().ref('missions/' + event.target.name).update({ statut: event.target.value })
 
   }
+  options_mission_listestatut_color(mission) {
+    let optionslistestatut = this.optionslistestatut();
+    //return this.optionslistestatut()
 
+    /* return (<select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
+    {this.optionslistestatut()}
+    </select>) */
+
+    if (mission.statut === "Recherche en cours") return (<select type="text" class="form-control alert-danger" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
+    {this.optionslistestatut()}
+    </select>)
+    else if (mission.statut === "Pourvu") return (<select type="text" class="form-control alert-success" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
+    {this.optionslistestatut()}
+    </select>)
+    else return (<select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
+    {this.optionslistestatut()}
+    </select>)
+
+  }
 
   updateDisplay() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
       <tr>
-        <th><select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
-          {this.state.listestatut.map(listestatut => { return (<option >{listestatut}</option>) })}
-        </select></th>
+        <th>
+          {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
+          {this.optionslistestatut()}
+        </select> */}
+        {this.options_mission_listestatut_color(mission)}
+        </th>
         <th>{mission.specialite}</th>
         <th>{this.extraireDateFrancais(mission.datededebut)}</th>
         <th>{mission.ville}</th>
@@ -307,9 +328,6 @@ export default class RechercheMissions extends Component {
     this.setState({
       display: <div class="table-responsive"><table class="table table-striped">
         <tr>
-
-
-
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
@@ -347,10 +365,10 @@ export default class RechercheMissions extends Component {
     let tmpfilternames = this.state.filternames;
     let tmpfiltervalues = this.state.filtervalues;
 
-    console.log("this.state.ville"+ this.state.ville)
-    console.log("this.state.ville_selected"+ this.state.ville_selected)
-    console.log("this.state.region"+ this.state.region)
-    console.log("this.state.region_selected"+ this.state.region_selected)
+    console.log("this.state.ville" + this.state.ville)
+    console.log("this.state.ville_selected" + this.state.ville_selected)
+    console.log("this.state.region" + this.state.region)
+    console.log("this.state.region_selected" + this.state.region_selected)
 
     if (this.state.region_selected !== "" && this.state.region_selected !== "Veuillez selectionner une région" && this.state.region_selected !== undefined) {
       tmpfilternames.push("region");
@@ -485,6 +503,37 @@ export default class RechercheMissions extends Component {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  optionslistestatut() {
+    return this.state.listestatut.map(listestatut => {
+      if (listestatut === "Recherche en cours") {
+        return (
+          <option class="alert-danger">{listestatut}</option>
+        )
+      } else if (listestatut === "Pourvu") {
+        return (
+          <option class="alert-success">{listestatut}</option >
+        )
+      }
+      else {
+        return (
+          <option>{listestatut}</option>
+        )
+      }
+    })
+  }
+  optionslistestatut_color() {
+    let optionslistestatut = this.optionslistestatut();
+    if (this.state.statut === "Recherche en cours") return (<select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+      {optionslistestatut}
+    </select>)
+    else if (this.state.statut === "Pourvu") return (<select type="text" class="form-control alert-success" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+      {optionslistestatut}
+    </select>)
+    else return (<select type="text" class="form-control" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+      {optionslistestatut}
+    </select>)
+
+  }
 
   render() {
 
@@ -507,14 +556,9 @@ export default class RechercheMissions extends Component {
         <option >{listetype}</option >
       )
     })
-    let optionslistestatut;
-    optionslistestatut = this.state.listestatut.map(listestatut => {
-      return (
-        <option >{listestatut}</option >
-      )
-    })
+    let optionslistestatut = this.optionslistestatut();
 
-
+    let optionslistestatut_color = this.optionslistestatut_color();
 
     return (
 
@@ -540,9 +584,12 @@ export default class RechercheMissions extends Component {
                   </div>
                   <div class="form-group">
                     <label><b>Statut</b></label>
-                    <select type="text" class="form-control" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+
+                    {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
                       {optionslistestatut}
-                    </select>
+                    </select> */}
+
+                    {optionslistestatut_color}
                   </div>
                   <label><b>Dates</b></label>
                   <div class="form-row">
@@ -558,7 +605,7 @@ export default class RechercheMissions extends Component {
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
                     {/* Gestion ville region */}
-                        <div class="form-row">
+                    <div class="form-row">
                       <div class="form-group col-md-6">
                         <label><b>Ville</b></label>
                         <Input name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></Input>
