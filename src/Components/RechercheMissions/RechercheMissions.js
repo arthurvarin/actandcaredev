@@ -367,13 +367,10 @@ export default class RechercheMissions extends Component {
     let tmpfilternames = [];
     let tmpfiltervalues = [];
 
-<<<<<<< HEAD
     console.log("this.state.ville" + this.state.ville)
     console.log("this.state.ville_selected" + this.state.ville_selected)
     console.log("this.state.region" + this.state.region)
     console.log("this.state.region_selected" + this.state.region_selected)
-=======
->>>>>>> f7c784b5dbea6b5978179b367ab312a572db3ee5
 
     if (this.state.region_selected !== "" && this.state.region_selected !== "Veuillez selectionner une région" && this.state.region_selected !== undefined) {
       tmpfilternames.push("region");
