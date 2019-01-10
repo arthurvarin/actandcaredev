@@ -8,12 +8,16 @@ import {
   Input,
 } from 'reactstrap';
 import moment from 'moment';
+import Modal from 'react-responsive-modal';
+import MissionPage from '../MissionPage/MissionPage.js'
 
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listestatut from '../../Jasons/listestatut.json'
 import listeregions1 from '../../Jasons/regions.json'
+import filternameslist from '../../Jasons/filternameslist.json'
+import filtervalueslist from '../../Jasons/filtervalueslist.json'
 var dateFormat = require('dateformat');
 
 
@@ -23,13 +27,16 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
-      filternames: ["statut"],
-      filtervalues: ["Recherche en cours"],
+      filternames: [],
+      filtervalues: [],
       sortkeys: [],
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
       listestatut: listestatut,
+      filternameslist: filternameslist,
+      filtervalueslist: filtervalueslist,
+      selectednomission:"",
       display: "",
       nomdusite: "",
       ville: "",
@@ -46,8 +53,10 @@ export default class RechercheMissions extends Component {
       filtersdisplay: "",
       coderegion: 0,
       filteredVilles: [{ "nom": "Choisir une ville" }],
-      filteredRegions: listeregions1
+      filteredRegions: listeregions1,
+      open: false,
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.updateFiltersDisplay = this.updateFiltersDisplay.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
@@ -55,6 +64,7 @@ export default class RechercheMissions extends Component {
     this.onSort = this.onSort.bind(this)
     this.deleteFilter = this.deleteFilter.bind(this)
     this.handleChangeStatusTab = this.handleChangeStatusTab.bind(this)
+    this.FiltersInit = this.FiltersInit.bind(this)
 
     //Gestion des villes
     this.displayVilles = this.displayVilles.bind(this)
@@ -67,9 +77,32 @@ export default class RechercheMissions extends Component {
 
   }
 
+  onOpenModal = (nomission) => {
+    this.setState({open: true, selectednomission: nomission });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false, selectednomission: ""  });
+  };
+
+  FiltersInit(){
+
+    let filternamestmp=[];
+    let filtervaluestmp=[];
+
+    let filtersnameslist = this.state.filternameslist.map(name => {
+      filternamestmp.push(name);
+    })
+    let filtersvalueslist = this.state.filtervalueslist.map(value => {
+      filtervaluestmp.push(value);
+    })
+
+    this.setState({filternames: filternamestmp, filtervalues: filtervaluestmp})
+
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
-
   }
 
   deleteFilter(i) {
@@ -82,6 +115,7 @@ export default class RechercheMissions extends Component {
   }
 
   componentDidMount() {
+    this.FiltersInit();
     this.timerID = setInterval(
       () => this.tick(),
       500
@@ -93,9 +127,11 @@ export default class RechercheMissions extends Component {
   }
 
   tick() {
+
     this.updateDisplay();
     this.updateFiltersDisplay();
     this.callFilters();
+
   }
 
   onSort(event, sortKey) {
@@ -121,7 +157,6 @@ export default class RechercheMissions extends Component {
 
 
   callFilters() {
-
     let filteredmissions = [];
     let sortkeys = this.state.sortkeys;
     const ref = firebase.database().ref('missions');
@@ -289,11 +324,6 @@ export default class RechercheMissions extends Component {
   }
   options_mission_listestatut_color(mission) {
     let optionslistestatut = this.optionslistestatut();
-    //return this.optionslistestatut()
-
-    /* return (<select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
-    {this.optionslistestatut()}
-    </select>) */
 
     if (mission.statut === "Recherche en cours") return (<select type="text" class="form-control alert-danger" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
     {this.optionslistestatut()}
@@ -313,7 +343,7 @@ export default class RechercheMissions extends Component {
 
       <tr>
         <th>
-        <Link to={`/missionpage/${mission.nomission}`} activeClassName="active"><span class="glyphicon">&#x270f;</span></Link>
+          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f;</button>
         </th>
         <th>
           {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
@@ -373,11 +403,6 @@ export default class RechercheMissions extends Component {
     let tmpfilternames = [];
     let tmpfiltervalues = [];
 
-    console.log("this.state.ville" + this.state.ville)
-    console.log("this.state.ville_selected" + this.state.ville_selected)
-    console.log("this.state.region" + this.state.region)
-    console.log("this.state.region_selected" + this.state.region_selected)
-
     if (this.state.region_selected !== "" && this.state.region_selected !== "Veuillez selectionner une région" && this.state.region_selected !== undefined) {
       tmpfilternames.push("region");
       tmpfiltervalues.push(this.state.region_selected);
@@ -435,6 +460,9 @@ export default class RechercheMissions extends Component {
     console.log(tmpfilternames.length)
     this.setState({ filternames: tmpfilternames });
     this.setState({ filtervalues: tmpfiltervalues });
+
+
+
 
 
   }
@@ -545,7 +573,7 @@ export default class RechercheMissions extends Component {
 
   render() {
 
-
+    const { open } = this.state;
     let optionslistetypedetablissement;
     optionslistetypedetablissement = this.state.listetypedetablissement.map(listetypedetablissement => {
       return (
@@ -571,7 +599,9 @@ export default class RechercheMissions extends Component {
     return (
 
       <div class="row" id="whole_page">
-
+      <Modal open={open} onClose={this.onCloseModal} center>
+        <MissionPage nomission={this.state.selectednomission}/>
+      </Modal>
         <div class="col-md-3">
           <br></br>
           <br></br>
@@ -609,6 +639,7 @@ export default class RechercheMissions extends Component {
                       <label>Date de fin</label>
                       <input type="date" class="form-control" name="datedefin" value={this.state.datedefin} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
                     </div>
+
 
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
