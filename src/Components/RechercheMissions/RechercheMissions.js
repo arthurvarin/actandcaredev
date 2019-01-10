@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import './RMissions.css'
 import * as firebase from 'firebase';
 import {
@@ -309,7 +310,11 @@ export default class RechercheMissions extends Component {
   updateDisplay() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
+
       <tr>
+        <th>
+        <Link to={`/missionpage/${mission.nomission}`} activeClassName="active"><span class="glyphicon">&#x270f;</span></Link>
+        </th>
         <th>
           {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
           {this.optionslistestatut()}
@@ -327,6 +332,7 @@ export default class RechercheMissions extends Component {
     this.setState({
       display: <div class="table-responsive"><table class="table table-striped">
         <tr>
+          <th scope="col" ></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
@@ -367,6 +373,13 @@ export default class RechercheMissions extends Component {
     let tmpfilternames = [];
     let tmpfiltervalues = [];
 
+<<<<<<< HEAD
+=======
+    console.log("this.state.ville" + this.state.ville)
+    console.log("this.state.ville_selected" + this.state.ville_selected)
+    console.log("this.state.region" + this.state.region)
+    console.log("this.state.region_selected" + this.state.region_selected)
+>>>>>>> 2e036f3a90c3fbfcf4be924e5b03db80aa6e98f7
 
     if (this.state.region_selected !== "" && this.state.region_selected !== "Veuillez selectionner une région" && this.state.region_selected !== undefined) {
       tmpfilternames.push("region");

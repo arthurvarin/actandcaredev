@@ -30,7 +30,6 @@ export default class Navbar extends React.Component {
               <li class="nav-item" >
                 <NavLink activeClassName = "nav-link active" className="nav-link" to="/recherchemissions">Rechercher des missions</NavLink>
               </li>
-
             </ul>
           </div>
           </div>

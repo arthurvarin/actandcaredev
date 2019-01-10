@@ -12,7 +12,7 @@ export default class AjoutMissions extends React.Component {
     super(props);
     this.state = {
       missioncount: "",
-      nomission: Math.floor((Math.random() * 1000)),
+      nomission: "",
       nomdusite: "",
       ville: "",
       ville_selected:"",
