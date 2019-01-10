@@ -170,8 +170,6 @@ export default class AjoutMissions extends React.Component {
     let region = this.state.region_selected;
     let specialite = this.state.specialite;
     let nomdusite = this.state.nomdusite;
-    console.log(region)
-    console.log(ville)
 
     if (typedetablissement === "Veuillez selectionner un type d'établissement")
       typedetablissement = "";
@@ -274,7 +272,10 @@ export default class AjoutMissions extends React.Component {
       let endserialnumber = this.getSerialNumber(tmpserialnumber);
 
       for (let i = 0; i < tabdates.length; i++) {
-        let stringdate = "" + tabdates[i].getFullYear() + "-" + (tabdates[i].getMonth() + 1) + "-" + tabdates[i].getDate();
+        let tmpmois = tabdates[i].getMonth()+1;
+        if ((tabdates[i].getMonth() +1) < 10)
+          tmpmois="0"+tmpmois
+        let stringdate = "" + tabdates[i].getFullYear() + "-" + (tmpmois) + "-" + tabdates[i].getDate();
         this.ajouterMission(stringdate, tmpserialnumber, endserialnumber, "-" + (i + 1));
       }
     }
