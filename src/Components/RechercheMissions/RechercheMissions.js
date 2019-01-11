@@ -65,6 +65,7 @@ export default class RechercheMissions extends Component {
     this.deleteFilter = this.deleteFilter.bind(this)
     this.handleChangeStatusTab = this.handleChangeStatusTab.bind(this)
     this.FiltersInit = this.FiltersInit.bind(this)
+    this.deleteMission = this.deleteMission.bind(this)
 
     //Gestion des villes
     this.displayVilles = this.displayVilles.bind(this)
@@ -84,6 +85,10 @@ export default class RechercheMissions extends Component {
   onCloseModal = () => {
     this.setState({ open: false, selectednomission: ""  });
   };
+
+  deleteMission(todeletenomission) {
+    firebase.database().ref('missions/' + todeletenomission).remove()
+  }
 
   FiltersInit(){
 
@@ -318,10 +323,10 @@ export default class RechercheMissions extends Component {
   }
 
   handleChangeStatusTab(event) {
-
     firebase.database().ref('missions/' + event.target.name).update({ statut: event.target.value })
-
   }
+
+
   options_mission_listestatut_color(mission) {
     let optionslistestatut = this.optionslistestatut();
 
@@ -344,6 +349,7 @@ export default class RechercheMissions extends Component {
       <tr>
         <th>
           <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f;</button>
+          <button onClick={() => this.deleteMission(mission.nomission)}>&#xe020;</button>
         </th>
         <th>
           {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
