@@ -6,6 +6,7 @@ import Signin from './Signin/Signin.js'
 import Signup from './Signup/Signup.js'
 import Test from './Test/Test.js'
 import MissionPage from './MissionPage/MissionPage.js'
+import UserCreated from './UserCreated/UserCreated.js';
 
 export default class Router extends React.Component {
   render() {
@@ -16,6 +17,7 @@ export default class Router extends React.Component {
           <Route path="/login" component={Signin}/>
           <Route path="/signup" component={Signup}/>
           <Route path="/test" component={Test}/>
+          <Route path="/usercreated" component={UserCreated}/>
           <Route path="/missionpage/:nomission" component={MissionPage}/>
         </div>
     );

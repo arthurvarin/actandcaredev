@@ -2,25 +2,51 @@ import React from 'react';
 import './Signin.css'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listeregions1 from '../../Jasons/regions.json'
+import * as firebase from 'firebase';
 
 export default class Signup extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       filteredVilles: [{ "nom": "Choisir une ville", "region": { "nom": "" } }],
       filteredRegions: listeregions1
     }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChangeRegion = this.handleChangeRegion.bind(this)
+    this.handleChangeVille = this.handleChangeVille.bind(this)
+    this.handleVilleSelection = this.handleVilleSelection.bind(this)
+
+
+  }
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+      } else {
+        alert("Not logged in")
+        document.location.href = '/login'
+      }
+    });
   }
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Ville & région
   displayVilles() {
-    return this.state.filteredVilles.map((ville) =>
-      <option>{ville.nom}</option>
+    return this.state.filteredVilles.map((ville) => {
+      if (ville.nom === "Choisir une ville") {
+        return <option value="">{ville.nom}</option>
+      }
+      else return <option value={ville.nom} >{ville.nom}</option>
+    }
     )
   }
   displayRegions() {
-    return this.state.filteredRegions.map((region) =>
-      <option code={region.code}>{region.nom}</option>
+    return this.state.filteredRegions.map((region) => {
+      if (region.nom === "Choisir une région") {
+        return <option value="" code={region.code}>{region.nom}</option>
+      }
+      else return <option value={region.nom} code={region.code}>{region.nom}</option>
+    }
     )
   }
   handleChangeRegion(event) {
@@ -43,7 +69,6 @@ export default class Signup extends React.Component {
       region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
       ville_selected: event.target.value
     })
-    this.getnomdusite()
   }
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
@@ -61,9 +86,9 @@ export default class Signup extends React.Component {
           region_selected = villeVilles[0].region.nom
           ville_selected = villeVilles[0].nom
         }
-        else{
-          region_selected=""
-          ville_selected =""
+        else {
+          region_selected = ""
+          ville_selected = ""
         }
 
         this.setState({ regionVilles: villeVilles, filteredVilles: villeVilles, region_selected, ville_selected })
@@ -81,74 +106,113 @@ export default class Signup extends React.Component {
     //let  filteredRegions=[{ "nom": "....", "code":"" }]
     this.setState({ filteredVilles })
   }
-
-
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
 
-  optionslistespecialite() { return listespecialite.map(listespecialite => {
-    return (
-      <option >{listespecialite}</option>
-    )
-  })}
+    var user = firebase.auth().currentUser;
+    if (user) {
+    } else {
+      alert("Error submitting form please try signin up again!")
+      document.location.href = '/login'
+    }
+  
+    return firebase.database().ref('users/' + user.uid).set(
+      {
+
+        bdate: this.state.naissance,
+        rue: this.state.rue,
+        ville: this.state.ville_selected,
+        region: this.state.region_selected,
+        tel: this.state.tel,
+        specialite: this.state.specialite,
+        RPPS: this.state.RPPS,
+        statut: "En attente"
+      }, function (error) {
+        if (error) {
+          console.log("entered func 2")
+          return false
+        } else {
+          console.log("entered func 3")
+          document.location.href = '/usercreated'
+          return true
+        }
+      });
+
+  }
+
+
+  optionslistespecialite() {
+    let i = 0;
+    return listespecialite.map(listespecialite => {
+      if (i === 0) {
+        i++;
+        return <option value="">{listespecialite}</option>
+      }
+      else return (
+        <option value={listespecialite}>{listespecialite}</option>
+      )
+    })
+  }
 
 
   render() {
     return (
 
       <div id="wrapper">
-        <form id="login">
+        <form id="login" onSubmit={this.handleSubmit.bind(this)}>
           <h2>Compléter le profile:</h2>
 
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
-                <label for="specialite"><b>Date de naissance</b></label>
+                <label for="naissance"><b>Date de naissance</b></label>
               </div>
               <div class="col-md-6">
-                <input type="date" class="form-control"></input>
+                <input type="date" class="form-control" name="naissance" onChange={this.handleChange} required></input>
               </div>
             </div>
           </div>
+
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
-                <label for="specialite"><b>Rue et numéro</b></label>
+                <label for="rue"><b>Rue et numéro</b></label>
               </div>
               <div class="col-md-6">
-              <input type="text" class="form-control" placeholder="Ex: 37 Quai de Grenelle"></input>
+                <input type="text" class="form-control" name="rue" placeholder="Ex: 37 Quai de Grenelle" onChange={this.handleChange} required></input>
               </div>
             </div>
           </div>
 
           <div class="form-row">
-              <div class="form-group col-md-6">
-                <label><b>Ville</b></label>
-                <input type="text" class="form-control" name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></input>
-                <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
-                  {this.displayVilles()}
-                </select>
-              </div>
-              <div class="form-group col-md-6 ">
-                <label><b>Région</b></label>
-                <select type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
-                  {/* <select type="text" class="form-control" name="region" value={this.state.region}  > */}
-                  {this.displayRegions()}
-                </select>
-              </div>
+            <div class="form-group col-md-6">
+              <label><b>Ville</b></label>
+              <input type="text" class="form-control" name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></input>
+              <select required type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
+                {this.displayVilles()}
+              </select>
             </div>
-
-
-
+            <div class="form-group col-md-6 ">
+              <label><b>Région</b></label>
+              <select required type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
+                {this.displayRegions()}
+              </select>
+            </div>
+          </div>
 
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
-                <label for="specialite"><b>Numéro de téléphone portable</b></label>
+                <label for="tel"><b>Numéro de téléphone portable</b></label>
               </div>
               <div class="col-md-6">
-              <input type="tel" class="form-control" placeholder="Ex: 0645326789"></input>
+                <input type="tel" class="form-control" name="tel" placeholder="Ex: 0645326789" onChange={this.handleChange} required></input>
               </div>
             </div>
           </div>
@@ -159,9 +223,9 @@ export default class Signup extends React.Component {
                 <label for="specialite"><b>Spécialité</b></label>
               </div>
               <div class="col-md-6">
-              <select type="text" class="form-control" value={this.state.specialite} onChange={this.handlespecialiteChange} >
-                {this.optionslistespecialite()}
-              </select>
+                <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange} required>
+                  {this.optionslistespecialite()}
+                </select>
               </div>
             </div>
           </div>
@@ -169,19 +233,17 @@ export default class Signup extends React.Component {
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
-                <label for="specialite"><b>Numéro RPPS</b></label>
+                <label for="RPPS"><b>Numéro RPPS</b></label>
               </div>
               <div class="col-md-6">
-              <input type="number" class="form-control"></input>
+                <input required type="number" class="form-control" name="RPPS" onChange={this.handleChange}></input>
               </div>
             </div>
           </div>
-
-
-
+          <br></br>
+          <button type="submit" class="btn btn-md btn-block" id="addNewElement">Valider</button>
         </form>
       </div>
-      // <div id="firebaseui-auth-container"></div>
 
     );
   }
