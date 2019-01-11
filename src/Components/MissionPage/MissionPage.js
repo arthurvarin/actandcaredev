@@ -5,6 +5,9 @@ import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import ReactNotify from 'react-notify';
 
 
 export default class MissionPage extends React.Component {
@@ -162,6 +165,7 @@ export default class MissionPage extends React.Component {
       commentaires: this.state.commentaires
 
     })
+    this.refs.notificator.success("Succès", "La mission à été mise à jour ", 4000);
 
 
   }
@@ -414,7 +418,7 @@ export default class MissionPage extends React.Component {
             <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
             <br></br>
           </form>
-
+          <ReactNotify ref='notificator'/>
         </div>
     );
   }

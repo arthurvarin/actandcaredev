@@ -5,6 +5,9 @@ import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import ReactNotify from 'react-notify';
 
 
 export default class AjoutMissions extends React.Component {
@@ -205,6 +208,7 @@ export default class AjoutMissions extends React.Component {
           commentaires: this.state.commentaires,
           statut: "Recherche en cours"
         });
+
     } else {
       const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
         {
@@ -239,6 +243,8 @@ export default class AjoutMissions extends React.Component {
       remuneration: "",
       commentaires: "",
     })
+
+    this.refs.notificator.success("Succès", "Mission ajoutée !", 4000);
   }
 
   getDates(date1, date2) {
@@ -253,6 +259,8 @@ export default class AjoutMissions extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
+
 
     if (this.state.datededebut.length > 0 && this.state.datedefin.length === 0) {
       let tmpserialnumber = "" + this.state.datededebut.slice(0, 4) + this.state.datededebut.slice(5, 7);
@@ -566,6 +574,7 @@ export default class AjoutMissions extends React.Component {
           </form>
 
         </div>
+        <ReactNotify ref='notificator'/>
       </div>
     );
   }
