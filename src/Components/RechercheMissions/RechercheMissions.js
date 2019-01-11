@@ -348,8 +348,8 @@ export default class RechercheMissions extends Component {
 
       <tr>
         <th>
-          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f;</button>
-          <button onClick={() => this.deleteMission(mission.nomission)}>&#xe020;</button>
+          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; Modifier</button>
+
         </th>
         <th>
           {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
@@ -363,6 +363,7 @@ export default class RechercheMissions extends Component {
         <th>{mission.type}</th>
         <th>{mission.typedetablissement}</th>
         <th>{mission.remuneration}</th>
+        <th><button onClick={() => this.deleteMission(mission.nomission)}>Supprimer</button></th>
       </tr>
     );
     this.setState({
@@ -376,6 +377,7 @@ export default class RechercheMissions extends Component {
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ></th>
         </tr>
         {listItem}
       </table></div>
