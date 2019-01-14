@@ -3,6 +3,7 @@ import './AjoutMissions.css'
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
+import listetyperemuneration from '../../Jasons/listetyperemuneration.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
@@ -20,6 +21,7 @@ export default class AjoutMissions extends React.Component {
       ville_selected:"",
       region_selected:"",
       typedetablissement: "",
+      typeremuneration: "",
       region: "",
       specialite: "",
       type: "",
@@ -32,6 +34,7 @@ export default class AjoutMissions extends React.Component {
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
+      listetyperemuneration: listetyperemuneration,
       mission: "",
       nomdusitemanual: false,
 
@@ -47,6 +50,7 @@ export default class AjoutMissions extends React.Component {
     this.handleregionChange = this.handleregionChange.bind(this);
     this.handlespecialiteChange = this.handlespecialiteChange.bind(this);
     this.handletypeChange = this.handletypeChange.bind(this);
+    this.handletyperemunerationChange = this.handletyperemunerationChange.bind(this);
     this.handledatededebutChange = this.handledatededebutChange.bind(this);
     this.handledatedefinChange = this.handledatedefinChange.bind(this);
     this.handleheurededebutChange = this.handleheurededebutChange.bind(this);
@@ -95,6 +99,9 @@ export default class AjoutMissions extends React.Component {
   }
   handleregionChange(event) {
     this.setState({ region: event.target.value });
+  }
+  handletyperemunerationChange(event) {
+    this.setState({ typeremuneration: event.target.value });
   }
   handlespecialiteChange(event) {
     this.setState({ specialite: event.target.value });
@@ -168,6 +175,7 @@ export default class AjoutMissions extends React.Component {
   ajouterMission(datededebut, tmpserialnumber, endserialnumber, extra) {
     let typedetablissement = this.state.typedetablissement;
     let type = this.state.type;
+    let typeremuneration = this.state.typeremuneration;
     let ville = this.state.ville_selected;
     let region = this.state.region_selected;
     let specialite = this.state.specialite;
@@ -199,6 +207,7 @@ export default class AjoutMissions extends React.Component {
           region: region,
           specialite: specialite,
           type: type,
+          typeremuneration: typeremuneration,
           datededebut: datededebut,
           datedefin: datededebut,
           heurededebut: this.state.heurededebut,
@@ -218,6 +227,7 @@ export default class AjoutMissions extends React.Component {
           region: region,
           specialite: specialite,
           type: type,
+          typeremuneration: typeremuneration,
           datededebut: datededebut,
           datedefin: this.state.datedefin,
           heurededebut: this.state.heurededebut,
@@ -228,20 +238,20 @@ export default class AjoutMissions extends React.Component {
         });
     }
 
-    this.setState({
-      ville: "",
-      typedetablissement: "",
-      nomdusite: "",
-      region: "",
-      specialite: "",
-      type: "",
-      datededebut: "",
-      datedefin: "",
-      heurededebut: "",
-      heuredefin: "",
-      remuneration: "",
-      commentaires: "",
-    })
+    // this.setState({
+    //   ville: "",
+    //   typedetablissement: "",
+    //   nomdusite: "",
+    //   region: "",
+    //   specialite: "",
+    //   type: "",
+    //   datededebut: "",
+    //   datedefin: "",
+    //   heurededebut: "",
+    //   heuredefin: "",
+    //   remuneration: "",
+    //   commentaires: "",
+    // })
 
     this.refs.notificator.success("Succès", "Mission ajoutée !", 4000);
   }
@@ -256,19 +266,27 @@ export default class AjoutMissions extends React.Component {
     return returnarray;
   }
 
+  onKeyPress(event) {
+    if (event.which === 13 /* Enter */) {
+      event.preventDefault();
+    }
+  }
+
   handleSubmit(e) {
+
     e.preventDefault();
 
+    if (!(this.state.datededebut.length > 0 && this.state.specialite !== "" && this.state.specialite !== "Veuillez selectionner une spécialité" && this.state.ville_selected !== ""))
+      this.refs.notificator.error("Champs nécessaires non remplis", "Veuillez renseigner au minimum la spécialité, la ville et la date de début!", 4000);
 
-
-    if (this.state.datededebut.length > 0 && this.state.datedefin.length === 0) {
+    if (this.state.datededebut.length > 0 && this.state.datedefin.length === 0 && this.state.specialite !== "" && this.state.specialite !== "Veuillez selectionner une spécialité" && this.state.ville_selected !== "" ) {
       let tmpserialnumber = "" + this.state.datededebut.slice(0, 4) + this.state.datededebut.slice(5, 7);
       let endserialnumber = this.getSerialNumber(tmpserialnumber);
 
       this.ajouterMission(this.state.datededebut, tmpserialnumber, endserialnumber, "");
     }
 
-    if (this.state.datededebut.length > 0 && this.state.datedefin.length > 0) {
+    if (this.state.datededebut.length > 0 && this.state.datedefin.length > 0  && this.state.specialite !== "" && this.state.specialité !== "Veuillez selectionner une spécialité"  && this.state.ville_selected !== "" ) {
       let datededebut = new Date(this.state.datededebut.slice(0, 4), this.state.datededebut.slice(5, 7) - 1, this.state.datededebut.slice(8, 10));
       let datedefin = new Date(this.state.datedefin.slice(0, 4), this.state.datedefin.slice(5, 7) - 1, this.state.datedefin.slice(8, 10));
 
@@ -412,13 +430,21 @@ export default class AjoutMissions extends React.Component {
 
     })
 
+    let optionslistetypedremuneration;
+    optionslistetypedremuneration = this.state.listetyperemuneration.map(listetyperemuneration => {
+      return (
+        <option >{listetyperemuneration}</option >
+      )
+
+    })
+
 
 
     return (
       <div id="wrapper">
         <div class="container" >
           <h1 > Ajouter une mission {this.state.mission}</h1>
-          <form onSubmit={this.handleSubmit.bind(this)} >
+          <form onKeyPress={this.onKeyPress}  onSubmit={this.handleSubmit.bind(this)} >
 
             <br />
 
@@ -462,32 +488,6 @@ export default class AjoutMissions extends React.Component {
             </div>
 
 
-            {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-            {/* Ville & Région  */}
-            {/* <div class="form-group">
-          <div class="form-row">
-            <div class="col-md-6">
-              <label for="ville"><b>Ville</b></label>
-            </div>
-            <div class="col-md-6">
-              <input type="text" class="form-control" value={this.state.ville} onChange={this.handlevilleChange}  />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="form-row">
-            <div class="col-md-6">
-              <label for="region"><b>Région</b></label>
-            </div>
-            <div class="col-md-6">
-            <select type="text" class="form-control" value={this.state.region} onChange={this.handleregionChange}  >
-              {optionslisteregions}
-              </select>  </div>
-          </div>
-        </div> */}
-
-
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label><b>Ville</b></label>
@@ -504,9 +504,6 @@ export default class AjoutMissions extends React.Component {
                 </select>
               </div>
             </div>
-
-
-            {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
             <div class="form-group">
               <div class="form-row">
@@ -551,7 +548,8 @@ export default class AjoutMissions extends React.Component {
                 <div class="col-md-6">
                   <label for="remuneration"><b>Rémunération</b></label>
                 </div>
-                <div class="col-md-6">
+
+                <div class="col-md-4">
                   <div class="input-group input-group-default mb-3">
 
                     <div class="input-group-prepend">
@@ -560,8 +558,17 @@ export default class AjoutMissions extends React.Component {
                     <input type="number" class="form-control" value={this.state.remuneration} onChange={this.handleremunerationChange} placeholder="0" />
                   </div>
                 </div>
-              </div>
+
+                <div class="col-md-2">
+                    <select type="text" class="form-control" value={this.state.typeremuneration} onChange={this.handletyperemunerationChange}  >
+                      {optionslistetypedremuneration}
+                    </select>
+                </div>
+
+                </div>
             </div>
+
+
 
             <div class="form-group">
               <label for="commentaires"><b>Commentaires</b></label>
