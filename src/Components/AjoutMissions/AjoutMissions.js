@@ -5,6 +5,9 @@ import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import ReactNotify from 'react-notify';
+import Navbar from '../Navbar/Navbar.js'
 
 
 export default class AjoutMissions extends React.Component {
@@ -170,8 +173,6 @@ export default class AjoutMissions extends React.Component {
     let region = this.state.region_selected;
     let specialite = this.state.specialite;
     let nomdusite = this.state.nomdusite;
-    console.log(region)
-    console.log(ville)
 
     if (typedetablissement === "Veuillez selectionner un type d'établissement")
       typedetablissement = "";
@@ -207,6 +208,7 @@ export default class AjoutMissions extends React.Component {
           commentaires: this.state.commentaires,
           statut: "Recherche en cours"
         });
+
     } else {
       const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
         {
@@ -241,6 +243,8 @@ export default class AjoutMissions extends React.Component {
       remuneration: "",
       commentaires: "",
     })
+
+    this.refs.notificator.success("Succès", "Mission ajoutée !", 4000);
   }
 
   getDates(date1, date2) {
@@ -255,6 +259,8 @@ export default class AjoutMissions extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
+
 
     if (this.state.datededebut.length > 0 && this.state.datedefin.length === 0) {
       let tmpserialnumber = "" + this.state.datededebut.slice(0, 4) + this.state.datededebut.slice(5, 7);
@@ -274,7 +280,10 @@ export default class AjoutMissions extends React.Component {
       let endserialnumber = this.getSerialNumber(tmpserialnumber);
 
       for (let i = 0; i < tabdates.length; i++) {
-        let stringdate = "" + tabdates[i].getFullYear() + "-" + (tabdates[i].getMonth() + 1) + "-" + tabdates[i].getDate();
+        let tmpmois = tabdates[i].getMonth()+1;
+        if ((tabdates[i].getMonth() +1) < 10)
+          tmpmois="0"+tmpmois
+        let stringdate = "" + tabdates[i].getFullYear() + "-" + (tmpmois) + "-" + tabdates[i].getDate();
         this.ajouterMission(stringdate, tmpserialnumber, endserialnumber, "-" + (i + 1));
       }
     }
@@ -282,6 +291,19 @@ export default class AjoutMissions extends React.Component {
   }
 
   componentDidMount() {
+    
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+          return firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
+          if(snapshot.val()===null)document.location.href = '/signup'
+          var statut = snapshot.val().statut;
+          if(statut==="En attente")document.location.href = '/usercreated'
+        });
+      } else {
+        alert("Not logged in")
+        document.location.href = '/login'
+      }
+    });
 
     const missionRef = firebase.database().ref('missions');
     missionRef.on('value', snap => {
@@ -294,6 +316,8 @@ export default class AjoutMissions extends React.Component {
       () => this.tick(),
       500
     );
+
+    
   }
 
   componentWillUnmount() {
@@ -333,7 +357,7 @@ export default class AjoutMissions extends React.Component {
   }
   handleVilleSelection(event) {
     this.setState({
-      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
+      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom][0],
       ville_selected: event.target.value
     })
     this.getnomdusite()
@@ -341,7 +365,16 @@ export default class AjoutMissions extends React.Component {
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
       .then(result => result.json())
-      .then(regionVilles => this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles }));
+      .then(regionVilles =>{
+        let ville_selected
+        if (regionVilles[0] !== undefined) {
+          ville_selected = regionVilles[0].nom
+        }
+        else{
+          ville_selected =""
+        }
+         this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles, ville_selected })
+        });
   }
   loadCities_2(event) {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
@@ -407,6 +440,9 @@ export default class AjoutMissions extends React.Component {
 
 
     return (
+      <div> <header>
+      <Navbar></Navbar>
+    </header>
       <div id="wrapper">
         <div class="container" >
           <h1 > Ajouter une mission {this.state.mission}</h1>
@@ -565,6 +601,8 @@ export default class AjoutMissions extends React.Component {
           </form>
 
         </div>
+        <ReactNotify ref='notificator'/>
+      </div>
       </div>
     );
   }

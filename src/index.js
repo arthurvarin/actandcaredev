@@ -18,8 +18,10 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
+
 var uiConfig = {
-  signInSuccessUrl: '/signup',
+  signInSuccessUrl: '/ajoutmissions',
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,

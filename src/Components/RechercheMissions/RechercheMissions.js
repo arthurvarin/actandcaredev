@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import './RMissions.css'
 import * as firebase from 'firebase';
 import {
@@ -8,12 +7,16 @@ import {
   Input,
 } from 'reactstrap';
 import moment from 'moment';
-
+import Modal from 'react-responsive-modal';
+import MissionPage from '../MissionPage/MissionPage.js'
+import Navbar from '../Navbar/Navbar.js'
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listestatut from '../../Jasons/listestatut.json'
 import listeregions1 from '../../Jasons/regions.json'
+import filternameslist from '../../Jasons/filternameslist.json'
+import filtervalueslist from '../../Jasons/filtervalueslist.json'
 var dateFormat = require('dateformat');
 
 
@@ -23,13 +26,16 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
-      filternames: ["statut"],
-      filtervalues: ["Recherche en cours"],
+      filternames: [],
+      filtervalues: [],
       sortkeys: [],
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
       listestatut: listestatut,
+      filternameslist: filternameslist,
+      filtervalueslist: filtervalueslist,
+      selectednomission:"",
       display: "",
       nomdusite: "",
       ville: "",
@@ -46,8 +52,10 @@ export default class RechercheMissions extends Component {
       filtersdisplay: "",
       coderegion: 0,
       filteredVilles: [{ "nom": "Choisir une ville" }],
-      filteredRegions: listeregions1
+      filteredRegions: listeregions1,
+      open: false,
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.updateFiltersDisplay = this.updateFiltersDisplay.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
@@ -55,6 +63,7 @@ export default class RechercheMissions extends Component {
     this.onSort = this.onSort.bind(this)
     this.deleteFilter = this.deleteFilter.bind(this)
     this.handleChangeStatusTab = this.handleChangeStatusTab.bind(this)
+    this.FiltersInit = this.FiltersInit.bind(this)
 
     //Gestion des villes
     this.displayVilles = this.displayVilles.bind(this)
@@ -67,9 +76,32 @@ export default class RechercheMissions extends Component {
 
   }
 
+  onOpenModal = (nomission) => {
+    this.setState({open: true, selectednomission: nomission });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false, selectednomission: ""  });
+  };
+
+  FiltersInit(){
+
+    let filternamestmp=[];
+    let filtervaluestmp=[];
+
+    let filtersnameslist = this.state.filternameslist.map(name => {
+      filternamestmp.push(name);
+    })
+    let filtersvalueslist = this.state.filtervalueslist.map(value => {
+      filtervaluestmp.push(value);
+    })
+
+    this.setState({filternames: filternamestmp, filtervalues: filtervaluestmp})
+
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
-
   }
 
   deleteFilter(i) {
@@ -82,10 +114,18 @@ export default class RechercheMissions extends Component {
   }
 
   componentDidMount() {
+    this.FiltersInit();
     this.timerID = setInterval(
       () => this.tick(),
       500
     );
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+      } else {
+        alert("Not logged in")
+        document.location.href = '/login'
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -93,9 +133,11 @@ export default class RechercheMissions extends Component {
   }
 
   tick() {
+
     this.updateDisplay();
     this.updateFiltersDisplay();
     this.callFilters();
+
   }
 
   onSort(event, sortKey) {
@@ -121,7 +163,6 @@ export default class RechercheMissions extends Component {
 
 
   callFilters() {
-
     let filteredmissions = [];
     let sortkeys = this.state.sortkeys;
     const ref = firebase.database().ref('missions');
@@ -289,11 +330,6 @@ export default class RechercheMissions extends Component {
   }
   options_mission_listestatut_color(mission) {
     let optionslistestatut = this.optionslistestatut();
-    //return this.optionslistestatut()
-
-    /* return (<select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
-    {this.optionslistestatut()}
-    </select>) */
 
     if (mission.statut === "Recherche en cours") return (<select type="text" class="form-control alert-danger" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
     {this.optionslistestatut()}
@@ -313,7 +349,7 @@ export default class RechercheMissions extends Component {
 
       <tr>
         <th>
-        <Link to={`/missionpage/${mission.nomission}`} activeClassName="active"><span class="glyphicon">&#x270f;</span></Link>
+          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f;</button>
         </th>
         <th>
           {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
@@ -432,6 +468,9 @@ export default class RechercheMissions extends Component {
     this.setState({ filtervalues: tmpfiltervalues });
 
 
+
+
+
   }
 
 
@@ -472,7 +511,16 @@ export default class RechercheMissions extends Component {
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
       .then(result => result.json())
-      .then(regionVilles => this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles }));
+      .then(regionVilles =>{
+        let ville_selected
+        if (regionVilles[0] !== undefined) {
+          ville_selected = regionVilles[0].nom
+        }
+        else{
+          ville_selected =""
+        }
+         this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles, ville_selected })
+        });
   }
   loadCities_2(event) {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
@@ -540,7 +588,7 @@ export default class RechercheMissions extends Component {
 
   render() {
 
-
+    const { open } = this.state;
     let optionslistetypedetablissement;
     optionslistetypedetablissement = this.state.listetypedetablissement.map(listetypedetablissement => {
       return (
@@ -564,9 +612,14 @@ export default class RechercheMissions extends Component {
     let optionslistestatut_color = this.optionslistestatut_color();
 
     return (
-
+      
+      <div> <header>
+      <Navbar></Navbar>
+    </header>
       <div class="row" id="whole_page">
-
+      <Modal open={open} onClose={this.onCloseModal} center>
+        <MissionPage nomission={this.state.selectednomission}/>
+      </Modal>
         <div class="col-md-3">
           <br></br>
           <br></br>
@@ -604,6 +657,7 @@ export default class RechercheMissions extends Component {
                       <label>Date de fin</label>
                       <input type="date" class="form-control" name="datedefin" value={this.state.datedefin} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
                     </div>
+
 
 
                     {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
@@ -709,7 +763,7 @@ export default class RechercheMissions extends Component {
 
         <div class="col-md-1"></div>
       </div>
-
+      </div>
     );
 
   }

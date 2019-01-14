@@ -23,11 +23,16 @@ export default class Signup extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
+        // return firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
+        //   var statut = snapshot.val().statut;
+        //   document.location.href = '/usercreated'
+        // });
       } else {
         alert("Not logged in")
         document.location.href = '/login'
       }
     });
+   
   }
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Ville & région
@@ -66,14 +71,23 @@ export default class Signup extends React.Component {
   }
   handleVilleSelection(event) {
     this.setState({
-      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
+      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom][0],
       ville_selected: event.target.value
     })
   }
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
       .then(result => result.json())
-      .then(regionVilles => this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles }));
+      .then(regionVilles =>{
+        let ville_selected
+        if (regionVilles[0] !== undefined) {
+          ville_selected = regionVilles[0].nom
+        }
+        else{
+          ville_selected =""
+        }
+         this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles, ville_selected })
+        });
   }
   loadCities_2(event) {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
@@ -122,7 +136,7 @@ export default class Signup extends React.Component {
       document.location.href = '/login'
     }
   
-    return firebase.database().ref('users/' + user.uid).set(
+    firebase.database().ref('users/' + user.uid).set(
       {
 
         bdate: this.state.naissance,
@@ -135,12 +149,8 @@ export default class Signup extends React.Component {
         statut: "En attente"
       }, function (error) {
         if (error) {
-          console.log("entered func 2")
-          return false
         } else {
-          console.log("entered func 3")
           document.location.href = '/usercreated'
-          return true
         }
       });
 
@@ -167,7 +177,7 @@ export default class Signup extends React.Component {
       <div id="wrapper">
         <form id="login" onSubmit={this.handleSubmit.bind(this)}>
           <h2>Compléter le profile:</h2>
-
+          
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">

@@ -5,13 +5,16 @@ import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import ReactNotify from 'react-notify';
 
 
 export default class MissionPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nomission: this.props.match.params.nomission,
+      nomission: this.props.nomission,
       nomdusite: "",
       ville: "",
       ville_selected:"",
@@ -20,6 +23,7 @@ export default class MissionPage extends React.Component {
       region: "",
       specialite: "",
       type: "",
+      statut: "",
       datededebut: "",
       datedefin: "",
       heurededebut: "",
@@ -36,6 +40,7 @@ export default class MissionPage extends React.Component {
       filteredRegions: listeregions1
 
     };
+    this.GetValues(this.props.nomission);
     this.handlenomdusiteChange = this.handlenomdusiteChange.bind(this);
     this.handlevilleChange = this.handlevilleChange.bind(this);
     this.handletypedetablissementChange = this.handletypedetablissementChange.bind(this);
@@ -48,6 +53,7 @@ export default class MissionPage extends React.Component {
     this.handleheuredefinChange = this.handleheuredefinChange.bind(this);
     this.handleremunerationChange = this.handleremunerationChange.bind(this);
     this.handlecommentairesChange = this.handlecommentairesChange.bind(this);
+    this.GetValues = this.GetValues.bind(this);
 
 
     //// Ville & région
@@ -100,11 +106,67 @@ export default class MissionPage extends React.Component {
     this.setState({ commentaires: event.target.value });
   }
 
+  componentDidMount() {
 
+    this.GetValues(this.state.nomission)
+
+  }
+
+  GetValues(nomission){
+
+    const ref = firebase.database().ref('missions/' + nomission);
+    ref.on('value', mission => {
+        this.setState({
+
+          type: mission.val().type,
+          typedetablissement: mission.val().typedetablissement,
+          statut: mission.val().statut,
+          specialite: mission.val().specialite,
+          ville: mission.val().ville,
+          region: mission.val().region,
+          nomdusite: mission.val().nomdusite,
+          heurededebut: mission.val().heurededebut,
+          heuredefin: mission.val().heuredefin,
+          datededebut: mission.val().datededebut,
+          datedefin: mission.val().datedefin,
+          remuneration: mission.val().remuneration,
+          commentaires: mission.val().commentaires,
+          ville_selected: mission.val().ville,
+          ville_nom: mission.val().ville,
+          region_selected: mission.val().region
+
+        })
+      })
+  }
+
+  handleChangeStatus(event) {
+
+
+  }
 
 
   handleSubmit(e) {
     e.preventDefault();
+
+    firebase.database().ref('missions/' + this.state.nomission).update({
+
+      type: this.state.type,
+      typedetablissement: this.state.typedetablissement,
+      statut: this.state.statut,
+      specialite: this.state.specialite,
+      ville: this.state.ville_selected,
+      region: this.state.region_selected,
+      nomdusite: this.state.nomdusite,
+      heurededebut: this.state.heurededebut,
+      heuredefin: this.state.heuredefin,
+      datededebut: this.state.datededebut,
+      datedefin: this.state.datedefin,
+      remuneration: this.state.remuneration,
+      commentaires: this.state.commentaires
+
+    })
+    this.refs.notificator.success("Succès", "La mission à été mise à jour ", 4000);
+
 
   }
 
@@ -141,7 +203,6 @@ export default class MissionPage extends React.Component {
       region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
       ville_selected: event.target.value
     })
-    this.getnomdusite()
   }
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
@@ -154,7 +215,6 @@ export default class MissionPage extends React.Component {
       .then(villeVilles => {
         let region_selected
         let ville_selected
-        console.log(villeVilles)
         if (villeVilles[0] !== undefined) {
           region_selected = villeVilles[0].region.nom
           ville_selected = villeVilles[0].nom
@@ -212,7 +272,6 @@ export default class MissionPage extends React.Component {
 
 
     return (
-      <div id="wrapper">
         <div class="container" >
           <h1 > Mission {this.state.nomission}</h1>
           <form onSubmit={this.handleSubmit.bind(this)} >
@@ -228,7 +287,7 @@ export default class MissionPage extends React.Component {
                     <label for="nomission"><b>Numéro de mission</b></label>
                   </div>
                   <div class="col-md-6">
-                    <input type="text" class="form-control" value={this.state.nomission} onChange={this.handlenomissionChange}  />
+                    <input disabled type="text" class="form-control" value={this.state.nomission}   />
                   </div>
                 </div>
               </div>
@@ -356,23 +415,11 @@ export default class MissionPage extends React.Component {
             </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-            <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Partager la mission avec les médecins</button>
+            <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
             <br></br>
           </form>
-
+          <ReactNotify ref='notificator'/>
         </div>
-      </div>
     );
   }
 }

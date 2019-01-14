@@ -7,6 +7,7 @@ import Signup from './Signup/Signup.js'
 import Test from './Test/Test.js'
 import MissionPage from './MissionPage/MissionPage.js'
 import UserCreated from './UserCreated/UserCreated.js';
+import Logout from './Logout/Logout.js'
 
 export default class Router extends React.Component {
   render() {
@@ -19,6 +20,7 @@ export default class Router extends React.Component {
           <Route path="/test" component={Test}/>
           <Route path="/usercreated" component={UserCreated}/>
           <Route path="/missionpage/:nomission" component={MissionPage}/>
+          <Route path="/Logout" component={Logout}/>
         </div>
     );
   }
