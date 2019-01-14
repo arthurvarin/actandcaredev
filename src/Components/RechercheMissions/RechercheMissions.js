@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import './RMissions.css'
 import * as firebase from 'firebase';
 import {
@@ -95,10 +94,10 @@ export default class RechercheMissions extends Component {
     let filternamestmp=[];
     let filtervaluestmp=[];
 
-    let filtersnameslist = this.state.filternameslist.map(name => {
+    this.state.filternameslist.forEach(name => {
       filternamestmp.push(name);
     })
-    let filtersvalueslist = this.state.filtervalueslist.map(value => {
+    this.state.filtervalueslist.forEach(value => {
       filtervaluestmp.push(value);
     })
 
@@ -328,7 +327,6 @@ export default class RechercheMissions extends Component {
 
 
   options_mission_listestatut_color(mission) {
-    let optionslistestatut = this.optionslistestatut();
 
     if (mission.statut === "Recherche en cours") return (<select type="text" class="form-control alert-danger" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
     {this.optionslistestatut()}
@@ -600,7 +598,6 @@ export default class RechercheMissions extends Component {
         <option >{listetype}</option >
       )
     })
-    let optionslistestatut = this.optionslistestatut();
 
     let optionslistestatut_color = this.optionslistestatut_color();
 
