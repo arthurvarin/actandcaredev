@@ -5,7 +5,6 @@ import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
-import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import ReactNotify from 'react-notify';
 
@@ -64,7 +63,6 @@ export default class MissionPage extends React.Component {
     this.handleChangeVille = this.handleChangeVille.bind(this)
     this.filterVilles = this.filterVilles.bind(this)
     this.handleVilleSelection = this.handleVilleSelection.bind(this)
-
   }
 
 
@@ -107,15 +105,14 @@ export default class MissionPage extends React.Component {
   }
 
   componentDidMount() {
-
     this.GetValues(this.state.nomission)
-
   }
 
   GetValues(nomission){
-
     const ref = firebase.database().ref('missions/' + nomission);
     ref.on('value', mission => {
+
+      if(mission.val()!==null)
         this.setState({
 
           type: mission.val().type,
@@ -143,6 +140,7 @@ export default class MissionPage extends React.Component {
 
 
   }
+
 
 
   handleSubmit(e) {
@@ -414,8 +412,10 @@ export default class MissionPage extends React.Component {
               <input type="text-area" class="form-control" value={this.state.commentaires} onChange={this.handlecommentairesChange} />
             </div>
 
+            <div class="form-row">
+              <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
+            </div>
 
-            <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
             <br></br>
           </form>
           <ReactNotify ref='notificator'/>

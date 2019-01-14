@@ -64,6 +64,7 @@ export default class RechercheMissions extends Component {
     this.deleteFilter = this.deleteFilter.bind(this)
     this.handleChangeStatusTab = this.handleChangeStatusTab.bind(this)
     this.FiltersInit = this.FiltersInit.bind(this)
+    this.deleteMission = this.deleteMission.bind(this)
 
     //Gestion des villes
     this.displayVilles = this.displayVilles.bind(this)
@@ -84,15 +85,19 @@ export default class RechercheMissions extends Component {
     this.setState({ open: false, selectednomission: ""  });
   };
 
+  deleteMission(todeletenomission) {
+    firebase.database().ref('missions/' + todeletenomission).remove()
+  }
+
   FiltersInit(){
 
     let filternamestmp=[];
     let filtervaluestmp=[];
 
-    let filtersnameslist = this.state.filternameslist.map(name => {
+    this.state.filternameslist.forEach(name => {
       filternamestmp.push(name);
     })
-    let filtersvalueslist = this.state.filtervalueslist.map(value => {
+    this.state.filtervalueslist.forEach(value => {
       filtervaluestmp.push(value);
     })
 
@@ -324,12 +329,11 @@ export default class RechercheMissions extends Component {
   }
 
   handleChangeStatusTab(event) {
-
     firebase.database().ref('missions/' + event.target.name).update({ statut: event.target.value })
-
   }
+
+
   options_mission_listestatut_color(mission) {
-    let optionslistestatut = this.optionslistestatut();
 
     if (mission.statut === "Recherche en cours") return (<select type="text" class="form-control alert-danger" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
     {this.optionslistestatut()}
@@ -349,7 +353,8 @@ export default class RechercheMissions extends Component {
 
       <tr>
         <th>
-          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f;</button>
+          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; Modifier</button>
+
         </th>
         <th>
           {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
@@ -363,6 +368,7 @@ export default class RechercheMissions extends Component {
         <th>{mission.type}</th>
         <th>{mission.typedetablissement}</th>
         <th>{mission.remuneration}</th>
+        <th><button onClick={() => this.deleteMission(mission.nomission)}>Supprimer</button></th>
       </tr>
     );
     this.setState({
@@ -376,6 +382,7 @@ export default class RechercheMissions extends Component {
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ></th>
         </tr>
         {listItem}
       </table></div>
@@ -607,7 +614,6 @@ export default class RechercheMissions extends Component {
         <option >{listetype}</option >
       )
     })
-    let optionslistestatut = this.optionslistestatut();
 
     let optionslistestatut_color = this.optionslistestatut_color();
 

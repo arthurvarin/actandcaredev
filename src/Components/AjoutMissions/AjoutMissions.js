@@ -186,14 +186,14 @@ export default class AjoutMissions extends React.Component {
     if (region === "Veuillez selectionner une région")
       region = "";
 
-
+    let tmpnomission = "M" + tmpserialnumber + endserialnumber + extra;
     this.setState({ nomission: "M" + tmpserialnumber + endserialnumber + extra })
-    this.state.nomission = "M" + tmpserialnumber + endserialnumber + extra;
+    tmpnomission = "M" + tmpserialnumber + endserialnumber + extra;
 
-    if (extra == "") {
-      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+    if (extra === "") {
+      firebase.database().ref('missions/' + tmpnomission).set(
         {
-          nomission: this.state.nomission,
+          nomission: tmpnomission,
           ville: ville,
           nomdusite: nomdusite,
           typedetablissement: typedetablissement,
@@ -210,9 +210,9 @@ export default class AjoutMissions extends React.Component {
         });
 
     } else {
-      const missionsetRef = firebase.database().ref('missions/' + this.state.nomission).set(
+      firebase.database().ref('missions/' + tmpnomission).set(
         {
-          nomission: this.state.nomission,
+          nomission: tmpnomission,
           ville: ville,
           nomdusite: nomdusite,
           typedetablissement: typedetablissement,
@@ -248,7 +248,7 @@ export default class AjoutMissions extends React.Component {
   }
 
   getDates(date1, date2) {
-    let returnarray = new Array();
+    let returnarray = [];
     let currentDate = date1;
     while (currentDate.valueOf() <= date2.valueOf()) {
       returnarray.push(new Date(currentDate));
