@@ -4,6 +4,7 @@ import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
 import listeregions1 from '../../Jasons/regions.json'
+import listetyperemuneration from '../../Jasons/listetyperemuneration.json'
 import * as firebase from 'firebase';
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import ReactNotify from 'react-notify';
@@ -19,6 +20,7 @@ export default class MissionPage extends React.Component {
       ville_selected:"",
       region_selected:"",
       typedetablissement: "",
+      typeremuneration: "",
       region: "",
       specialite: "",
       type: "",
@@ -32,7 +34,7 @@ export default class MissionPage extends React.Component {
       listetypedetablissement: listetypedetablissement,
       listespecialite: listespecialite,
       listetype: listetype,
-
+      listetyperemuneration: listetyperemuneration,
       ////Ville & région ////
       coderegion: 0,
       filteredVilles: [{ "nom": "Choisir une ville", "region": { "nom": "" } }],
@@ -46,6 +48,7 @@ export default class MissionPage extends React.Component {
     this.handleregionChange = this.handleregionChange.bind(this);
     this.handlespecialiteChange = this.handlespecialiteChange.bind(this);
     this.handletypeChange = this.handletypeChange.bind(this);
+    this.handletyperemunerationChange = this.handletyperemunerationChange.bind(this);
     this.handledatededebutChange = this.handledatededebutChange.bind(this);
     this.handledatedefinChange = this.handledatedefinChange.bind(this);
     this.handleheurededebutChange = this.handleheurededebutChange.bind(this);
@@ -66,7 +69,9 @@ export default class MissionPage extends React.Component {
   }
 
 
-
+  handletyperemunerationChange(event) {
+    this.setState({ typeremuneration: event.target.value });
+  }
   handlevilleChange(event) {
     this.setState({ ville: event.target.value });
   }
@@ -127,6 +132,7 @@ export default class MissionPage extends React.Component {
           datededebut: mission.val().datededebut,
           datedefin: mission.val().datedefin,
           remuneration: mission.val().remuneration,
+          typeremuneration: mission.val().typeremuneration,
           commentaires: mission.val().commentaires,
           ville_selected: mission.val().ville,
           ville_nom: mission.val().ville,
@@ -159,6 +165,7 @@ export default class MissionPage extends React.Component {
       heuredefin: this.state.heuredefin,
       datededebut: this.state.datededebut,
       datedefin: this.state.datedefin,
+      typeremuneration: this.state.typeremuneration,
       remuneration: this.state.remuneration,
       commentaires: this.state.commentaires
 
@@ -263,6 +270,14 @@ export default class MissionPage extends React.Component {
     optionslistetype = this.state.listetype.map(listetype => {
       return (
         <option >{listetype}</option >
+      )
+
+    })
+
+    let optionslistetypedremuneration;
+    optionslistetypedremuneration = this.state.listetyperemuneration.map(listetyperemuneration => {
+      return (
+        <option >{listetyperemuneration}</option >
       )
 
     })
@@ -387,10 +402,10 @@ export default class MissionPage extends React.Component {
 
               <div class="form-group">
                 <div class="form-row">
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <label for="remuneration"><b>Rémunération</b></label>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-5">
                     <div class="input-group input-group-default mb-3">
 
                       <div class="input-group-prepend">
@@ -398,6 +413,11 @@ export default class MissionPage extends React.Component {
                       </div>
                       <input type="number" class="form-control" value={this.state.remuneration} onChange={this.handleremunerationChange} placeholder="0" />
                     </div>
+                  </div>
+                  <div class="col-md-3">
+                      <select type="text" class="form-control" value={this.state.typeremuneration} onChange={this.handletyperemunerationChange}  >
+                        {optionslistetypedremuneration}
+                      </select>
                   </div>
                 </div>
               </div>
