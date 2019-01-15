@@ -3,9 +3,6 @@ import './Signin.css'
 import * as firebase from 'firebase';
 
 export default class UserCreated extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(function (user) {

@@ -619,7 +619,8 @@ export default class RechercheMissions extends Component {
 
     return (
       
-      <div> <header>
+      <div>
+        <header>
       <Navbar></Navbar>
     </header>
       <div class="row" id="whole_page">

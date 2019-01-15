@@ -310,18 +310,7 @@ export default class AjoutMissions extends React.Component {
 
   componentDidMount() {
     
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-          return firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
-          if(snapshot.val()===null)document.location.href = '/signup'
-          var statut = snapshot.val().statut;
-          if(statut==="En attente")document.location.href = '/usercreated'
-        });
-      } else {
-        alert("Not logged in")
-        document.location.href = '/login'
-      }
-    });
+  
 
     const missionRef = firebase.database().ref('missions');
     missionRef.on('value', snap => {
@@ -467,6 +456,7 @@ export default class AjoutMissions extends React.Component {
 
     return (
       <div> <header>
+        
       <Navbar></Navbar>
     </header>
       <div id="wrapper">
