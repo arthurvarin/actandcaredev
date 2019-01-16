@@ -46,7 +46,13 @@ ui.start('#firebaseui-auth-container', uiConfig);
 
 ReactDOM.render((
   <BrowserRouter>
+  <div>
+   <head>
+         <script src="https://www.gstatic.com/firebasejs/ui/3.5.1/firebase-ui-auth__fr.js"></script>
+         <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.5.1/firebase-ui-auth.css" /> 
+    </head>
     <App />
+    </div>
   </BrowserRouter>
 ), document.getElementById('root'));
 

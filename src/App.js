@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Router from './Components/Router.js'
 import { Route, Redirect} from 'react-router-dom'
 import AjoutMissions from './Components/AjoutMissions/AjoutMissions.js'
 import RechercheMissions from './Components/RechercheMissions/RechercheMissions.js'
@@ -18,14 +17,13 @@ class App extends Component {
   state = { loading: true, authenticated: false, user: null };
 
   componentDidMount() {
-
     firebase.auth().onAuthStateChanged( (user)=> {
       if (user) {
         this.setState({
           authenticated: true,
           currentUser: user,
           loading:false,
-        }, ()=>alert("LOGGEEED"));
+        });
        /*  return firebase.database().ref('/users/' + user.uid).once('value').then(function (snapshot) {
           this.setState({
             authenticated: true,
@@ -51,7 +49,6 @@ class App extends Component {
     }
     return (
       <div>
-         <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.5.1/firebase-ui-auth.css" />
         <PrivateRoute exact path="/ajoutmissions" component={AjoutMissions} authenticated={authenticated}/>
         <PrivateRoute path="/recherchemissions" component={RechercheMissions} authenticated={authenticated} />
         <Route path="/login" component={Signin} />
@@ -70,7 +67,7 @@ class App extends Component {
     return (
       <div className="App">
       <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.5.1/firebase-ui-auth.css" />
-          <Router/>
+          <@/>
       </div>
     );
   } */
