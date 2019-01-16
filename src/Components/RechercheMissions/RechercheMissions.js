@@ -124,13 +124,6 @@ export default class RechercheMissions extends Component {
       () => this.tick(),
       500
     );
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-      } else {
-        alert("Not logged in")
-        document.location.href = '/login'
-      }
-    });
   }
 
   componentWillUnmount() {
