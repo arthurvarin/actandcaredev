@@ -20,19 +20,20 @@ class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged( (user)=> {
       if (user) {
-        this.setState({
-          authenticated: true,
-          currentUser: user,
-          loading:false,
-        });
-       /*  return firebase.database().ref('/users/' + user.uid).once('value').then(function (snapshot) {
+        return firebase.database().ref('/users/' + user.uid).once('value').then( (snapshot)=> {
+          if(snapshot.val()!==undefined && snapshot.val()!==null){
+            var statut = snapshot.val().statut;
+            if(statut=="En attente")this.setState({authenticated: "attente"})
+            if(statut=="admin")this.setState({authenticated: true})
+          }     
+          else{
+            this.setState({authenticated:"complete_signup"})
+          } 
           this.setState({
-            authenticated: true,
             currentUser: user,
             loading: false
           });
-        }); */
-       
+        }); 
       } else {
         this.setState({
           authenticated: false,
