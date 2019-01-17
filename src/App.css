@@ -39,3 +39,14 @@
   height: 100%;
   background-color: #fcf9f5;
 }
+
+#wrapperaccueil {
+  padding-top: 20px;
+  margin-top: 40px;
+  margin-left: 200px;
+  margin-right: 200px;
+  min-width: 800px;
+  height: 900px;
+  min-height: 1000px;
+  height: 100%;
+}

@@ -11,9 +11,10 @@
 .nav-link {
   font-family: 'Lato', sans-serif;
   font-size: 1.1em;
-  color: white !important;
+  color: #66c2ff !important;
   list-style-type: none;
   font-weight: 300;
+  font-weight: bold;
 }
 
 .active {
@@ -46,9 +47,14 @@ width: 300px;
 #title {
   margin: 0;
   margin-right: 30px;
-  color: white;
+  color: black;
   font-size: 25px;
   line-height: 32px;
   font-family: 'Lato', sans-serif;
   font-weight: 300;
+}
+
+#logoaccueil{
+  width:35%;
+  height: 35%;
 }
