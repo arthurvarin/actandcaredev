@@ -17,22 +17,6 @@ export default class Signup extends React.Component {
     this.handleChangeRegion = this.handleChangeRegion.bind(this)
     this.handleChangeVille = this.handleChangeVille.bind(this)
     this.handleVilleSelection = this.handleVilleSelection.bind(this)
-
-
-  }
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // return firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
-        //   var statut = snapshot.val().statut;
-        //   document.location.href = '/usercreated'
-        // });
-      } else {
-        alert("Not logged in")
-        document.location.href = '/login'
-      }
-    });
-   
   }
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Ville & région
