@@ -20,6 +20,7 @@ export default function PrivateRoute({
         else if(authenticated === "complete_signup"){
           return <Redirect to="/signup" />
         }
+        else return <Redirect to="/login" />
       }
       }
     />

@@ -9,6 +9,7 @@ import MissionPage from './Components/MissionPage/MissionPage.js'
 import UserCreated from './Components/UserCreated/UserCreated.js';
 import Logout from './Components/Logout/Logout.js'
 import PrivateRoute from './Components/PrivateRoute.js'
+import Admin from './Components/Admin/Admin.js'
 import * as firebase from 'firebase'
 
 
@@ -23,8 +24,8 @@ class App extends Component {
         return firebase.database().ref('/users/' + user.uid).once('value').then( (snapshot)=> {
           if(snapshot.val()!==undefined && snapshot.val()!==null){
             var statut = snapshot.val().statut;
-            if(statut=="En attente")this.setState({authenticated: "attente"})
-            if(statut=="admin")this.setState({authenticated: true})
+            if(statut==="En attente")this.setState({authenticated: "attente"})
+            if(statut==="admin")this.setState({authenticated: true})
           }     
           else{
             this.setState({authenticated:"complete_signup"})
@@ -54,6 +55,7 @@ class App extends Component {
         <PrivateRoute path="/ajoutmissions" component={AjoutMissions} authenticated={authenticated}/>
         <PrivateRoute path="/recherchemissions" component={RechercheMissions} authenticated={authenticated} />
         <PrivateRoute exact path="/" component={RechercheMissions} authenticated={authenticated}/>
+        <PrivateRoute exact path="/admin" component={Admin} authenticated={authenticated}/>
         <Route path="/login" component={Signin} />
         <Route path="/signup" component={Signup} />
         <Route path="/test" component={Test} />
