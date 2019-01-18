@@ -9,7 +9,7 @@ import {
 import moment from 'moment';
 import Modal from 'react-responsive-modal';
 import MissionPage from '../MissionPage/MissionPage.js'
-
+import Navbar from '../Navbar/Navbar.js'
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
@@ -511,7 +511,16 @@ export default class RechercheMissions extends Component {
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
       .then(result => result.json())
-      .then(regionVilles => this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles }));
+      .then(regionVilles =>{
+        let ville_selected
+        if (regionVilles[0] !== undefined) {
+          ville_selected = regionVilles[0].nom
+        }
+        else{
+          ville_selected =""
+        }
+         this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles, ville_selected })
+        });
   }
   loadCities_2(event) {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
@@ -602,7 +611,11 @@ export default class RechercheMissions extends Component {
     let optionslistestatut_color = this.optionslistestatut_color();
 
     return (
-
+      
+      <div>
+        <header>
+      <Navbar></Navbar>
+    </header>
       <div class="row" id="whole_page">
       <Modal open={open} onClose={this.onCloseModal} center>
         <MissionPage nomission={this.state.selectednomission}/>
@@ -750,7 +763,7 @@ export default class RechercheMissions extends Component {
 
         <div class="col-md-1"></div>
       </div>
-
+      </div>
     );
 
   }
