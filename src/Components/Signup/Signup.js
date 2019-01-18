@@ -122,7 +122,11 @@ export default class Signup extends React.Component {
   
     firebase.database().ref('users/' + user.uid).set(
       {
-
+        // name: user.displayName===undefined ?  "Anonymous":user.displayName, //BECAUSE ANONYMOUS LOG ALOWED
+        // email:user.email===undefined ? "Anonymous": user.email , //BECAUSE ANONYMOUS LOG ALOWED
+        // phone: user.phone=== undefined? "Anonymous": user.phone,//BECAUSE ANONYMOUS LOG ALOWED
+        name: user.displayName!==undefined && user.displayName!==null? user.displayName:"Anonyme",
+        email:user.email!==undefined && user.email!==null? user.email:"Anonyme",
         bdate: this.state.naissance,
         rue: this.state.rue,
         ville: this.state.ville_selected,
@@ -160,7 +164,7 @@ export default class Signup extends React.Component {
 
       <div id="wrapper">
         <form id="login" onSubmit={this.handleSubmit.bind(this)}>
-          <h2>Compléter le profile:</h2>
+          <h2>Compléter le profil:</h2>
           
           <div class="form-group">
             <div class="form-row">
