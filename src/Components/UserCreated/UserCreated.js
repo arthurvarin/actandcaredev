@@ -28,6 +28,6 @@ export default class UserCreated extends React.Component {
         </form>
       </div>
     );
-    else return <Redirect to="/login"></Redirect>
+    else return <Redirect to="/logout"></Redirect>
   }
 }
