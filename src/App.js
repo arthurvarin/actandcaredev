@@ -61,7 +61,7 @@ class App extends Component {
         <Route path="/test" component={Test} />
         <Route path="/usercreated" component={UserCreated} />
         <Route path="/missionpage/:nomission" component={MissionPage} />
-        <PrivateRoute path="/logout" component={Logout} authenticated={authenticated} />
+        <Route path="/logout" component={Logout} />
       </div>
     );
   }

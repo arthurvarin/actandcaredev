@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from "react-router-dom";
 import './Signin.css'
 import * as firebase from 'firebase';
 
@@ -12,7 +13,7 @@ export default class Logout extends React.Component {
     });
   }
   render(){
-    if(!this.state.logged)return(<h1>User logged out</h1>)
+    if(!this.state.logged)return(<Redirect to="/login"/>)
     else return (<h1>Not logged in</h1>)
   }
 }
