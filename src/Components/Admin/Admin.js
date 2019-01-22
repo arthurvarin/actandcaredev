@@ -36,10 +36,6 @@ export default class Admin extends Component {
 
   validateAccount(uid,index, e) {
     e.preventDefault();
-    let listKeys=this.state.listKeys
-    let listAccounts=this.state.listAccounts
-    listKeys.splice(index,1)
-    listAccounts.splice(index,1)
     firebase.database().ref('users/' + uid).update(
       {
         statut: "valide"
@@ -47,10 +43,6 @@ export default class Admin extends Component {
   }
   rendreAdmin(uid,index, e) {
     e.preventDefault();
-    let listKeys=this.state.listKeys
-    let listAccounts=this.state.listAccounts
-    listKeys.splice(index,1)
-    listAccounts.splice(index,1)
     firebase.database().ref('users/' + uid).update(
       {
         statut: "admin"
