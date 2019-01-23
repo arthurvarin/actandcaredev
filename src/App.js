@@ -10,6 +10,7 @@ import UserCreated from './Components/UserCreated/UserCreated.js';
 import Logout from './Components/Logout/Logout.js'
 import PrivateRoute from './Components/PrivateRoute.js'
 import Admin from './Components/Admin/Admin.js'
+import Account from './Components/Account/Acount.js'
 import * as firebase from 'firebase'
 
 
@@ -45,7 +46,7 @@ class App extends Component {
     });
   }
   render() {
-    const { authenticated, loading } = this.state;
+    const { authenticated, user, loading } = this.state;
 
     if (loading) {
       return <p>Loading...</p>;
@@ -55,13 +56,14 @@ class App extends Component {
         <PrivateRoute path="/ajoutmissions" component={AjoutMissions} authenticated={authenticated}/>
         <PrivateRoute path="/recherchemissions" component={RechercheMissions} authenticated={authenticated} />
         <PrivateRoute exact path="/" component={RechercheMissions} authenticated={authenticated}/>
-        <PrivateRoute exact path="/admin" component={Admin} authenticated={authenticated}/>
+        <PrivateRoute exact path="/inscriptions" component={Admin} authenticated={authenticated}/>
+        <PrivateRoute path="/account" component={Account} authenticated={authenticated}/>
         <Route path="/login" component={Signin} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/signup" component={Signup} user={user} />
         <Route path="/test" component={Test} />
         <Route path="/usercreated" component={UserCreated} />
         <Route path="/missionpage/:nomission" component={MissionPage} />
-        <Route path="/Logout" component={Logout} />
+        <Route path="/logout" component={Logout} />
       </div>
     );
   }

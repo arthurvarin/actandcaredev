@@ -1,68 +1,110 @@
 import React, { Component } from 'react';
 import './Signin.css'
+import Navbar from '../Navbar/Navbar.js'
 import * as firebase from 'firebase'
-
 
 export default class Admin extends Component {
   constructor(props) {
     super(props);
-    this.state = { listAccounts: [], loading: true }
+    this.state = { listAccounts: [], listKeys: [], loading: true }
     this.display = this.display.bind(this)
   }
 
   componentDidMount() {
     this.fetch()
   }
-
   fetch() {
-    
     const ref = firebase.database().ref('/users');
     ref.on('value', snap => {
-      snap.forEach(child => {
+      //https://css-tricks.com/intro-firebase-react/
+      let newAccounts = [];
+      let newKeys=[]
+      snap.forEach(
+        child => {
+          newAccounts.push(child.val())
+          newKeys.push(child.key)
+        })
         this.setState({
-          listAccounts: this.state.listAccounts.concat(child.val()),
+          //listKeys: this.state.listKeys.concat(child.key),
+          //listAccounts: this.state.listAccounts.concat(child.val()),
+          listAccounts:newAccounts,
+          listKeys:newKeys,
           loading: false
         })
-      })
     })
+  }
+
+  validateAccount(uid,index, e) {
+    e.preventDefault();
+    firebase.database().ref('users/' + uid).update(
+      {
+        statut: "valide"
+      })
+  }
+  rendreAdmin(uid,index, e) {
+    e.preventDefault();
+    firebase.database().ref('users/' + uid).update(
+      {
+        statut: "admin"
+      })
   }
 
   display() {
-    if (this.state.listAccounts !== "") this.state.listAccounts.map((account, index) => {
-      //alert(account.RPPS)
+    let i = -1;
+    if (this.state.loading === true) return <div>Updating...</div>
+    else if (this.state.listAccounts !== "") return this.state.listAccounts.map((account, index) => {
+      i++;
       return (
-        <tr id={index}>
-          <th>{alert(account.RPPS)}account.RPPS</th>
-          <th>account.bdate</th>
-          <th>account.region</th>
-          <th>account.rue</th>
-          <th>account.specialite</th>
-          <th>account.statut</th>
-          <th>account.tel</th>
-          <th>account.ville</th>
-        </tr>)
+        <div id={index}>
+          <tr>
+            {/* <th scope="col">UID: {this.state.listKeys[i]}</th> */}
+            <th scope="col">Email: {account.email}</th>
+            <th scope="col">Nom: {account.name}</th>
+            <th scope="col">RPPS: {account.RPPS}</th>
+            <th scope="col">Date de naissance: {account.bdate}</th>
+            <th scope="col">Rue: {account.rue}</th>
+            <th scope="col">Specialité: {account.specialite}</th>
+            <th scope="col">Téléphone: {account.tel}</th>
+            <th scope="col">Région: {account.region}</th>
+            <th scope="col">Ville: {account.ville}</th>
+            <th scope="col" className="alert alert-danger">Statut: {account.statut}</th>
+          </tr>
+          <button onClick={this.validateAccount.bind(this, this.state.listKeys[i],index)}>Valider </button>
+          <button onClick={this.rendreAdmin.bind(this, this.state.listKeys[i],index)}>Rendre admin</button>
+          <br></br>
+          <br></br>
+          <br></br>
+        </div>
+      )
+
     })
+
   }
 
+
   render() {
-    if (this.state.loading === true) return <div>Updating...</div>
-    else return (
 
-      <div id="wrapper">
-        <form id="login">
-          <h2>Accounts Management</h2>
+    return (
+      <div>
+        <header>
+          <Navbar></Navbar>
+        </header>
+        <div id="wrapper">
+          <form id="login">
+            <h2>Accounts Management</h2>
 
-          <div id="container" className="col-md-9">
-            <br></br>
-            <br></br>
-            <div>
-              {this.display()}
+            <div id="container" className="col-md-9">
+              <br></br>
+              <br></br>
+              <div>
+                {this.display()}
+              </div>
+              <br></br>
             </div>
-            <br></br>
-
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
+
     );
   }
 }
