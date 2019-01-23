@@ -343,7 +343,6 @@ export default class RechercheMissions extends Component {
   updateDisplay() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
-
       <tr>
         <th>
           <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; Modifier</button>
@@ -363,6 +362,8 @@ export default class RechercheMissions extends Component {
         <th>{mission.remuneration}</th>
         <th><button onClick={() => this.deleteMission(mission.nomission)}>Supprimer</button></th>
       </tr>
+
+
     );
     this.setState({
       display: <div class="table-responsive"><table class="table table-striped">
