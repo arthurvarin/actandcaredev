@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import './Signin.css'
 import Navbar from '../Navbar/Navbar.js'
+import Password from '../Password/Password.js'
 import * as firebase from 'firebase'
 import listeregions1 from '../../Jasons/regions.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import ReactNotify from 'react-notify';
+import Modal from 'react-responsive-modal';
+
 
 export default class Account extends Component {
   constructor(props) {
@@ -13,7 +16,9 @@ export default class Account extends Component {
       loading: true, modif: false,  ////Ville & région ////
       coderegion: 0,
       filteredVilles: [{ "nom": "Choisir une ville", "region": { "nom": "" } }],
-      filteredRegions: listeregions1
+      filteredRegions: listeregions1,
+      open: false,
+      openReauth: false
     }
     //this.display = this.display.bind(this)
 
@@ -42,6 +47,8 @@ export default class Account extends Component {
       this.setState({
         email: account.email,
         name: account.name,
+
+
         rue: account.rue,
         specialite: account.specialite,
         RPPS: account.RPPS,
@@ -63,6 +70,20 @@ export default class Account extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+
+    this.state.user.updateEmail(this.state.email).catch(function (error) {
+      alert(error.message)
+      console.log(error)
+    });
+    this.state.user.updateProfile({
+
+      displayName: this.state.name
+
+    }).catch(function (error) {
+      alert(error.message)
+      console.log(error)
+    });
+
     firebase.database().ref('users/' + this.state.user.uid).update({
       ville: this.state.ville_selected,
       region: this.state.region_selected,
@@ -78,6 +99,8 @@ export default class Account extends Component {
       rue: this.state.rue,
       specialite: this.state.specialite,
       tel: this.state.tel
+
+
     }, () => {
       this.refs.notificator.success("Succès", "Le compte a été mise à jour ", 4000);
       this.setState({ modif: false })
@@ -88,8 +111,19 @@ export default class Account extends Component {
 
   modif(e) {
     e.preventDefault();
-    this.setState({ modif: true })
+    this.setState({ modif:true })
   }
+  modifier(e) {
+    e.preventDefault();
+    this.setState({ openReauth:true })
+  }
+  openModal(e) {
+    e.preventDefault();
+    this.setState({ open: true})
+  }
+  onCloseModal() {
+    this.setState({ open: false });
+  };
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Ville & région
@@ -162,7 +196,27 @@ export default class Account extends Component {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  reauth(e) {
+    e.preventDefault()
 
+    // Prompt the user to re-provide their sign-in credentials
+    let email=this.state.user.email
+    let password=this.state.password
+    var credentials = firebase.auth.EmailAuthProvider.credential(
+      email,
+      password
+    );
+    this.state.user.reauthenticateAndRetrieveDataWithCredential(credentials).then( ()=> {
+      this.setState({modif:true})
+    }).catch(function (error) {
+      alert(error.message)
+      console.log(error)
+    });
+  }
+
+  onCloseModalReauth(){
+    this.setState({openReauth:false})
+  }
 
   render() {
     let optionslistespecialite;
@@ -173,7 +227,9 @@ export default class Account extends Component {
 
     })
 
-    const {loading, modif } = this.state;
+    const { loading, modif, open, openReauth, user } = this.state;
+
+
     if (loading) return <p>Updating ...</p>
     else if (!modif) return (
       <div>
@@ -181,9 +237,49 @@ export default class Account extends Component {
           <Navbar></Navbar>
         </header>
         <div id="wrapper">
+          <Modal open={open} onClose={this.onCloseModal.bind(this)} center>
+            <Password user={user}></Password>
+          </Modal>
+
+
+          <Modal open={openReauth} onClose={this.onCloseModalReauth.bind(this)}  center>
+            <div class="container" >
+              <h1 > Merci de vous réauthentifier </h1>
+              <form onSubmit={this.reauth.bind(this)} >
+
+                <br />
+
+                <div class="form-row">
+                  <div class="col-md-6">
+
+                    <div class="form-group">
+                      <div class="form-row">
+                        <div class="col-md-6">
+                          <label for="typedetablissement"><b>Mot de passe: </b></label>
+                        </div>
+                        <div class="col-md-6">
+                          <input type="password" name="password" value={this.state.password} class="form-control" onChange={this.handleChange.bind(this)} />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div></div>
+
+                <div class="form-row">
+                  <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Valider</button>
+                </div>
+
+              </form>
+
+
+            </div>
+          </Modal>
+
+
+
           <div class="container" >
-            <h1 > Mon compte {this.state.nomission}</h1>
-            <form onSubmit={this.modif.bind(this)} >
+            <h1 > Mon compte</h1>
+            <form onSubmit={this.modifier.bind(this)} >
 
               <br />
 
@@ -282,10 +378,18 @@ export default class Account extends Component {
                 </div></div>
 
               <div class="form-row">
-                <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Modifier</button>
+                <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Modifier mes informations</button>
+              </div>
+
+              <br></br>
+
+              <div class="form-row">
+                <button class="btn btn-md btn-block" id="addNewElement" onClick={this.openModal.bind(this)} >Mettre à jour le mot de passe</button>
               </div>
 
             </form>
+
+
           </div>
         </div>
       </div>
