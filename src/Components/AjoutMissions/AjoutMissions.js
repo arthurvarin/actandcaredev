@@ -8,6 +8,7 @@ import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import ReactNotify from 'react-notify';
+import Navbar from '../Navbar/Navbar.js'
 
 
 export default class AjoutMissions extends React.Component {
@@ -308,6 +309,8 @@ export default class AjoutMissions extends React.Component {
   }
 
   componentDidMount() {
+    
+  
 
     const missionRef = firebase.database().ref('missions');
     missionRef.on('value', snap => {
@@ -320,6 +323,8 @@ export default class AjoutMissions extends React.Component {
       () => this.tick(),
       500
     );
+
+    
   }
 
   componentWillUnmount() {
@@ -359,7 +364,7 @@ export default class AjoutMissions extends React.Component {
   }
   handleVilleSelection(event) {
     this.setState({
-      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom],
+      region_selected: [this.state.filteredVilles[event.target.selectedIndex].region.nom][0],
       ville_selected: event.target.value
     })
     this.getnomdusite()
@@ -367,7 +372,16 @@ export default class AjoutMissions extends React.Component {
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
       .then(result => result.json())
-      .then(regionVilles => this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles }));
+      .then(regionVilles =>{
+        let ville_selected
+        if (regionVilles[0] !== undefined) {
+          ville_selected = regionVilles[0].nom
+        }
+        else{
+          ville_selected =""
+        }
+         this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles, ville_selected })
+        });
   }
   loadCities_2(event) {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
@@ -441,6 +455,10 @@ export default class AjoutMissions extends React.Component {
 
 
     return (
+      <div> <header>
+        
+      <Navbar></Navbar>
+    </header>
       <div id="wrapper">
         <div class="container" >
           <h1 > Ajouter une mission {this.state.mission}</h1>
@@ -581,6 +599,7 @@ export default class AjoutMissions extends React.Component {
 
         </div>
         <ReactNotify ref='notificator'/>
+      </div>
       </div>
     );
   }
