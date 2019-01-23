@@ -1,11 +1,11 @@
 #navigation {
-  background-color: #008ae6;
   position: fixed;
   top:0;
   z-index:2;
   overflow: hidden;
   width: 100%;
   padding : 0;
+
 }
 
 .nav-link {
@@ -21,6 +21,8 @@
     background-color: #66c2ff !important;
     color: black !important;
     font-weight: bold;
+
+
 }
 
 
@@ -35,8 +37,9 @@
 }
 
 .nav-item {
-width: 300px;
+width: 15em;
 }
+
 
 .nav-item:hover {
   background-color: #ff9900 !important;
@@ -55,6 +58,6 @@ width: 300px;
 }
 
 #logoaccueil{
-  width:35%;
-  height: 35%;
+  width:25%;
+  height: 25%;
 }
