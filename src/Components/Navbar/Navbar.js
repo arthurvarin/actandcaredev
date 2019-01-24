@@ -28,6 +28,15 @@ export default class Navbar extends React.Component {
       <div class="nav-item">
         <NavLink activeClassName = "nav-link active" className="nav-link"  to="/recherchemissions">Rechercher des missions</NavLink>
       </div>
+      <div class="nav-item">
+        <NavLink activeClassName = "nav-link active" className="nav-link"  to="/inscriptions">Admin</NavLink>
+      </div>
+      <div class="nav-item">
+        <NavLink activeClassName = "nav-link active" className="nav-link"  to="/account">Mon compte</NavLink>
+      </div>
+      <div class="nav-item">
+        <NavLink activeClassName = "nav-link active" className="nav-link"  to="/logout">Déconnexion</NavLink>
+      </div>
   </div>
 </div>
 </nav>

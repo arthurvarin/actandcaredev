@@ -69,13 +69,49 @@ export default class Account extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
+    
+    //alert("openReauth handleSubmit"+this.state.openReauth)
 
+    let user = this.state.user
 
-    this.state.user.updateEmail(this.state.email).catch(function (error) {
+    user.updateEmail(this.state.email).then(() => {
+      user.updateProfile({
+        displayName: this.state.name,
+      }).then( ()=> {
+          firebase.database().ref('users/' + user.uid).update({
+          ville: this.state.ville_selected,
+          region: this.state.region_selected,
+    
+    
+    
+          email: this.state.email,
+          name: this.state.name,
+    
+    
+          RPPS: this.state.RPPS,
+          bdate: this.state.bdate,
+          rue: this.state.rue,
+          specialite: this.state.specialite,
+          tel: this.state.tel
+    
+    
+        }, () => {
+          //this.refs.notificator.success("Succès", "Le compte a été mise à jour ", 4000);
+         this.setState({ modif: false }) // PROBLEM
+        })
+      }).catch(function (error) {
+        alert(error.message)
+        console.log(error)
+        this.setState({ email: this.state.user.displayName })
+      });
+    }).catch((error) => {
       alert(error.message)
       console.log(error)
+      this.setState({ email: this.state.user.email })
     });
-    this.state.user.updateProfile({
+
+
+   /*  user.updateProfile({
 
       displayName: this.state.name
 
@@ -83,43 +119,23 @@ export default class Account extends Component {
       alert(error.message)
       console.log(error)
     });
-
-    firebase.database().ref('users/' + this.state.user.uid).update({
-      ville: this.state.ville_selected,
-      region: this.state.region_selected,
-
-
-
-      email: this.state.email,
-      name: this.state.name,
-
-
-      RPPS: this.state.RPPS,
-      bdate: this.state.bdate,
-      rue: this.state.rue,
-      specialite: this.state.specialite,
-      tel: this.state.tel
-
-
-    }, () => {
-      this.refs.notificator.success("Succès", "Le compte a été mise à jour ", 4000);
-      this.setState({ modif: false })
-    })
+ */
+    
 
   }
 
 
   modif(e) {
     e.preventDefault();
-    this.setState({ modif:true })
+    this.setState({ modif: true })
   }
   modifier(e) {
     e.preventDefault();
-    this.setState({ openReauth:true })
+    this.setState({ openReauth: true })
   }
   openModal(e) {
     e.preventDefault();
-    this.setState({ open: true})
+    this.setState({ open: true })
   }
   onCloseModal() {
     this.setState({ open: false });
@@ -200,22 +216,23 @@ export default class Account extends Component {
     e.preventDefault()
 
     // Prompt the user to re-provide their sign-in credentials
-    let email=this.state.user.email
-    let password=this.state.password
+    let email = this.state.user.email
+    let password = this.state.password
+
     var credentials = firebase.auth.EmailAuthProvider.credential(
       email,
       password
     );
-    this.state.user.reauthenticateAndRetrieveDataWithCredential(credentials).then( ()=> {
-      this.setState({modif:true})
+    this.state.user.reauthenticateAndRetrieveDataWithCredential(credentials).then(() => {
+      this.setState({ modif: true, openReauth:false })
     }).catch(function (error) {
       alert(error.message)
       console.log(error)
     });
   }
 
-  onCloseModalReauth(){
-    this.setState({openReauth:false})
+  onCloseModalReauth() {
+    this.setState({ openReauth: false })
   }
 
   render() {
@@ -236,13 +253,13 @@ export default class Account extends Component {
         <header>
           <Navbar></Navbar>
         </header>
+
         <div id="wrapper">
           <Modal open={open} onClose={this.onCloseModal.bind(this)} center>
-            <Password user={user}></Password>
+            <Password user={user} open={open}></Password>
           </Modal>
 
-
-          <Modal open={openReauth} onClose={this.onCloseModalReauth.bind(this)}  center>
+          <Modal open={openReauth} onClose={this.onCloseModalReauth.bind(this)} center>
             <div class="container" >
               <h1 > Merci de vous réauthentifier </h1>
               <form onSubmit={this.reauth.bind(this)} >
@@ -394,7 +411,7 @@ export default class Account extends Component {
         </div>
       </div>
     );
-    return (
+    else if (modif) return (
       <div>
         <header>
           <Navbar></Navbar>
