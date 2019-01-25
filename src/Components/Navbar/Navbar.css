@@ -1,28 +1,25 @@
 #navigation {
+  background-color: #008ae6;
   position: fixed;
   top:0;
   z-index:2;
   overflow: hidden;
   width: 100%;
   padding : 0;
-
 }
 
 .nav-link {
   font-family: 'Lato', sans-serif;
   font-size: 1.1em;
-  color: #66c2ff !important;
+  color: white !important;
   list-style-type: none;
   font-weight: 300;
-  font-weight: bold;
 }
 
 .active {
     background-color: #66c2ff !important;
     color: black !important;
     font-weight: bold;
-
-
 }
 
 
@@ -37,9 +34,8 @@
 }
 
 .nav-item {
-width: 15em;
+width: 15éem;
 }
-
 
 .nav-item:hover {
   background-color: #ff9900 !important;
@@ -50,7 +46,7 @@ width: 15em;
 #title {
   margin: 0;
   margin-right: 30px;
-  color: black;
+  color: white;
   font-size: 25px;
   line-height: 32px;
   font-family: 'Lato', sans-serif;
