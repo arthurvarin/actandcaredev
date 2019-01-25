@@ -366,7 +366,7 @@ export default class RechercheMissions extends Component {
 
     );
     this.setState({
-      display: <div class="table-responsive"><table class="table table-striped">
+      display: <div class="table-responsive"><table >
         <tr>
           <th scope="col" ></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
@@ -612,7 +612,7 @@ export default class RechercheMissions extends Component {
     let optionslistestatut_color = this.optionslistestatut_color();
 
     return (
-      
+
       <div>
         <header>
       <Navbar></Navbar>
