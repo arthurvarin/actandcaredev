@@ -68,7 +68,6 @@ export default class Navbar extends React.Component {
       <div class="nav-item">
         <NavLink activeClassName = "nav-link active" className="nav-link"  to="/logout">Déconnexion</NavLink>
       </div>
-    </div>
   </div>
 </nav>
 */
