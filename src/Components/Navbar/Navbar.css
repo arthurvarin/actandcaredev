@@ -6,12 +6,14 @@
   overflow: hidden;
   width: 100%;
   padding : 0;
+  height: 2.5em;
 }
 
-.nav-link {
+/*.nav-link {
   font-family: 'Lato', sans-serif;
   font-size: 1.1em;
-  color: white !important;
+  color: #66c2ff !important;
+  height: 2em;
   list-style-type: none;
   font-weight: 300;
 }
@@ -34,14 +36,22 @@
 }
 
 .nav-item {
-width: 15éem;
+  width: 15em;
 }
 
 .nav-item:hover {
   background-color: #ff9900 !important;
 }
 
-
+.underbar{
+  width: 0;
+  height: 5px;
+  background: rgba(100,100,200,0);
+  //left: -50px;
+  top: 20px;
+  position: absolute;
+  -webkit-transition: 0.5s ease;
+}
 
 #title {
   margin: 0;
@@ -54,6 +64,91 @@ width: 15éem;
 }
 
 #logoaccueil{
-  width:25%;
-  height: 25%;
+  width:120%;
+  height: 50px;
+}*/
+
+#logoaccueil{
+    height: 3em;
+    width: 7.9em;
 }
+#navigation{
+  background: rgb(30,30,30);
+  color: white;
+  font-family: sans-serif;
+  height: 4em;
+}
+#navigation .container-navbar{
+  list-style-type: none;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+}
+.underbar{
+  width: 0;
+  height: 5px;
+  background: rgba(100,100,200,0);
+  top: 20px;
+  position: absolute;
+  -webkit-transition: 0.5s ease;
+}
+#navigation .li-logo{
+  height: auto;
+  width: 10em;
+  float: left;
+  -webkit-transition: 0.5s ease;
+  cursor: pointer;
+  font-size: 20px;
+}
+#navigation .li-option{
+  margin-top: 20px;
+  height: auto;
+  float: left;
+  -webkit-transition: 0.5s ease;
+  cursor: pointer;
+  font-size: 20px;
+}
+#navigation .li-option-right{
+  margin-top: 20px;
+  height: auto;
+  float: right;
+  -webkit-transition: 0.5s ease;
+  cursor: pointer;
+  font-size: 20px;
+}
+#navigation .container-navbar a{
+  color:white;
+}
+
+#navigation .container-navbar div:hover{
+    text-shadow: 0px -2px 0px rgba(0,0,0,1), 0 0 25px rgba(102,194,255,0.8),0 -4px 35px rgba(102,194,255,0.5);
+  }
+
+  #navigation .container-navbar .active{
+      text-shadow: 0px -2px 0px rgba(0,0,0,1), 0 0 25px rgba(102,194,255,0.8),0 -4px 35px rgba(102,194,255,0.5);
+    }
+
+#navigation .container-navbar div:nth-of-type(1):hover ~ .underbar{
+    left: 0;
+    width: 40px;
+    background: black;
+  }
+#navigation .container-navbar div:nth-of-type(2):hover ~ .underbar{
+    left: 50px;
+    width: 40px;
+    background: black;
+  }
+#navigation .container-navbar div:nth-of-type(3):hover ~ .underbar{
+    left: 100px;
+    width: 40px;
+    height: 1px;
+    background: black;
+    box-shadow: 0 0 10px rgba(70,250,250,1);
+  }
+#navigation .container-navbar div:nth-of-type(4):hover ~ .underbar{
+    left: 150px;
+    width: 50px;
+    height: 1px;
+    background: black;
+    box-shadow: 0 0 10px rgba(70,250,250,1);
+  }

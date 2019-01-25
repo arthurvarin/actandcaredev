@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom'
 import './Navbar.css'
 import logo from '../../Icons/logo.png';
+import logout from '../../Icons/logout.png';
 
 export default class Navbar extends React.Component {
   constructor(props) {
@@ -18,12 +19,38 @@ export default class Navbar extends React.Component {
     // var classNames = require('classnames');
     // let classes = classNames('nav-item', {active: this.state.active});
     return (
-<nav id="navigation" class="navbar navbar-fixed-top navbar-expand-lg navbar-light bg-light">
+      <nav id="navigation">
+        <div class="container-navbar">
+          <div class="li-logo">
+            <NavLink  activeClassName="nav-link active" className="nav-link" to=""><img src={logo} id="logoaccueil" alt="logo"/></NavLink>
+          </div>
+          <div class="li-option">
+            <NavLink activeClassName="nav-link active option" className="nav-link" to="/ajoutmissions">Ajouter des missions<span class="sr-only">(current)</span></NavLink>
+          </div>
+          <div class="li-option">
+            <NavLink activeClassName = "nav-link active option" className="nav-link"  to="/recherchemissions">Rechercher des missions</NavLink>
+          </div>
+          <div class="li-option">
+            <NavLink activeClassName = "nav-link active option" className="nav-link"  to="/inscriptions">Admin</NavLink>
+          </div>
+          <div class="li-option-right">
+            <NavLink activeClassName = "nav-link active option" className="nav-link"  to="/logout">Déconnexion</NavLink>
+          </div>
+          <div class="li-option-right">
+            <NavLink activeClassName = "nav-link active option" className="nav-link"  to="/account">Mon compte</NavLink>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+}
+
+/*<nav id="navigation" class="navbar navbar-expand-md navbar-fixed-top navbar-expand-lg navbar-light bg-light">
   <NavLink class="navbar-brand" to="/pageaccueil" > <img src={logo} id="logoaccueil" alt="logo" /> </NavLink>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+  <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <div class="nav-item">
-        <NavLink activeClassName = "nav-link active" className="nav-link" to="/ajoutmissions"> Ajouter des missions <span class="sr-only">(current)</span></NavLink>
+        <NavLink activeClassName = "nav-link active underbar" className="nav-link" to="/ajoutmissions"> Ajouter des missions <span class="sr-only">(current)</span></NavLink>
       </div>
       <div class="nav-item">
         <NavLink activeClassName = "nav-link active" className="nav-link"  to="/recherchemissions">Rechercher des missions</NavLink>
@@ -31,6 +58,10 @@ export default class Navbar extends React.Component {
       <div class="nav-item">
         <NavLink activeClassName = "nav-link active" className="nav-link"  to="/inscriptions">Admin</NavLink>
       </div>
+    </div>
+  </div>
+  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
       <div class="nav-item">
         <NavLink activeClassName = "nav-link active" className="nav-link"  to="/account">Mon compte</NavLink>
       </div>
@@ -38,19 +69,16 @@ export default class Navbar extends React.Component {
         <NavLink activeClassName = "nav-link active" className="nav-link"  to="/logout">Déconnexion</NavLink>
       </div>
   </div>
-</div>
 </nav>
-    );
-  }
-}
+*/
 
 /*<nav id="navigation" class="navbar navbar-static-top navbar-expand-lg navbar-light bg-light">
         <div class="container">
           <div  class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            <li class="nav-item" >
-              <NavLink  activeClassName = "nav-link active" className="nav-link"  to="/pageaccueil"> <img src={logo} id="logoaccueil" alt="logo" /> </NavLink>
-            </li>
+              <li class="nav-item" >
+                <NavLink  activeClassName = "nav-link active" className="nav-link"  to="/pageaccueil"> <img src={logo} id="logoaccueil" alt="logo" /> </NavLink>
+              </li>
               <li class="nav-item" >
                 <NavLink  activeClassName = "nav-link active" className="nav-link"  to="/ajoutmissions"> Ajouter des missions<span class="sr-only">(current)</span></NavLink>
               </li>

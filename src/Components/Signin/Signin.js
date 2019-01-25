@@ -3,7 +3,8 @@ import './Signin.css'
 import * as firebaseui from 'firebaseui'
 import * as firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
- 
+import logo from '../../Icons/logo.png';
+
 var uiConfig = {
   signInSuccessUrl: '/ajoutmissions',
   signInOptions: [
@@ -29,10 +30,10 @@ var uiConfig = {
 export default class Signin extends Component {
   render() {
     return (
-      
+
       <div id="wrapper">
         <form id="login">
-        <h2>Act & Care</h2>
+        <img src={logo} id="logoaccueil" alt="logo"/>
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
         </form>
       </div>
