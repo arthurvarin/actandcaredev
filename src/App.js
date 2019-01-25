@@ -27,15 +27,15 @@ class App extends Component {
             var statut = snapshot.val().statut;
             if(statut==="En attente")this.setState({authenticated: "attente"})
             if(statut==="admin")this.setState({authenticated: true})
-          }     
+          }
           else{
             this.setState({authenticated:"complete_signup"})
-          } 
+          }
           this.setState({
             currentUser: user,
             loading: false
           });
-        }); 
+        });
       } else {
         this.setState({
           authenticated: false,

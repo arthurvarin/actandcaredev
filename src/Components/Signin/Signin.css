@@ -1,8 +1,16 @@
 #login {
   padding:5em;
+  background-color: black;
 }
 #login h2{
 	text-align: center;
 	padding-bottom: 1em;
 }
 
+#logoaccueil{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+    height: 3em;
+    width: 7.9em;
+}
