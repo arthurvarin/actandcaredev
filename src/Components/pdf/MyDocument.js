@@ -1,8 +1,5 @@
 import React, { Component }  from 'react';
-import ReactDOM from 'react-dom';
-import { PDFViewer, Image, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
-import * as firebase from 'firebase'
+import {Image, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -170,18 +167,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const missions = [
+/* const missions = [
     {nomission:"M201811001", datededebut:"2018-11-01", type:"Jour", nomdupraticien:"Mr Chouf", specialite:"Gériatrie", remuneration:"2500", commission:"300"},
     {nomission:"M201811001", datededebut:"2018-11-01", type:"Jour", nomdupraticien:"Mr Chouf", specialite:"Gériatrie", remuneration:"2500", commission:"300"}];
 
-
+ */
 
 
 export default class MissionModal extends Component {
   constructor(props){
     super(props);
-
-     let index =0;
      let listemissions = this.props.missions.map((mission, index) =>
        <View>
        <View style={styles.row}>

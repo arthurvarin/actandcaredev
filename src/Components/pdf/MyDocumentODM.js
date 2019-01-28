@@ -1,8 +1,5 @@
 import React, { Component }  from 'react';
-import ReactDOM from 'react-dom';
-import { PDFViewer, Image, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
-import * as firebase from 'firebase'
+import {Image, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -240,8 +237,6 @@ const styles = StyleSheet.create({
 export default class MissionModal extends Component {
   constructor(props){
     super(props);
-
-     let index =0;
      let listemissions = this.props.missions.map((mission, index) =>
        <View>
        <View style={styles.row}>

@@ -1,14 +1,12 @@
 import React, { Component }  from 'react';
-import ReactDOM from 'react-dom';
 import {Redirect} from 'react-router-dom'
-import { PDFViewer, Image, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
+import {StyleSheet } from '@react-pdf/renderer';
 import * as firebase from 'firebase';
 
 var dateFormat = require('dateformat');
 
 // Create styles
-const styles = StyleSheet.create({
+StyleSheet.create({
   page: {
     backgroundColor: 'white'
   },
@@ -208,7 +206,7 @@ setmissions(){
      })
   })
 
-  this.state.missions = result;
+  this.setState({missions: result});
 }
 
 extraireDateFrancais(date) {

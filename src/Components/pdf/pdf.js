@@ -1,19 +1,11 @@
 import React, { Component }  from 'react';
-import ReactDOM from 'react-dom';
-import { PDFViewer, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
+import { PDFViewer} from '@react-pdf/renderer';
 import MyDocument from './MyDocument.js';
 import MyDocumentODM from './MyDocumentODM.js';
 import Navbar from '../Navbar/Navbar.js';
 import './pdf.css'
-import * as firebase from 'firebase'
 
 export default class MissionModal extends Component {
-  constructor(props){
-    super(props);
-  };
-
-
 render (){
 
   if (this.props.location.state.typepdf==="ODM"){

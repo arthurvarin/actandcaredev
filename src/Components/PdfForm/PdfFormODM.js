@@ -1,14 +1,12 @@
 import React, { Component }  from 'react';
-import ReactDOM from 'react-dom';
 import {Redirect} from 'react-router-dom'
-import { PDFViewer, Image, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
+import {StyleSheet } from '@react-pdf/renderer';
 import * as firebase from 'firebase';
 
 var dateFormat = require('dateformat');
 
 // Create styles
-const styles = StyleSheet.create({
+StyleSheet.create({
   page: {
     backgroundColor: 'white'
   },
@@ -207,8 +205,8 @@ setmissions(){
        if ( this.state.listemissions[i] === child.val()['nomission']){
 
           if (i===0){
-              this.state.specialite = child.val()['specialite'];
-              this.state.nomdusite = child.val()['nomdusite'];
+              this.setState({specialite : child.val()['specialite']});
+              this.setState({nomdusite : child.val()['nomdusite']});
           }
 
           let tmpmission = {nomission: child.val()['nomission'], datededebut: child.val()['datededebut'], type: child.val()['type'], heurededebut: child.val()['heurededebut'], heuredefin: child.val()['heuredefin'], remuneration: child.val()['remuneration']};
@@ -218,7 +216,7 @@ setmissions(){
      })
   })
 
-  this.state.missions = result;
+  this.setState({missions :result});
 }
 
 extraireDateFrancais(date) {
