@@ -345,10 +345,10 @@ export default class RechercheMissions extends Component {
 
       <tr>
         <th>
-          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; Modifier</button>
+          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; </button>
 
         </th>
-        <th>
+        <th caret size="sm">
           {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
           {this.optionslistestatut()}
         </select> */}
@@ -360,23 +360,24 @@ export default class RechercheMissions extends Component {
         <th>{mission.type}</th>
         <th>{mission.typedetablissement}</th>
         <th>{mission.remuneration}</th>
-        <th><button onClick={() => this.deleteMission(mission.nomission)}>Supprimer</button></th>
+        <th><button onClick={() => this.deleteMission(mission.nomission)} class="deleteButton" > &#9003; </button></th>
       </tr>
 
 
     );
     this.setState({
-      display: <div class="table-responsive"><table >
+      display: <div class="table-responsive"><table id="tablemission" size="sm">
         <tr>
           <th scope="col" ></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} caret size="sm"> Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} caret size="sm"> Spécialité </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} caret size="sm"> Date </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} caret size="sm" > Ville </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} caret size="sm"> Type de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')}caret size="sm" > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')}caret size="sm" > Rémunération </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ></th>
+
         </tr>
         {listItem}
       </table></div>
@@ -624,12 +625,11 @@ export default class RechercheMissions extends Component {
         <div class="col-md-3">
           <br></br>
           <br></br>
-
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form id="choixcriteres" onSubmit={this.handleSubmit.bind(this)}>
             <br></br>
             <div class="card">
               <header class="card-header">
-                <h6 class="title"><h4>Choisissez vos critères de recherche</h4></h6>
+                <h7 class="title"><b><u>Entrez vos critères de recherche</u></b></h7>
               </header>
               <div class="filter-content">
                 <div class="card-body">
@@ -697,7 +697,6 @@ export default class RechercheMissions extends Component {
 
 
                   </div>
-                  <br></br>
                   <div class="form-group">
                     <label><b>Nom du site</b></label>
                     <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
@@ -736,8 +735,8 @@ export default class RechercheMissions extends Component {
                 </div>
               </div>
               <div class="form-row">
-                <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
-                <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
+                  <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
+                  <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
               </div>
             </div>
             <br />
@@ -752,7 +751,7 @@ export default class RechercheMissions extends Component {
         <div id="container" class="col-md-9">
           <br></br>
           <br></br>
-
+          <br></br>
 
           <div>
 
@@ -762,7 +761,6 @@ export default class RechercheMissions extends Component {
 
         </div>
 
-        <div class="col-md-1"></div>
       </div>
       </div>
     );

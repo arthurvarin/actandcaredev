@@ -1,12 +1,14 @@
 #wrapper {
-  padding-top: 20px;
-  margin-top: 40px;
-  margin-left: 200px;
-  margin-right: 200px;
-  min-width: 1000px;
-  height: 900px;
-  background-color: #ccebff;
-  min-height: 1000px;
-  height: 100%;
-  background-color: #fcf9f5;
+font-size: 0.8em; 
 }
+
+/*padding-top: 20px;
+margin-top: 40px;
+margin-left: 200px;
+margin-right: 200px;
+min-width: 1000px;
+height: 900px;
+background-color: #ccebff;
+min-height: 1000px;
+height: 100%;
+background-color: #fcf9f5;*/

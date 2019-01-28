@@ -1,0 +1,52 @@
+#choixcriteres{
+  margin-right: -1.5em;
+}
+
+.table-responsive{
+  overflow-x: auto;
+  min-width: inherit;
+  font-size: 0.7em;
+
+}
+
+#tablemission{
+  padding: 1em;
+    text-align: center;
+    vertical-align: center;
+}
+
+table.table-striped {
+}
+
+.form-control{
+  font-size: 0.4em;
+}
+
+.card {
+  background-color: #66c2ff !important;
+  font-size: 0.8em;
+}
+
+th {
+padding: 0.5em;
+margin-bottom: -2em;
+vertical-align: center;
+}
+
+option {
+  font-size: 0.8em;
+}
+
+.card-header {
+  text-align: center;
+  background-color: white  !important;
+  font-size: 1.3em;
+}
+
+.btn.btn-md.btn-block{
+  padding: 0.3em;
+}
+
+#cancelbutton{
+  background-color: red;
+}
