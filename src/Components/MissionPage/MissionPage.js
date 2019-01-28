@@ -287,7 +287,7 @@ export default class MissionPage extends React.Component {
     return (
         <div class="container" >
           <h1 > Mission {this.state.nomission}</h1>
-          <form onSubmit={this.handleSubmit.bind(this)} >
+          <form id="formbleu" onSubmit={this.handleSubmit.bind(this)} >
 
             <br />
 

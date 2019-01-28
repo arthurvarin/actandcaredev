@@ -1,15 +1,19 @@
+#formbleu {
+  background-color: #66c2ff !important;
+  /* height: 100%; */
+  /* margin-bottom: 2em; */
+  border-radius: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+/* 
 form {
-/* background-color: #66c2ff !important;*/
   height: 100%;
   margin-bottom: 30px;
   border-radius: 10px;
   padding-left: 10px;
   padding-right: 10px;
-}
-
-#titlepage{
-  color: #ff9900;
-}
+ */
 
 #addNewElement {
   margin-top: 60px;

@@ -44,7 +44,7 @@ export default class Password extends Component {
     if (auth) return (
       <div class="container" >
         <h1 > Changement de mot de passe </h1>
-        <form onSubmit={this.updatePassword.bind(this)} >
+        <form id="formbleu" onSubmit={this.updatePassword.bind(this)} >
 
           <br />
 
@@ -77,7 +77,7 @@ export default class Password extends Component {
     if (!auth) return (
       <div class="container" >
         <h1 > Merci de vous réauthentifier </h1>
-        <form onSubmit={this.reauth.bind(this)} >
+        <form id="formbleu" onSubmit={this.reauth.bind(this)} >
 
           <br />
 
