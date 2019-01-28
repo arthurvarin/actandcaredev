@@ -11,6 +11,7 @@ import Logout from './Components/Logout/Logout.js'
 import PrivateRoute from './Components/PrivateRoute.js'
 import Admin from './Components/Admin/Admin.js'
 import Account from './Components/Account/Acount.js'
+import Pdf from './Components/pdf/pdf.js'
 import * as firebase from 'firebase'
 
 
@@ -55,6 +56,7 @@ class App extends Component {
       <div>
         <PrivateRoute path="/ajoutmissions" component={AjoutMissions} authenticated={authenticated}/>
         <PrivateRoute path="/recherchemissions" component={RechercheMissions} authenticated={authenticated} />
+        <Route path="/pdf" component={Pdf} authenticated={authenticated} />
         <PrivateRoute exact path="/" component={RechercheMissions} authenticated={authenticated}/>
         <PrivateRoute exact path="/inscriptions" component={Admin} authenticated={authenticated}/>
         <PrivateRoute path="/account" component={Account} authenticated={authenticated}/>
