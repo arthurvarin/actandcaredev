@@ -22,7 +22,7 @@ export default class Navbar extends React.Component {
       <nav id="navigation">
         <div class="container-navbar">
           <div class="li-logo">
-            <NavLink  activeClassName="nav-link active" className="nav-link" to=""><img src={logo} id="logoaccueil" alt="logo"/></NavLink>
+            <NavLink  activeClassName="nav-link active" className="nav-link" to="/"><img src={logo} id="logoaccueil" alt="logo"/></NavLink>
           </div>
           <div class="li-option">
             <NavLink activeClassName="nav-link active option" className="nav-link" to="/ajoutmissions">Ajouter des missions<span class="sr-only">(current)</span></NavLink>

@@ -616,6 +616,7 @@ export default class RechercheMissions extends Component {
       <div>
         <header>
       <Navbar></Navbar>
+      <br></br>
     </header>
       <div class="row" id="whole_page">
       <Modal open={open} onClose={this.onCloseModal} center>
@@ -625,7 +626,7 @@ export default class RechercheMissions extends Component {
           <br></br>
           <br></br>
 
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form id="formbleu" onSubmit={this.handleSubmit.bind(this)}>
             <br></br>
             <div class="card">
               <header class="card-header">

@@ -28,7 +28,7 @@ var FilteredList = React.createClass({
   render: function(){
     return (
       <div className="filter-list">
-        <form>
+        <form id="formbleu">
         <fieldset className="form-group">
         <input type="text" className="form-control form-control-lg" placeholder="Search" onChange={this.filterList}/>
         </fieldset>
@@ -50,7 +50,7 @@ var List = React.createClass({
         })
        }
       </ul>
-    )  
+    )
   }
 });
 React.render(<FilteredList/>, document.getElementById('app'));

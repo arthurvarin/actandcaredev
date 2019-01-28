@@ -69,7 +69,7 @@ export default class Account extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    
+
     //alert("openReauth handleSubmit"+this.state.openReauth)
 
     let user = this.state.user
@@ -81,20 +81,20 @@ export default class Account extends Component {
           firebase.database().ref('users/' + user.uid).update({
           ville: this.state.ville_selected,
           region: this.state.region_selected,
-    
-    
-    
+
+
+
           email: this.state.email,
           name: this.state.name,
-    
-    
+
+
           RPPS: this.state.RPPS,
           bdate: this.state.bdate,
           rue: this.state.rue,
           specialite: this.state.specialite,
           tel: this.state.tel
-    
-    
+
+
         }, () => {
           //this.refs.notificator.success("Succès", "Le compte a été mise à jour ", 4000);
          this.setState({ modif: false }) // PROBLEM
@@ -120,7 +120,7 @@ export default class Account extends Component {
       console.log(error)
     });
  */
-    
+
 
   }
 
@@ -262,7 +262,7 @@ export default class Account extends Component {
           <Modal open={openReauth} onClose={this.onCloseModalReauth.bind(this)} center>
             <div class="container" >
               <h1 > Merci de vous réauthentifier </h1>
-              <form onSubmit={this.reauth.bind(this)} >
+              <form id="formbleu" onSubmit={this.reauth.bind(this)} >
 
                 <br />
 
@@ -296,7 +296,7 @@ export default class Account extends Component {
 
           <div class="container" >
             <h1 > Mon compte</h1>
-            <form onSubmit={this.modifier.bind(this)} >
+            <form id="formbleu" onSubmit={this.modifier.bind(this)} >
 
               <br />
 
@@ -419,7 +419,7 @@ export default class Account extends Component {
         <div id="wrapper">
           <div class="container" >
             <h1 > Mon compte {this.state.nomission}</h1>
-            <form onSubmit={this.handleSubmit.bind(this)} >
+            <form id="formbleu" onSubmit={this.handleSubmit.bind(this)} >
 
               <br />
 

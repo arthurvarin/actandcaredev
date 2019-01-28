@@ -1,6 +1,11 @@
 #login {
   padding:5em;
-  background-color: black;
+  background-color: #66c2ff !important;
+  /* height: 100%; */
+  /* margin-bottom: 2em; */
+  border-radius: 1em;
+  padding-left: 1em;
+  padding-right: 1em; 
 }
 #login h2{
 	text-align: center;

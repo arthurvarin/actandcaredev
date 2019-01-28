@@ -4,69 +4,10 @@
   top:0;
   z-index:2;
   overflow: hidden;
-  width: 100%;
+  width: 79em;
   padding : 0;
   height: 2.5em;
 }
-
-/*.nav-link {
-  font-family: 'Lato', sans-serif;
-  font-size: 1.1em;
-  color: #66c2ff !important;
-  height: 2em;
-  list-style-type: none;
-  font-weight: 300;
-}
-
-.active {
-    background-color: #66c2ff !important;
-    color: black !important;
-    font-weight: bold;
-}
-
-
-.nav-item.active > .nav-link {
-    color: black !important;
-    font-weight: bold;
-}
-
-.nav-item:hover > .nav-link {
-    color: black !important;
-    font-weight: bold;
-}
-
-.nav-item {
-  width: 15em;
-}
-
-.nav-item:hover {
-  background-color: #ff9900 !important;
-}
-
-.underbar{
-  width: 0;
-  height: 5px;
-  background: rgba(100,100,200,0);
-  //left: -50px;
-  top: 20px;
-  position: absolute;
-  -webkit-transition: 0.5s ease;
-}
-
-#title {
-  margin: 0;
-  margin-right: 30px;
-  color: white;
-  font-size: 25px;
-  line-height: 32px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
-}
-
-#logoaccueil{
-  width:120%;
-  height: 50px;
-}*/
 
 #logoaccueil{
     height: 3em;
@@ -77,55 +18,49 @@
   color: white;
   font-family: sans-serif;
   height: 4em;
+
 }
 #navigation .container-navbar{
   list-style-type: none;
   position: absolute;
-  left: 0px;
-  right: 0px;
+  left: 0em;
+  right: 0em;
+  bottom: -0.35em;
 }
-.underbar{
-  width: 0;
-  height: 5px;
-  background: rgba(100,100,200,0);
-  top: 20px;
-  position: absolute;
-  -webkit-transition: 0.5s ease;
-}
+
 #navigation .li-logo{
   height: auto;
   width: 10em;
   float: left;
   -webkit-transition: 0.5s ease;
-  cursor: pointer;
   font-size: 20px;
 }
 #navigation .li-option{
-  margin-top: 20px;
+  margin-top: 1em;
   height: auto;
   float: left;
   -webkit-transition: 0.5s ease;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.3em;
 }
 #navigation .li-option-right{
-  margin-top: 20px;
+  margin-top: 1em;
   height: auto;
   float: right;
   -webkit-transition: 0.5s ease;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.3em;
 }
 #navigation .container-navbar a{
   color:white;
 }
 
 #navigation .container-navbar div:hover{
-    text-shadow: 0px -2px 0px rgba(0,0,0,1), 0 0 25px rgba(102,194,255,0.8),0 -4px 35px rgba(102,194,255,0.5);
+    text-shadow: 0em -0.125em 0em rgba(0,0,0,1), 0 0 1.5625em rgba(102,194,255,0.8),0 -0.25em 2.1875em rgba(102,194,255,0.5);
   }
 
   #navigation .container-navbar .active{
-      text-shadow: 0px -2px 0px rgba(0,0,0,1), 0 0 25px rgba(102,194,255,0.8),0 -4px 35px rgba(102,194,255,0.5);
+      text-shadow: 0em -0.125em 0em rgba(0,0,0,1),0 0 1.5625em  rgba(102,194,255,0.8),0 -0.25em 2.1875em rgba(102,194,255,0.5);
     }
 
 #navigation .container-navbar div:nth-of-type(1):hover ~ .underbar{
