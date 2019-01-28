@@ -68,7 +68,7 @@ export default class AccountMedecin extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    
+
     //alert("openReauth handleSubmit"+this.state.openReauth)
 
     let user = this.state.user
@@ -76,27 +76,22 @@ export default class AccountMedecin extends Component {
     user.updateEmail(this.state.email).then(() => {
       user.updateProfile({
         displayName: this.state.name,
-      }).then( ()=> {
-          firebase.database().ref('users/' + user.uid).update({
-          ville: this.state.ville_selected,
-          region: this.state.region_selected,
-    
-    
-    
+      }).then(() => {
+        firebase.database().ref('users/' + user.uid).update({
+          //Auth specific
           email: this.state.email,
           name: this.state.name,
-    
-    
+          //DB only
           RPPS: this.state.RPPS,
           bdate: this.state.bdate,
           rue: this.state.rue,
           specialite: this.state.specialite,
-          tel: this.state.tel
-    
-    
+          tel: this.state.tel,
+          ville: this.state.ville_selected,
+          region: this.state.region_selected
         }, () => {
           //this.refs.notificator.success("Succès", "Le compte a été mise à jour ", 4000);
-         this.setState({ modif: false }) // PROBLEM
+          this.setState({ modif: false }) // PROBLEM
         })
       }).catch(function (error) {
         alert(error.message)
@@ -108,19 +103,18 @@ export default class AccountMedecin extends Component {
       console.log(error)
       this.setState({ email: this.state.user.email })
     });
-
-
-   /*  user.updateProfile({
-
-      displayName: this.state.name
-
-    }).catch(function (error) {
-      alert(error.message)
-      console.log(error)
-    });
- */
-    
-
+  }
+  deleteAccount() {
+    let user = this.state.user;
+    firebase.database().ref('users/' + user.uid).remove(()=>{
+      alert("Your account as well as all your data has been deleted")
+      user.delete().then(()=> {
+        window.location.href="/login"
+      }).catch(function (error) {
+        alert(error.message +"this is errorrrr")
+        console.log(error)
+      });
+    })
   }
 
 
@@ -223,7 +217,7 @@ export default class AccountMedecin extends Component {
       password
     );
     this.state.user.reauthenticateAndRetrieveDataWithCredential(credentials).then(() => {
-      this.setState({ modif: true, openReauth:false })
+      this.setState({ modif: true, openReauth: false })
     }).catch(function (error) {
       alert(error.message)
       console.log(error)
@@ -294,9 +288,10 @@ export default class AccountMedecin extends Component {
 
 
           <div class="container" >
-            <h1 > Mon compte</h1>
+          <br></br>
+          
             <form onSubmit={this.modifier.bind(this)} >
-
+              
               <br />
 
               <div class="form-row">
@@ -417,10 +412,11 @@ export default class AccountMedecin extends Component {
         </header>
         <div id="wrapper">
           <div class="container" >
-            <h1 > Mon compte {this.state.nomission}</h1>
+          <br></br>
             <form onSubmit={this.handleSubmit.bind(this)} >
 
               <br />
+       
 
               <div class="form-row">
                 <div class="col-md-6">
@@ -523,6 +519,13 @@ export default class AccountMedecin extends Component {
 
               <div class="form-row">
                 <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
+              </div>
+
+              <br></br>
+
+
+              <div class="form-row">
+                <button onClick={this.deleteAccount.bind(this)} class="col-md-5 btn btn-md" id="addNewElement" >Supprimer mon compte et mes données</button>
               </div>
 
             </form>

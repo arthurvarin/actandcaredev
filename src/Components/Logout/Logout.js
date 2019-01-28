@@ -9,7 +9,7 @@ export default class Logout extends React.Component {
     firebase.auth().signOut().then(()=> {
       this.setState({logged:false})
     }).catch(function(error) {
-      alert(error.message)
+      //alert(error.message)
       console.log(error)
     });
   }
