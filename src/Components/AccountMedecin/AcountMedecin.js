@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-// import './Signin.css'
-import Navbar from '../Navbar/Navbar.js'
+import Navbar from '../NavbarMedecin/NavbarMedecin.js'
 import Password from '../Password/Password.js'
 import * as firebase from 'firebase'
 import listeregions1 from '../../Jasons/regions.json'
@@ -9,7 +8,7 @@ import ReactNotify from 'react-notify';
 import Modal from 'react-responsive-modal';
 
 
-export default class Account extends Component {
+export default class AccountMedecin extends Component {
   constructor(props) {
     super(props);
     this.state = {

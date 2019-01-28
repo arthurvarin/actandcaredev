@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route} from 'react-router-dom'
+
+//Pages admins
 import AjoutMissions from './Components/AjoutMissions/AjoutMissions.js'
 import RechercheMissions from './Components/RechercheMissions/RechercheMissions.js'
 import Signin from './Components/Signin/Signin.js'
@@ -11,6 +13,12 @@ import Logout from './Components/Logout/Logout.js'
 import PrivateRoute from './Components/PrivateRoute.js'
 import Admin from './Components/Admin/Admin.js'
 import Account from './Components/Account/Acount.js'
+
+//Pages médecins
+import AccountMedecin from './Components/AccountMedecin/AcountMedecin.js'
+import RechercheMissionsMedecin from './Components/RechercheMissionsMedecin/RechercheMissionsMedecin.js'
+
+//Firebase
 import * as firebase from 'firebase'
 
 
@@ -53,6 +61,7 @@ class App extends Component {
     }
     return (
       <div>
+        {/* Pages admin */}
         <PrivateRoute path="/ajoutmissions" component={AjoutMissions} authenticated={authenticated}/>
         <PrivateRoute path="/recherchemissions" component={RechercheMissions} authenticated={authenticated} />
         <PrivateRoute exact path="/" component={RechercheMissions} authenticated={authenticated}/>
@@ -64,6 +73,9 @@ class App extends Component {
         <Route path="/usercreated" component={UserCreated} />
         <Route path="/missionpage/:nomission" component={MissionPage} />
         <Route path="/logout" component={Logout} />
+        {/* Pages médecins */}
+        <Route path="/rm_medecin" component={RechercheMissionsMedecin}/>
+        <Route path="/account_medecin" component={AccountMedecin}/>
       </div>
     );
   }
