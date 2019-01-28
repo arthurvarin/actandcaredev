@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import './Signin.css'
 import Navbar from '../Navbar/Navbar.js'
 import Password from '../Password/Password.js'
 import * as firebase from 'firebase'

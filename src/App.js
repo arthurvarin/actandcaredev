@@ -10,13 +10,14 @@ import Test from './Components/Test/Test.js'
 import MissionPage from './Components/MissionPage/MissionPage.js'
 import UserCreated from './Components/UserCreated/UserCreated.js';
 import Logout from './Components/Logout/Logout.js'
-import PrivateRoute from './Components/PrivateRoute.js'
 import Admin from './Components/Admin/Admin.js'
 import Account from './Components/Account/Acount.js'
+import PrivateRoute from './Components/PrivateRoute.js'
 
 //Pages médecins
 import AccountMedecin from './Components/AccountMedecin/AcountMedecin.js'
 import RechercheMissionsMedecin from './Components/RechercheMissionsMedecin/RechercheMissionsMedecin.js'
+import MedecinRoute from './Components/MedecinRoute.js'
 
 //Firebase
 import Pdf from './Components/pdf/pdf.js'
@@ -35,7 +36,10 @@ class App extends Component {
           if(snapshot.val()!==undefined && snapshot.val()!==null){
             var statut = snapshot.val().statut;
             if(statut==="En attente")this.setState({authenticated: "attente"})
-            if(statut==="admin")this.setState({authenticated: true})
+            // TEST THIS
+            else if(statut==="valide")this.setState({authenticated: "valide"})
+            //
+            else if(statut==="admin")this.setState({authenticated: true})          
           }
           else{
             this.setState({authenticated:"complete_signup"})
@@ -65,7 +69,7 @@ class App extends Component {
         {/* Pages admin */}
         <PrivateRoute path="/ajoutmissions" component={AjoutMissions} authenticated={authenticated}/>
         <PrivateRoute path="/recherchemissions" component={RechercheMissions} authenticated={authenticated} />
-        <Route path="/pdf" component={Pdf} authenticated={authenticated} />
+        <PrivateRoute path="/pdf" component={Pdf} authenticated={authenticated} />
         <PrivateRoute exact path="/" component={RechercheMissions} authenticated={authenticated}/>
         <PrivateRoute exact path="/inscriptions" component={Admin} authenticated={authenticated}/>
         <PrivateRoute path="/account" component={Account} authenticated={authenticated}/>
@@ -76,8 +80,8 @@ class App extends Component {
         <Route path="/missionpage/:nomission" component={MissionPage} />
         <Route path="/logout" component={Logout} />
         {/* Pages médecins */}
-        <Route path="/rm_medecin" component={RechercheMissionsMedecin}/>
-        <Route path="/account_medecin" component={AccountMedecin}/>
+        <MedecinRoute path="/rm_medecin" component={RechercheMissionsMedecin} authenticated={authenticated}/>
+        <MedecinRoute path="/account_medecin" component={AccountMedecin} authenticated={authenticated}/>
       </div>
     );
   }

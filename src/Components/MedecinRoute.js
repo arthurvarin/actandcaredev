@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-export default function PrivateRoute({
+export default function MedecinRoute({
   component: Component,
   authenticated,
   ...rest
@@ -11,7 +11,7 @@ export default function PrivateRoute({
     <Route
       {...rest}
       render={props =>{
-        if(authenticated === true) { 
+        if(authenticated === true || authenticated ==="valide") { 
           return <Component {...props} {...rest} />
         }
         else if(authenticated === "attente" ){
@@ -19,9 +19,6 @@ export default function PrivateRoute({
         }
         else if(authenticated === "complete_signup"){
           return <Redirect to="/signup"/>
-        }
-        else if(authenticated === "valide"){
-          return <Redirect to="/rm_medecin"/>
         }
         else return <Redirect to="/login" />
       }
