@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Signin.css'
 import Navbar from '../Navbar/Navbar.js'
 import Password from '../Password/Password.js'
 import * as firebase from 'firebase'
@@ -77,8 +76,8 @@ export default class Account extends Component {
     user.updateEmail(this.state.email).then(() => {
       user.updateProfile({
         displayName: this.state.name,
-      }).then( ()=> {
-          firebase.database().ref('users/' + user.uid).update({
+      }).then(() => {
+        firebase.database().ref('users/' + user.uid).update({
           ville: this.state.ville_selected,
           region: this.state.region_selected,
 
@@ -97,7 +96,7 @@ export default class Account extends Component {
 
         }, () => {
           //this.refs.notificator.success("Succès", "Le compte a été mise à jour ", 4000);
-         this.setState({ modif: false }) // PROBLEM
+          this.setState({ modif: false }) // PROBLEM
         })
       }).catch(function (error) {
         alert(error.message)
@@ -109,19 +108,6 @@ export default class Account extends Component {
       console.log(error)
       this.setState({ email: this.state.user.email })
     });
-
-
-   /*  user.updateProfile({
-
-      displayName: this.state.name
-
-    }).catch(function (error) {
-      alert(error.message)
-      console.log(error)
-    });
- */
-
-
   }
 
 
@@ -211,6 +197,18 @@ export default class Account extends Component {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  deleteAccount() {
+    let user = this.state.user;
+    firebase.database().ref('users/' + user.uid).remove(()=>{
+      alert("Your account as well as all your data has been deleted")
+      user.delete().then(()=> {
+        window.location.href="/login"
+      }).catch(function (error) {
+        alert(error.message +"this is errorrrr")
+        console.log(error)
+      });
+    })
+  }
 
   reauth(e) {
     e.preventDefault()
@@ -224,7 +222,7 @@ export default class Account extends Component {
       password
     );
     this.state.user.reauthenticateAndRetrieveDataWithCredential(credentials).then(() => {
-      this.setState({ modif: true, openReauth:false })
+      this.setState({ modif: true, openReauth: false })
     }).catch(function (error) {
       alert(error.message)
       console.log(error)
@@ -295,8 +293,8 @@ export default class Account extends Component {
 
 
           <div class="container" >
-            <h1 > Mon compte</h1>
-            <form id="formbleu" onSubmit={this.modifier.bind(this)} >
+            <br></br>
+            <form onSubmit={this.modifier.bind(this)} >
 
               <br />
 
@@ -418,8 +416,8 @@ export default class Account extends Component {
         </header>
         <div id="wrapper">
           <div class="container" >
-            <h1 > Mon compte {this.state.nomission}</h1>
-            <form id="formbleu" onSubmit={this.handleSubmit.bind(this)} >
+            <br></br>
+            <form onSubmit={this.handleSubmit.bind(this)} >
 
               <br />
 
@@ -524,6 +522,13 @@ export default class Account extends Component {
 
               <div class="form-row">
                 <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
+              </div>
+
+              <br></br>
+
+
+              <div class="form-row">
+                <button onClick={this.deleteAccount.bind(this)} class="col-md-5 btn btn-md" id="addNewElement" >Supprimer mon compte et mes données</button>
               </div>
 
             </form>

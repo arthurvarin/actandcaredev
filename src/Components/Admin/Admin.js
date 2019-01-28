@@ -48,6 +48,13 @@ export default class Admin extends Component {
         statut: "admin"
       })
   }
+  mettreEnAttente(uid, index,e){
+    e.preventDefault();
+    firebase.database().ref('users/' + uid).update(
+      {
+        statut: "En attente"
+      })
+  }
 
   display() {
     let i = -1;
@@ -89,7 +96,9 @@ export default class Admin extends Component {
           <th>{account.ville}</th>
           <th>{account.statut}</th>
           <th><button onClick={this.validateAccount.bind(this, this.state.listKeys[i], index)}>Valider </button>
-          <button onClick={this.rendreAdmin.bind(this, this.state.listKeys[i], index)}>Rendre admin</button></th>
+          <button onClick={this.rendreAdmin.bind(this, this.state.listKeys[i], index)}>Rendre admin</button>
+          <button onClick={this.mettreEnAttente.bind(this, this.state.listKeys[i], index)}>En attente</button>
+          </th>
         </tr>
 
       )

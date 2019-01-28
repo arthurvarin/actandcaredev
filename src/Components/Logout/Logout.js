@@ -1,7 +1,6 @@
 import React from 'react';
 import {Redirect} from "react-router-dom";
 import './Signin.css'
-import Navbar from '../Navbar/Navbar.js'
 import * as firebase from 'firebase';
 
 export default class Logout extends React.Component {
@@ -10,7 +9,7 @@ export default class Logout extends React.Component {
     firebase.auth().signOut().then(()=> {
       this.setState({logged:false})
     }).catch(function(error) {
-      alert(error.message)
+      //alert(error.message)
       console.log(error)
     });
   }
