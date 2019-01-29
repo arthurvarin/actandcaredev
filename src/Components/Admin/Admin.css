@@ -1,24 +1,87 @@
-#login {
-  padding: 0;
-  background-color: lightgrey !important;
+#wrapperadmin {
+  margin: 0.6em;
+  margin-top: 5.5em;
+  max-width: 80em;
+}
+
+#manage {
+  background-color: #fcf9f5 !important;
+  border-radius: 1em;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 1em;
+}
+
+.table-responsive{
+  overflow-x: auto;
+  min-width: inherit;
+
 }
 
  h2{
 	text-align: center;
-  padding-top: 1em;
-}
-
-#wrapperadmin {
-  margin: 1em;
-  margin-top: 7em;
-  max-width: 79em;
-  height: 900px;
-  min-height: 10em;
+  padding: 0.4em;
 }
 
 #tablemissionadmin{
-  padding: 1em;
+    padding: 1.5em;
     text-align: center;
     vertical-align: center;
     font-size: 0.85em;
+}
+
+.coltitles{
+  background-color:  #66c2ff ;
+  font-size: 1.3em;
+  color: white;
+}
+
+#mailadm{
+  border-top-left-radius: 2em;
+}
+
+#modifier{
+  border-top-right-radius: 2em;
+}
+
+ #mailtd{
+   border-left: 0.1em solid #66c2ff;
+ }
+
+#modifiertd{
+  border-right: 0.1em solid #66c2ff;
+}
+
+th {
+padding: 0.5em;
+vertical-align: center;
+}
+
+td{
+  border-bottom: 0.1em solid #66c2ff;
+  padding: 0.1em;
+}
+
+#valider{
+  margin: 0.5em;
+    background-color:  #b2d8b2;
+    color:black;
+    display: block;
+    width: 8em;
+}
+
+#mettreatt{
+    margin: 0.5em;
+    background-color:  #ffb2b2;
+    color:black;
+    display: block;
+    width: 8em;
+}
+
+#rendreadm{
+    margin: 0.5em;
+    background-color:  #ffe0b2;
+    color:black;
+    display: block;
+    width: 8em;
 }

@@ -33,8 +33,8 @@ export default class Signin extends Component {
 
       <div id="wrapper">
         <div id="login">
-        <img src={logo} id="logoaccueil" alt="logo"/>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+          <img src={logo} id="logoaccueil" alt="logo"/>
+          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
         </div>
       </div>
     );
