@@ -1,0 +1,24 @@
+#login {
+  padding: 0;
+  background-color: lightgrey !important;
+}
+
+ h2{
+	text-align: center;
+  padding-top: 1em;
+}
+
+#wrapperadmin {
+  margin: 1em;
+  margin-top: 7em;
+  max-width: 79em;
+  height: 900px;
+  min-height: 10em;
+}
+
+#tablemissionadmin{
+  padding: 1em;
+    text-align: center;
+    vertical-align: center;
+    font-size: 0.85em;
+}

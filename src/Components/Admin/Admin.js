@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Signin.css'
+import './Admin.css'
 import Navbar from '../Navbar/Navbar.js'
 import * as firebase from 'firebase'
 
@@ -115,15 +115,13 @@ export default class Admin extends Component {
         <header>
           <Navbar></Navbar>
         </header>
-        <div id="wrapper">
+        <div id="wrapperadmin">
           <form id="login">
             <h2>Accounts Management</h2>
 
-            <div id="container" className="col-md-9">
-              <br></br>
-              <br></br>
-              <div>
-                <table class="table table-striped">
+            <div id="container" className="col-md-12">
+              <div class="table-responsive">
+                <table id="tablemissionadmin">
                   <tr>
                     {/* <th scope="col">UID: {this.state.listKeys[i]}</th> */}
                     <th scope="col">Email</th>

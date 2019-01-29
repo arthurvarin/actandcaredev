@@ -7,7 +7,7 @@
 .table-responsive{
   overflow-x: auto;
   min-width: inherit;
-  font-size: 0.7em;
+
 }
 
 #devisodm{
@@ -24,9 +24,10 @@
 }
 
 #tablemission{
-  padding: 1em;
+  padding: 1.5em;
     text-align: center;
     vertical-align: center;
+    font-size: 0.7em;
 }
 
 #whole_page{
