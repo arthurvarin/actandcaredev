@@ -201,9 +201,9 @@ export default class RechercheMissions extends Component {
 
   tick() {
 
-    this.updateDisplay();
     this.updateFiltersDisplay();
     this.callFilters();
+    this.updateDisplay();
 
   }
 
