@@ -305,8 +305,6 @@ export default class MissionsSerie extends Component {
     let numero = dateFormat(date, "dd").toString();
     let annee = dateFormat(date, "yyyy").toString();
 
-    if(numero <10)
-      numero = "0" + numero
 
 
     return numero + "/" + mois + "/" + annee

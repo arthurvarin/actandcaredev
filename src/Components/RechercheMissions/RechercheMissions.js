@@ -440,14 +440,13 @@ export default class RechercheMissions extends Component {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
       <tr>
+      <th>
+        {this.addcheckbox(mission.nomission)}
+      </th>
         <th>
-          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; </button>
-
+          {this.deuxiemebouton(mission.nomission)}
         </th>
         <th caret size="sm">
-          {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
-          {this.optionslistestatut()}
-        </select> */}
         {this.options_mission_listestatut_color(mission)}
         </th>
         <th caret size="sm">{mission.specialite}</th>
