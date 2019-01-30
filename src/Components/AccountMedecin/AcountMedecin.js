@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './AccountMedecin.css'
 import Navbar from '../NavbarMedecin/NavbarMedecin.js'
 import Password from '../Password/Password.js'
 import * as firebase from 'firebase'
@@ -247,7 +248,7 @@ export default class AccountMedecin extends Component {
           <Navbar></Navbar>
         </header>
 
-        <div id="wrapper">
+        <div id="wrapperam">
           <Modal open={open} onClose={this.onCloseModal.bind(this)} center>
             <Password user={user} open={open}></Password>
           </Modal>
@@ -256,8 +257,6 @@ export default class AccountMedecin extends Component {
             <div class="container" >
               <h1 > Merci de vous réauthentifier </h1>
               <form onSubmit={this.reauth.bind(this)} >
-
-                <br />
 
                 <div class="form-row">
                   <div class="col-md-6">
@@ -288,13 +287,11 @@ export default class AccountMedecin extends Component {
 
 
           <div class="container" >
-          <br></br>
-          
-            <form onSubmit={this.modifier.bind(this)} >
-              
-              <br />
 
+            <form onSubmit={this.modifier.bind(this)} >
+            <h1 id="titlecompte"> Mon compte </h1>
               <div class="form-row">
+              <div class="col-md-3"></div>
                 <div class="col-md-6">
 
                   <div class="form-group">
@@ -386,13 +383,14 @@ export default class AccountMedecin extends Component {
                     </div>
                   </div>
 
-                </div></div>
+                </div>
+                <div class="col-md-3"></div>
+                </div>
 
               <div class="form-row">
                 <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Modifier mes informations</button>
               </div>
 
-              <br></br>
 
               <div class="form-row">
                 <button class="btn btn-md btn-block" id="addNewElement" onClick={this.openModal.bind(this)} >Mettre à jour le mot de passe</button>
@@ -410,15 +408,13 @@ export default class AccountMedecin extends Component {
         <header>
           <Navbar></Navbar>
         </header>
-        <div id="wrapper">
+        <div id="wrapperam">
           <div class="container" >
-          <br></br>
             <form onSubmit={this.handleSubmit.bind(this)} >
-
-              <br />
-       
-
+            <h6> Mon compte </h6>
               <div class="form-row">
+
+              <div class="col-md-3"></div>
                 <div class="col-md-6">
 
                   <div class="form-group">
@@ -515,14 +511,13 @@ export default class AccountMedecin extends Component {
                     </div>
                   </div>
 
-                </div></div>
+                </div>
+<div class="col-md-3"></div>
+                </div>
 
               <div class="form-row">
                 <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
               </div>
-
-              <br></br>
-
 
               <div class="form-row">
                 <button onClick={this.deleteAccount.bind(this)} class="col-md-5 btn btn-md" id="addNewElement" >Supprimer mon compte et mes données</button>

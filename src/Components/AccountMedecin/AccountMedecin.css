@@ -1,0 +1,16 @@
+#wrapperam {
+  padding: 2em;
+  margin-top: 5em;
+  margin-bottom: 2em;
+  margin-left: 200px;
+  margin-right: 200px;
+  min-width: 800px;
+  height: 900px;
+  background-color: #ccebff;
+  height: 100%;
+  background-color: #fcf9f5;
+}
+
+#titlecompte{
+  padding-bottom: 1em;
+}

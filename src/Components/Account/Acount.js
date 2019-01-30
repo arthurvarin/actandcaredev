@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../AccountMedecin/AccountMedecin.css'
 import Navbar from '../Navbar/Navbar.js'
 import Password from '../Password/Password.js'
 import * as firebase from 'firebase'
@@ -252,7 +253,7 @@ export default class Account extends Component {
           <Navbar></Navbar>
         </header>
 
-        <div id="wrapper">
+        <div id="wrapperam">
           <Modal open={open} onClose={this.onCloseModal.bind(this)} center>
             <Password user={user} open={open}></Password>
           </Modal>
@@ -262,7 +263,6 @@ export default class Account extends Component {
               <h1 > Merci de vous réauthentifier </h1>
               <form id="formbleu" onSubmit={this.reauth.bind(this)} >
 
-                <br />
 
                 <div class="form-row">
                   <div class="col-md-6">
@@ -293,12 +293,12 @@ export default class Account extends Component {
 
 
           <div class="container" >
-            <br></br>
             <form onSubmit={this.modifier.bind(this)} >
+            <h1 id="titlecompte"> Mon compte </h1>
 
-              <br />
 
               <div class="form-row">
+              <div class="col-md-3"></div>
                 <div class="col-md-6">
 
                   <div class="form-group">
@@ -390,13 +390,14 @@ export default class Account extends Component {
                     </div>
                   </div>
 
-                </div></div>
+                </div>
+                <div class="col-md-3"></div>
+                </div>
 
               <div class="form-row">
                 <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Modifier mes informations</button>
               </div>
 
-              <br></br>
 
               <div class="form-row">
                 <button class="btn btn-md btn-block" id="addNewElement" onClick={this.openModal.bind(this)} >Mettre à jour le mot de passe</button>
@@ -414,14 +415,14 @@ export default class Account extends Component {
         <header>
           <Navbar></Navbar>
         </header>
-        <div id="wrapper">
+        <div id="wrapperam">
           <div class="container" >
-            <br></br>
             <form onSubmit={this.handleSubmit.bind(this)} >
+            <h1 id="titlecompte"> Mon compte </h1>
 
-              <br />
 
               <div class="form-row">
+              <div class="col-md-3"></div>
                 <div class="col-md-6">
 
                   <div class="form-group">
@@ -518,13 +519,14 @@ export default class Account extends Component {
                     </div>
                   </div>
 
-                </div></div>
+                </div>
+                <div class="col-md-3"></div>
+                </div>
 
               <div class="form-row">
                 <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Mettre à jour les changements</button>
               </div>
 
-              <br></br>
 
 
               <div class="form-row">
