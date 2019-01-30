@@ -33,18 +33,6 @@ form {
 }
 
 
-<<<<<<< HEAD
-#wrapper {
-  padding-top: 2.5em;
-  margin-top: 2.5em;
-  margin-left: 12.5em;
-  margin-right: 12.5em;
-  min-width: 50em;
-  height: 900px;
-  background-color: #ccebff;
-  min-height: 62.5em;
-  background-color: white;
-=======
 #wrapperajm {
   padding: 2em;
   padding-top: 1.5em;
@@ -57,7 +45,6 @@ form {
   background-color: #ccebff;
   height: 100%;
   background-color: #fcf9f5;
->>>>>>> cf883474ce6f94e44882b518a268fa9ebcaa7c82
 }
 
 

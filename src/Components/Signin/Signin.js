@@ -31,7 +31,6 @@ var uiConfig = {
 export default class Signin extends Component {
   render() {
     return (
-<<<<<<< HEAD
       <div>
         <header>
           <Navbar></Navbar>
@@ -41,13 +40,6 @@ export default class Signin extends Component {
             <img src={logo} id="logologin" alt="logo"/>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
           </div>
-=======
-
-      <div id="wrapper">
-        <div id="login">
-          <img src={logo} id="logoaccueil" alt="logo"/>
-          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
->>>>>>> cf883474ce6f94e44882b518a268fa9ebcaa7c82
         </div>
       </div>
     );
