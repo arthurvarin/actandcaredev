@@ -30,6 +30,7 @@ export default class Navbar extends React.Component {
           <div class="li-option-right">
             <NavLink activeClassName = "nav-link active option" className="nav-link"  to="/account">Mon compte</NavLink>
           </div>
+          </div>
         </nav>
     );
   }
