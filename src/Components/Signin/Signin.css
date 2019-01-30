@@ -19,3 +19,16 @@
     height: 3em;
     width: 7.9em;
 }
+
+#wrapper {
+  padding: 2em;
+  margin-top: 4em;
+  margin-bottom: 2em;
+  margin-left: 200px;
+  margin-right: 200px;
+  min-width: 800px;
+  height: 900px;
+  background-color: #ccebff;
+  height: 100%;
+  background-color: #fcf9f5;
+}
