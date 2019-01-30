@@ -136,18 +136,20 @@ export default class AjoutMissions extends React.Component {
     missionRef.on('child_added', snap => {
 
       let mission = snap.val();
+        console.log(mission.nomission.substring(7,11))
       let serialnumber = "" + mission.datededebut.slice(0, 4) + mission.datededebut.slice(5, 7);
 
       if (serialnumber.valueOf() === tmpserialnumber.valueOf() && mission.nomission.length < 12) {
-        missioncount++;
+        if(parseInt(mission.nomission.substring(7,11),10) > missioncount)
+          missioncount = parseInt(mission.nomission.substring(7,11),10) ;
       }
 
       if (serialnumber.valueOf() === tmpserialnumber.valueOf() && mission.nomission.length > 12) {
-        if (mission.nomission.charAt(12) === '1') {
-          missioncount++;
-        }
+        if(parseInt(mission.nomission.substring(7,11),10) > missioncount)
+          missioncount = parseInt(mission.nomission.substring(7,11),10) ;
       }
     });
+
 
     return missioncount;
   }
@@ -239,21 +241,6 @@ export default class AjoutMissions extends React.Component {
         });
     }
 
-    // this.setState({
-    //   ville: "",
-    //   typedetablissement: "",
-    //   nomdusite: "",
-    //   region: "",
-    //   specialite: "",
-    //   type: "",
-    //   datededebut: "",
-    //   datedefin: "",
-    //   heurededebut: "",
-    //   heuredefin: "",
-    //   remuneration: "",
-    //   commentaires: "",
-    // })
-
     this.refs.notificator.success("Succès", "Mission ajoutée !", 4000);
   }
 
@@ -299,9 +286,12 @@ export default class AjoutMissions extends React.Component {
 
       for (let i = 0; i < tabdates.length; i++) {
         let tmpmois = tabdates[i].getMonth()+1;
+        let tmpjour = tabdates[i].getDate();
         if ((tabdates[i].getMonth() +1) < 10)
           tmpmois="0"+tmpmois
-        let stringdate = "" + tabdates[i].getFullYear() + "-" + (tmpmois) + "-" + tabdates[i].getDate();
+        if ((tabdates[i].getDate()) < 10)
+          tmpjour="0"+tmpjour
+        let stringdate = "" + tabdates[i].getFullYear() + "-" + (tmpmois) + "-" + (tmpjour);
         this.ajouterMission(stringdate, tmpserialnumber, endserialnumber, "-" + (i + 1));
       }
     }
