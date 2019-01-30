@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import moment from 'moment';
 import Modal from 'react-responsive-modal';
-import MissionPage from '../MissionPage/MissionPage.js'
+import MissionPage from '../MissionPageMedecin/MissionPageMedecin.js'
 import NavbarMedecin from '../NavbarMedecin/NavbarMedecin.js'
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
@@ -34,7 +34,7 @@ export default class RechercheMissionsMedecin extends Component {
       listestatut: listestatut,
       filternameslist: filternameslist,
       filtervalueslist: filtervalueslist,
-      selectednomission:"",
+      selectednomission: "",
       display: "",
       nomdusite: "",
       ville: "",
@@ -77,21 +77,21 @@ export default class RechercheMissionsMedecin extends Component {
   }
 
   onOpenModal = (nomission) => {
-    this.setState({open: true, selectednomission: nomission });
+    this.setState({ open: true, selectednomission: nomission });
   };
 
   onCloseModal = () => {
-    this.setState({ open: false, selectednomission: ""  });
+    this.setState({ open: false, selectednomission: "" });
   };
 
   deleteMission(todeletenomission) {
     firebase.database().ref('missions/' + todeletenomission).remove()
   }
 
-  FiltersInit(){
+  FiltersInit() {
 
-    let filternamestmp=[];
-    let filtervaluestmp=[];
+    let filternamestmp = [];
+    let filtervaluestmp = [];
 
     this.state.filternameslist.forEach(name => {
       filternamestmp.push(name);
@@ -100,7 +100,7 @@ export default class RechercheMissionsMedecin extends Component {
       filtervaluestmp.push(value);
     })
 
-    this.setState({filternames: filternamestmp, filtervalues: filtervaluestmp})
+    this.setState({ filternames: filternamestmp, filtervalues: filtervaluestmp })
 
   }
 
@@ -176,7 +176,7 @@ export default class RechercheMissionsMedecin extends Component {
             if (child.val()[this.state.filternames[i]] === this.state.filtervalues[i])
               countmultiples = countmultiples + 1;
 
-          countmultiplesref = countmultiplesref + 1;
+            countmultiplesref = countmultiplesref + 1;
           }
 
           if (this.state.filternames[i] === "remunerationmin")
@@ -199,7 +199,7 @@ export default class RechercheMissionsMedecin extends Component {
         if (count === 0)
           if (countmultiplesref === 0)
             filteredmissions.push(child.val());
-          else if  (countmultiples === countmultiplesref)
+          else if (countmultiples === countmultiplesref)
             filteredmissions.push(child.val());
 
 
@@ -328,19 +328,20 @@ export default class RechercheMissionsMedecin extends Component {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
       <tr>
-        <th>
-          {/* <select type="text" class="form-control" name={mission.nomission} value={mission.statut} onChange={this.handleChangeStatusTab} >
-          {this.optionslistestatut()}
-        </select> */}
+        {/* <th>
         {this.options_mission_listestatut_color(mission)}
-        </th>
+        </th> */}
         <th>{mission.specialite}</th>
         <th>{this.extraireDateFrancais(mission.datededebut)}</th>
         <th>{mission.ville}</th>
         <th>{mission.type}</th>
         <th>{mission.typedetablissement}</th>
         <th>{mission.remuneration}</th>
-        <th><button onClick={() => this.deleteMission(mission.nomission)}>Postuler</button></th>
+        <th>
+          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
+          {/* class="btn btn-md btn-block" id="addNewElement" */}
+          <br></br>
+          <button onClick={() => this.deleteMission(mission.nomission)}>Postuler</button></th>
       </tr>
 
 
@@ -348,7 +349,7 @@ export default class RechercheMissionsMedecin extends Component {
     this.setState({
       display: <div class="table-responsive"><table class="table table-striped">
         <tr>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
+          {/* <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th> */}
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
@@ -485,16 +486,16 @@ export default class RechercheMissionsMedecin extends Component {
   loadCities() {
     fetch(`https://geo.api.gouv.fr/communes?codeRegion=${this.state.region_code}&fields=nom,codeRegion,region&format=json`)
       .then(result => result.json())
-      .then(regionVilles =>{
+      .then(regionVilles => {
         let ville_selected
         if (regionVilles[0] !== undefined) {
           ville_selected = regionVilles[0].nom
         }
-        else{
-          ville_selected =""
+        else {
+          ville_selected = ""
         }
-         this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles, ville_selected })
-        });
+        this.setState({ regionVilles: regionVilles, filteredVilles: regionVilles, ville_selected })
+      });
   }
   loadCities_2(event) {
     fetch(`https://geo.api.gouv.fr/communes?nom=${this.state.ville_nom}&fields=nom,region&format=json`)
@@ -564,7 +565,7 @@ export default class RechercheMissionsMedecin extends Component {
     </input>)
     else if (this.state.statut === "Pourvu") return (<input disabled type="text" class="alert-success" name="statut" value={this.state.statut} >
     </input>)
-    else return (<input disabled type="text"  name="statut" value={this.state.statut}></input>)
+    else return (<input disabled type="text" name="statut" value={this.state.statut}></input>)
   }
 
   options_mission_listestatut_color(mission) {
@@ -605,69 +606,69 @@ export default class RechercheMissionsMedecin extends Component {
 
       <div>
         <header>
-      <NavbarMedecin></NavbarMedecin>
-    </header>
-      <div class="row" id="whole_page">
-      <Modal open={open} onClose={this.onCloseModal} center>
-        <MissionPage nomission={this.state.selectednomission}/>
-      </Modal>
-        <div class="col-md-3">
-          <form id="choixcriteres" onSubmit={this.handleSubmit.bind(this)}>
-            <div class="card">
-              <header class="card-header">
-                <h6 class="title"><h4>Choisissez vos critères de recherche</h4></h6>
-              </header>
-              <div class="filter-content">
-                <div class="card-body">
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label><b>Spécialité</b></label>
-                      <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
-                        {optionslistespecialite}
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label><b>Statut</b></label>
-
-                      {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
-                        {optionslistestatut}
-                      </select> */}
-                      {optionslistestatut_color}
-                    </div>
-                  </div>
-                  <label><b>Dates</b></label>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label>Date de début</label>
-                      <input type="date" class="form-control" name="datededebut" value={this.state.datededebut} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
-                    </div>
-                    <div class="form-group col-md-6 ">
-                      <label>Date de fin</label>
-                      <input type="date" class="form-control" name="datedefin" value={this.state.datedefin} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
-                    </div>
-
-
-
-                    {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-                    {/* Gestion ville region */}
+          <NavbarMedecin></NavbarMedecin>
+        </header>
+        <div class="row" id="whole_page">
+          <Modal open={open} onClose={this.onCloseModal} center>
+            <MissionPage nomission={this.state.selectednomission} />
+          </Modal>
+          <div class="col-md-3">
+            <form id="choixcriteres" onSubmit={this.handleSubmit.bind(this)}>
+              <div class="card">
+                <header class="card-header">
+                  <h6 class="title"><h4>Choisissez vos critères de recherche</h4></h6>
+                </header>
+                <div class="filter-content">
+                  <div class="card-body">
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label><b>Ville</b></label>
-                        <Input name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></Input>
-                        <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
-                          {this.displayVilles()}
+                        <label><b>Spécialité</b></label>
+                        <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
+                          {optionslistespecialite}
                         </select>
                       </div>
-                      <div class="form-group col-md-6 ">
-                        <label><b>Région</b></label>
-                        <select type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
-                          {this.displayRegions()}
-                        </select>
+                      <div class="form-group col-md-6">
+                        <label><b>Statut</b></label>
+
+                        {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+                        {optionslistestatut}
+                      </select> */}
+                        {optionslistestatut_color}
                       </div>
                     </div>
-                    {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+                    <label><b>Dates</b></label>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label>Date de début</label>
+                        <input type="date" class="form-control" name="datededebut" value={this.state.datededebut} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
+                      </div>
+                      <div class="form-group col-md-6 ">
+                        <label>Date de fin</label>
+                        <input type="date" class="form-control" name="datedefin" value={this.state.datedefin} onChange={this.handleChange} placeholder="aaaa-mm-jj"></input>
+                      </div>
 
-                    {/* <div class="form-group col-md-6 ">
+
+
+                      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+                      {/* Gestion ville region */}
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label><b>Ville</b></label>
+                          <Input name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></Input>
+                          <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
+                            {this.displayVilles()}
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6 ">
+                          <label><b>Région</b></label>
+                          <select type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
+                            {this.displayRegions()}
+                          </select>
+                        </div>
+                      </div>
+                      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+                      {/* <div class="form-group col-md-6 ">
                       <label><b>Ville</b></label>
                       <Input type="text" name="ville" value={this.state.ville} onChange={this.handleChange} ></Input>
                     </div>
@@ -680,72 +681,72 @@ export default class RechercheMissionsMedecin extends Component {
                       </div>
                     </div> */}
 
-                    {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+                      {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+
+                    </div>
+                    <div class="form-group">
+                      <label><b>Nom du site</b></label>
+                      <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
+                    </div>
+
+                    <label><b>Rémunération</b></label>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label>Min</label>
+                        <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
+                      </div>
+                      <div class="form-group col-md-6 ">
+                        <label>Max</label>
+                        <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6 ">
+                        <label><b>Type de mission</b></label>
+                        <select type="text" class="form-control" name="type" value={this.state.type} onChange={this.handleChange} >
+                          {optionslistetype}
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label><b>Etablissement</b></label>
+                        <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
+                          {optionslistetypedetablissement}
+                        </select>
+                      </div>
+                    </div>
+
+
 
 
                   </div>
-                  <div class="form-group">
-                    <label><b>Nom du site</b></label>
-                    <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
-                  </div>
-
-                  <label><b>Rémunération</b></label>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label>Min</label>
-                      <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
-                    </div>
-                    <div class="form-group col-md-6 ">
-                      <label>Max</label>
-                      <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
-                    </div>
-                  </div>
-
-                  <div class="form-row">
-                    <div class="form-group col-md-6 ">
-                      <label><b>Type de mission</b></label>
-                      <select type="text" class="form-control" name="type" value={this.state.type} onChange={this.handleChange} >
-                        {optionslistetype}
-                      </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label><b>Etablissement</b></label>
-                      <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
-                        {optionslistetypedetablissement}
-                      </select>
-                    </div>
-                  </div>
-
-
-
-
+                </div>
+                <div class="form-row">
+                  <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
+                  <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
                 </div>
               </div>
-              <div class="form-row">
-                <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
-                <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
+              <div>
+                {this.state.filtersdisplay}
               </div>
-            </div>
+            </form>
+
+
+
+          </div>
+          <div id="container" class="col-md-9">
+
+
             <div>
-              {this.state.filtersdisplay}
+
+              {this.state.display}
             </div>
-          </form>
 
-
-
-        </div>
-        <div id="container" class="col-md-9">
-
-
-          <div>
-
-            {this.state.display}
           </div>
 
+          <div class="col-md-1"></div>
         </div>
-
-        <div class="col-md-1"></div>
-      </div>
       </div>
     );
 
