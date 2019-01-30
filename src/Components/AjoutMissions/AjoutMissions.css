@@ -93,3 +93,7 @@ form {
 .notify-title {
   font-weight: 700;
 }
+
+.form-control{
+  font-size: 0.4em;
+}

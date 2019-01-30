@@ -4,6 +4,7 @@ import * as firebaseui from 'firebaseui'
 import * as firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import logo from '../../Icons/logo.png';
+import Navbar from '../NavbarLogin/NavbarLogin.js'
 
 var uiConfig = {
   signInSuccessUrl: '/ajoutmissions',
@@ -30,11 +31,15 @@ var uiConfig = {
 export default class Signin extends Component {
   render() {
     return (
-
-      <div id="wrapper">
-        <div id="login">
-          <img src={logo} id="logoaccueil" alt="logo"/>
-          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+      <div>
+        <header>
+          <Navbar></Navbar>
+        </header>
+        <div id="wrapper">
+          <div id="login">
+            <img src={logo} id="logologin" alt="logo"/>
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+          </div>
         </div>
       </div>
     );

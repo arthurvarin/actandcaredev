@@ -1,23 +1,27 @@
 #login {
   padding:5em;
   background-color: #66c2ff !important;
-  /* height: 100%; */
-  /* margin-bottom: 2em; */
   border-radius: 1em;
   padding-left: 1em;
   padding-right: 1em;
 }
-#login h2{
-	text-align: center;
-	padding-bottom: 1em;
-}
+
 
 #logoaccueil{
   display: block;
   margin-left: auto;
   margin-right: auto;
-    height: 3em;
-    width: 7.9em;
+  height: 3em;
+  width: 7.9em;
+}
+
+
+#logologin{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 4.5em;
+  width: 11.85em;
 }
 
 #wrapper {

@@ -536,7 +536,7 @@ export default class Account extends Component {
             </form>
             <ReactNotify ref='notificator' />
           </div>
-        </div>
+
       </div>
     );
   }
