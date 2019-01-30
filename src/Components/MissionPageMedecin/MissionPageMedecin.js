@@ -145,7 +145,7 @@ export default class MissionPageMedecin extends React.Component {
                     <label for="typedetablissement"><b>Type d'établissement</b></label>
                   </div>
                   <div class="col-md-6">
-                    <input disabled type="date" class="form-control" value={this.state.typedetablissement}/>
+                    <input disabled type="text" class="form-control" value={this.state.typedetablissement}/>
                   </div>
                 </div>
               </div>
