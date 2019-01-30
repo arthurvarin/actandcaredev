@@ -14,7 +14,7 @@ export default class Admin extends Component {
     this.fetch()
   }
   fetch() {
-    const ref = firebase.database().ref('/users');
+    const ref = firebase.database().ref('/users').orderByChild('createdOn');
     ref.on('value', snap => {
       //https://css-tricks.com/intro-firebase-react/
       let newAccounts = [];
@@ -27,8 +27,8 @@ export default class Admin extends Component {
       this.setState({
         //listKeys: this.state.listKeys.concat(child.key),
         //listAccounts: this.state.listAccounts.concat(child.val()),
-        listAccounts: newAccounts,
-        listKeys: newKeys,
+        listAccounts: newAccounts.reverse(),
+        listKeys: newKeys.reverse(),
         loading: false
       })
     })
@@ -38,14 +38,14 @@ export default class Admin extends Component {
     e.preventDefault();
     firebase.database().ref('users/' + uid).update(
       {
-        statut: "Valide"
+        statut: "valide"
       })
   }
   rendreAdmin(uid, index, e) {
     e.preventDefault();
     firebase.database().ref('users/' + uid).update(
       {
-        statut: "Admin"
+        statut: "admin"
       })
   }
   mettreEnAttente(uid, index,e){
@@ -120,7 +120,7 @@ export default class Admin extends Component {
             <h2>Accounts Management</h2>
 
             <div id="container" className="col-md-12">
-              <div class="table-responsive">
+              <div>
                 <table id="tablemissionadmin">
                   <tr>
                     {/* <th scope="col">UID: {this.state.listKeys[i]}</th> */}

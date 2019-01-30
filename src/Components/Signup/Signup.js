@@ -134,7 +134,8 @@ export default class Signup extends React.Component {
         tel: this.state.tel,
         specialite: this.state.specialite,
         RPPS: this.state.RPPS,
-        statut: "En attente"
+        statut: "En attente",
+        createdOn: firebase.database.ServerValue.TIMESTAMP
       }, function (error) {
         if (error) {
         } else {
