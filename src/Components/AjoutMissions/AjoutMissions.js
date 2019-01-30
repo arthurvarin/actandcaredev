@@ -459,7 +459,7 @@ export default class AjoutMissions extends React.Component {
 
       <Navbar></Navbar>
     </header>
-      <div id="wrapper">
+      <div id="wrapperajm">
         <div class="container" >
           <h1 > Ajouter une mission {this.state.mission}</h1>
           <form id="formbleu" onKeyPress={this.onKeyPress}  onSubmit={this.handleSubmit.bind(this)} >

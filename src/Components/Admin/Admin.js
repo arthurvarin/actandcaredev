@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Signin.css'
+import './Admin.css'
 import Navbar from '../Navbar/Navbar.js'
 import * as firebase from 'firebase'
 
@@ -38,14 +38,14 @@ export default class Admin extends Component {
     e.preventDefault();
     firebase.database().ref('users/' + uid).update(
       {
-        statut: "valide"
+        statut: "Valide"
       })
   }
   rendreAdmin(uid, index, e) {
     e.preventDefault();
     firebase.database().ref('users/' + uid).update(
       {
-        statut: "admin"
+        statut: "Admin"
       })
   }
   mettreEnAttente(uid, index,e){
@@ -85,20 +85,20 @@ export default class Admin extends Component {
 
         <tr id={index}>
           {/* <th scope="col">UID: {this.state.listKeys[i]}</th> */}
-          <th>{account.email}</th>
-          <th>{account.name}</th>
-          <th>{account.RPPS}</th>
-          <th>{account.bdate}</th>
-          <th>{account.rue}</th>
-          <th>{account.specialite}</th>
-          <th>{account.tel}</th>
-          <th>{account.region}</th>
-          <th>{account.ville}</th>
-          <th>{account.statut}</th>
-          <th><button onClick={this.validateAccount.bind(this, this.state.listKeys[i], index)}>Valider </button>
-          <button onClick={this.rendreAdmin.bind(this, this.state.listKeys[i], index)}>Rendre admin</button>
-          <button onClick={this.mettreEnAttente.bind(this, this.state.listKeys[i], index)}>En attente</button>
-          </th>
+          <td id="mailtd" ><b>{account.email}</b></td>
+          <td><b>{account.name}</b></td>
+          <td>{account.RPPS}</td>
+          <td>{account.bdate}</td>
+          <td>{account.rue}</td>
+          <td><b>{account.specialite}</b></td>
+          <td><b>{account.tel}</b></td>
+          <td>{account.region}</td>
+          <td>{account.ville}</td>
+          <td><b>{account.statut}</b></td>
+          <td id="modifiertd"><button type="button" class="btn btn-md btn-block" id="valider" onClick={this.validateAccount.bind(this, this.state.listKeys[i], index)}>Valider </button>
+          <button type="button" class="btn btn-md btn-block" id="rendreadm" onClick={this.rendreAdmin.bind(this, this.state.listKeys[i], index)}>Rendre admin</button>
+          <button type="button" class="btn btn-md btn-block" id="mettreatt"onClick={this.mettreEnAttente.bind(this, this.state.listKeys[i], index)}>En attente</button>
+          </td>
         </tr>
 
       )
@@ -115,28 +115,26 @@ export default class Admin extends Component {
         <header>
           <Navbar></Navbar>
         </header>
-        <div id="wrapper">
-          <form id="login">
+        <div id="wrapperadmin">
+          <form id="manage">
             <h2>Accounts Management</h2>
 
-            <div id="container" className="col-md-9">
-              <br></br>
-              <br></br>
-              <div>
-                <table class="table table-striped">
+            <div id="container" className="col-md-12">
+              <div class="table-responsive">
+                <table id="tablemissionadmin">
                   <tr>
                     {/* <th scope="col">UID: {this.state.listKeys[i]}</th> */}
-                    <th scope="col">Email</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">RPPS</th>
-                    <th scope="col">Date de naissance</th>
-                    <th scope="col">Rue</th>
-                    <th scope="col">Specialité</th>
-                    <th scope="col">Téléphone</th>
-                    <th scope="col">Région</th>
-                    <th scope="col">Ville</th>
-                    <th scope="col">Statut</th>
-                    <th scope="col">Modifier</th>
+                    <th scope="col" class="coltitles" id="mailadm">Email</th>
+                    <th scope="col" class="coltitles">Nom</th>
+                    <th scope="col" class="coltitles">RPPS</th>
+                    <th scope="col" class="coltitles">Date de naissance</th>
+                    <th scope="col" class="coltitles">Rue</th>
+                    <th scope="col" class="coltitles">Specialité</th>
+                    <th scope="col" class="coltitles">Téléphone</th>
+                    <th scope="col" class="coltitles">Région</th>
+                    <th scope="col" class="coltitles">Ville</th>
+                    <th scope="col" class="coltitles">Statut</th>
+                    <th scope="col" class="coltitles" id="modifier">Modifier</th>
                   </tr>
                   {this.display()}
                 </table>

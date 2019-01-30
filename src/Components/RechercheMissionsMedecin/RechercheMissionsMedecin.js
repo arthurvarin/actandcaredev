@@ -602,7 +602,7 @@ export default class RechercheMissionsMedecin extends Component {
     let optionslistestatut_color = this.optionslistestatut_color();
 
     return (
-      
+
       <div>
         <header>
       <NavbarMedecin></NavbarMedecin>
@@ -612,30 +612,28 @@ export default class RechercheMissionsMedecin extends Component {
         <MissionPage nomission={this.state.selectednomission}/>
       </Modal>
         <div class="col-md-3">
-          <br></br>
-          <br></br>
-          <br></br>
-          <form onSubmit={this.handleSubmit.bind(this)}>
-            <br></br>
+          <form id="choixcriteres" onSubmit={this.handleSubmit.bind(this)}>
             <div class="card">
               <header class="card-header">
                 <h6 class="title"><h4>Choisissez vos critères de recherche</h4></h6>
               </header>
               <div class="filter-content">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label><b>Spécialité</b></label>
-                    <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
-                      {optionslistespecialite}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label><b>Statut</b></label>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label><b>Spécialité</b></label>
+                      <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
+                        {optionslistespecialite}
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label><b>Statut</b></label>
 
-                    {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
-                      {optionslistestatut}
-                    </select> */}
-                    {optionslistestatut_color}
+                      {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+                        {optionslistestatut}
+                      </select> */}
+                      {optionslistestatut_color}
+                    </div>
                   </div>
                   <label><b>Dates</b></label>
                   <div class="form-row">
@@ -686,7 +684,6 @@ export default class RechercheMissionsMedecin extends Component {
 
 
                   </div>
-                  <br></br>
                   <div class="form-group">
                     <label><b>Nom du site</b></label>
                     <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
@@ -712,7 +709,7 @@ export default class RechercheMissionsMedecin extends Component {
                       </select>
                     </div>
                     <div class="form-group col-md-6">
-                      <label><b>Type d'établissement</b></label>
+                      <label><b>Etablissement</b></label>
                       <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
                         {optionslistetypedetablissement}
                       </select>
@@ -729,7 +726,6 @@ export default class RechercheMissionsMedecin extends Component {
                 <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
               </div>
             </div>
-            <br />
             <div>
               {this.state.filtersdisplay}
             </div>
@@ -739,16 +735,12 @@ export default class RechercheMissionsMedecin extends Component {
 
         </div>
         <div id="container" class="col-md-9">
-          <br></br>
-          <br></br>
-          <br></br>
 
 
           <div>
 
             {this.state.display}
           </div>
-          <br></br>
 
         </div>
 

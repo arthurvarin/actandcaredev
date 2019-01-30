@@ -4,6 +4,13 @@
   border-radius: 1em;
   padding-left: 1em;
   padding-right: 1em;
+<<<<<<< HEAD
+=======
+}
+#login h2{
+	text-align: center;
+	padding-bottom: 1em;
+>>>>>>> cf883474ce6f94e44882b518a268fa9ebcaa7c82
 }
 
 
@@ -22,4 +29,17 @@
   margin-right: auto;
   height: 4.5em;
   width: 11.85em;
+}
+
+#wrapper {
+  padding: 2em;
+  margin-top: 4em;
+  margin-bottom: 2em;
+  margin-left: 200px;
+  margin-right: 200px;
+  min-width: 800px;
+  height: 900px;
+  background-color: #ccebff;
+  height: 100%;
+  background-color: #fcf9f5;
 }

@@ -1,18 +1,38 @@
 #choixcriteres{
   margin-right: -1.5em;
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .table-responsive{
   overflow-x: auto;
   min-width: inherit;
-  font-size: 0.7em;
 
 }
 
+#devisodm{
+    margin-top: 1em;
+    margin-left: 3.7em;
+    background-color:  #ff9900;
+    display: block;
+    width: 4em;
+}
+
+.titrecol{
+  max-height: 0.5em;
+  min-width: 0em;
+}
+
 #tablemission{
-  padding: 1em;
+  padding: 1.5em;
     text-align: center;
     vertical-align: center;
+    font-size: 0.7em;
+}
+
+#whole_page{
+  width: 79em;
+  margin-top: 4.5em;
 }
 
 table.table-striped {
@@ -29,7 +49,6 @@ table.table-striped {
 
 th {
 padding: 0.5em;
-margin-bottom: -2em;
 vertical-align: center;
 }
 
@@ -44,9 +63,10 @@ option {
 }
 
 .btn.btn-md.btn-block{
-  padding: 0.3em;
+  padding: 0.2em;
 }
 
 #cancelbutton{
   background-color: red;
+  color: white;
 }

@@ -398,13 +398,13 @@ export default class RechercheMissions extends Component {
         </select> */}
         {this.options_mission_listestatut_color(mission)}
         </th>
-        <th>{mission.specialite}</th>
-        <th>{this.extraireDateFrancais(mission.datededebut)}</th>
-        <th>{mission.ville}</th>
-        <th>{mission.type}</th>
-        <th>{mission.typedetablissement}</th>
-        <th>{mission.remuneration}</th>
-        <th><button onClick={() => this.deleteMission(mission.nomission)} class="deleteButton" > &#9003; </button></th>
+        <th caret size="sm">{mission.specialite}</th>
+        <th caret size="sm">{this.extraireDateFrancais(mission.datededebut)}</th>
+        <th caret size="sm">{mission.ville}</th>
+        <th caret size="sm">{mission.type}</th>
+        <th caret size="sm">{mission.typedetablissement}</th>
+        <th caret size="sm">{mission.remuneration}</th>
+        <th caret size="sm"><button onClick={() => this.deleteMission(mission.nomission)} class="deleteButton" > &#9003; </button></th>
       </tr>
 
 
@@ -412,15 +412,16 @@ export default class RechercheMissions extends Component {
     this.setState({
       display: <div class="table-responsive"><table id="tablemission" size="sm">
         <tr>
-          <th scope="col" ></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} caret size="sm"> Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} caret size="sm"> Spécialité </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} caret size="sm"> Date </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} caret size="sm" > Ville </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} caret size="sm"> Type de mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')}caret size="sm" > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')}caret size="sm" > Rémunération </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ></th>
+          <th scope="col" class="titrecol"></th>
+          <th scope="col"class="titrecol" ></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')}> Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"></th>
 
         </tr>
         {listItem}
@@ -659,9 +660,8 @@ export default class RechercheMissions extends Component {
 
       <div>
         <header>
-      <Navbar></Navbar>
-      <br></br>
-    </header>
+          <Navbar></Navbar>
+        </header>
       <div class="row" id="whole_page">
       <Modal open={open} onClose={this.onCloseModal} center>
         <MissionPage nomission={this.state.selectednomission}/>
@@ -673,36 +673,36 @@ export default class RechercheMissions extends Component {
         <PdfFormODM checkedmissions={this.state.checkedmissions}/>
       </Modal>
         <div class="col-md-3">
-          <br></br>
-          <br></br>
 
-          <form id="formbleu choixcriteres" onSubmit={this.handleSubmit.bind(this)}>
-            <br></br>
+          <form id="choixcriteres" onSubmit={this.handleSubmit.bind(this)}>
             <div class="card">
-            <br></br>
-            <button onClick={this.onOpenModal2} class="btn btn-md btn-block" id="addNewElement" >Générer un devis</button>
-            <button onClick={this.onOpenModal3} class="btn btn-md btn-block" id="addNewElement" >Générer un ODM</button>
-              <header class="card-header">
-                <h7 class="title"><b><u>Entrez vos critères de recherche</u></b></h7>
-              </header>
+            <header class="card-header">
+              <h7 class="title"><b><u>Entrez vos critères de recherche</u></b></h7>
+            </header>
+            <div class="form-row">
+              <button type="button" onClick={this.onOpenModal2} class="btn btn-md btn-block" id="devisodm" >Devis</button>
+              <button type="button" onClick={this.onOpenModal3} class="btn btn-md btn-block" id="devisodm" >ODM</button>
+            </div>
               <div class="filter-content">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label><b>Spécialité</b></label>
-                    <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
-                      {optionslistespecialite}
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label><b>Statut</b></label>
+                  <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label><b>Spécialité</b></label>
+                        <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange}  >
+                          {optionslistespecialite}
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label><b>Statut</b></label>
 
-                    {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
-                      {optionslistestatut}
-                    </select> */}
+                        {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
+                          {optionslistestatut}
+                        </select> */}
 
-                    {optionslistestatut_color}
-                  </div>
-                  <label><b>Dates</b></label>
+                        {optionslistestatut_color}
+                      </div>
+                    </div>
+                  <label><b>Date</b></label>
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label>Date de début</label>
@@ -776,7 +776,7 @@ export default class RechercheMissions extends Component {
                       </select>
                     </div>
                     <div class="form-group col-md-6">
-                      <label><b>Type d'établissement</b></label>
+                      <label><b>Type d'E.S</b></label>
                       <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
                         {optionslistetypedetablissement}
                       </select>
@@ -793,7 +793,6 @@ export default class RechercheMissions extends Component {
                   <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
               </div>
             </div>
-            <br />
             <div>
               {this.state.filtersdisplay}
             </div>
@@ -802,16 +801,11 @@ export default class RechercheMissions extends Component {
 
 
         </div>
-        <div id="container" class="col-md-9">
-          <br></br>
-          <br></br>
-          <br></br>
-
+          <div id="container" class="col-md-9">
           <div>
 
             {this.state.display}
           </div>
-          <br></br>
 
         </div>
 
