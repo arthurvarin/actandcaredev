@@ -294,7 +294,7 @@ export default class Account extends Component {
 
           <div class="container" >
             <br></br>
-            <form onSubmit={this.modifier.bind(this)} >
+            <form id="formbleu" onSubmit={this.modifier.bind(this)} >
 
               <br />
 
@@ -414,10 +414,8 @@ export default class Account extends Component {
         <header>
           <Navbar></Navbar>
         </header>
-        <div id="wrapper">
           <div class="container" >
-            <br></br>
-            <form onSubmit={this.handleSubmit.bind(this)} >
+            <form  onSubmit={this.handleSubmit.bind(this)} >
 
               <br />
 
@@ -534,7 +532,7 @@ export default class Account extends Component {
             </form>
             <ReactNotify ref='notificator' />
           </div>
-        </div>
+
       </div>
     );
   }

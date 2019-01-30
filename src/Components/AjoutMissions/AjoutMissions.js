@@ -590,7 +590,7 @@ export default class AjoutMissions extends React.Component {
 
             <div class="form-group">
               <label for="commentaires"><b>Commentaires</b></label>
-              <input type="text-area" class="form-control" value={this.state.commentaires} onChange={this.handlecommentairesChange} />
+              <input type="text-area" rows="5" class="form-control" value={this.state.commentaires} onChange={this.handlecommentairesChange} />
             </div>
 
             <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Partager la mission avec les médecins</button>
