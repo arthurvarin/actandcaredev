@@ -12,6 +12,7 @@ import MissionPage from '../MissionPage/MissionPage.js'
 import PdfFormDevis from '../PdfForm/PdfFormDevis.js'
 import PdfFormODM from '../PdfForm/PdfFormODM.js'
 import Navbar from '../Navbar/Navbar.js'
+import MissionsSerie from '../MissionsSerie/MissionsSerie.js'
 import listetypedetablissement from '../../Jasons/listetypedetablissement.json'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listetype from '../../Jasons/listetype.json'
@@ -28,6 +29,7 @@ export default class RechercheMissions extends Component {
     this.state = {
       listMissions: [],
       filteredMissions: [],
+      filteredMissionsextended: [],
       filternames: [],
       filtervalues: [],
       sortkeys: [],
@@ -58,6 +60,7 @@ export default class RechercheMissions extends Component {
       open: false,
       open2: false,
       open3: false,
+      open4: false,
       checkedmissions: []
     };
 
@@ -107,6 +110,14 @@ export default class RechercheMissions extends Component {
     this.setState({ open3: false });
   };
 
+  onOpenModal4 = (nomission) => {
+    this.setState({open4: true, selectednomission: nomission  });
+  };
+
+  onCloseModal4 = () => {
+    this.setState({ open4: false, selectednomission: ""   });
+  };
+
   checkselected(event) {
 
       let tmpcheckedmissions = this.state.checkedmissions;
@@ -127,7 +138,24 @@ export default class RechercheMissions extends Component {
 
 
   deleteMission(todeletenomission) {
-    firebase.database().ref('missions/' + todeletenomission).remove()
+
+
+    if (todeletenomission.length> 12)
+    {
+
+      for (let i = 0; i < this.state.filteredMissionsextended.length; i++) {
+        console.log(this.state.filteredMissionsextended.length)
+          if(this.state.filteredMissionsextended[i].nomission.includes(todeletenomission.substring(0,11)))
+            {
+              console.log(" " + this.state.filteredMissionsextended[i].nomission + " " +todeletenomission.substring(0,11))
+
+              firebase.database().ref('missions/' + this.state.filteredMissionsextended[i].nomission).remove()
+            }
+      }
+    }else{
+      firebase.database().ref('missions/' + todeletenomission).remove()
+    }
+
   }
 
   FiltersInit(){
@@ -203,6 +231,7 @@ export default class RechercheMissions extends Component {
 
   callFilters() {
     let filteredmissions = [];
+    let filteredmissionsextended = [];
     let sortkeys = this.state.sortkeys;
     const ref = firebase.database().ref('missions');
     ref.on('value', snap => {
@@ -239,10 +268,20 @@ export default class RechercheMissions extends Component {
 
         }
         if (count === 0)
-          if (countmultiplesref === 0)
-            filteredmissions.push(child.val());
-          else if  (countmultiples === countmultiplesref)
-            filteredmissions.push(child.val());
+          if (countmultiplesref === 0 )
+            {
+              if(child.val()['nomission'].length === 11 || (child.val()['nomission'].length === 13 && child.val()['nomission'].charAt(12)==='1' ))
+              filteredmissions.push(child.val());
+
+              filteredmissionsextended.push(child.val());
+            }
+          else if  (countmultiples === countmultiplesref )
+            {
+              if(child.val()['nomission'].length === 11 || (child.val()['nomission'].length === 13 && child.val()['nomission'].charAt(12)==='1' ))
+              filteredmissions.push(child.val());
+
+              filteredmissionsextended.push(child.val());
+            }
 
 
 
@@ -270,7 +309,7 @@ export default class RechercheMissions extends Component {
 
 
 
-    this.setState({ filteredMissions: filteredmissions });
+    this.setState({ filteredMissions: filteredmissions, filteredMissionsextended: filteredmissionsextended  });
 
   }
 
@@ -381,13 +420,26 @@ export default class RechercheMissions extends Component {
 
   }
 
+  deuxiemebouton(nomission){
+    if( nomission.length > 12 ){
+      return <button name={nomission} onClick={() => this.onOpenModal4(nomission)}>Afficher</button>
+    }else{
+      return <button name={nomission} onClick={() => this.onOpenModal(nomission)}>&#x270f; Modifier</button>
+    }
+  }
+
+  addcheckbox(nomission){
+    if( nomission.length > 12 ){
+      return  ""
+    }else{
+      return <input type="checkbox" name={nomission} value="checked" onChange={this.checkselected}/>
+    }
+  }
+
   updateDisplay() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
       <tr>
-      <th>
-      <input type="checkbox" name={mission.nomission} value="checked" onChange={this.checkselected}/>
-      </th>
         <th>
           <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; </button>
 
@@ -635,6 +687,7 @@ export default class RechercheMissions extends Component {
     const { open } = this.state;
     const { open2 } = this.state;
     const { open3 } = this.state;
+    const { open4 } = this.state;
     let optionslistetypedetablissement;
     optionslistetypedetablissement = this.state.listetypedetablissement.map(listetypedetablissement => {
       return (
@@ -671,6 +724,9 @@ export default class RechercheMissions extends Component {
       </Modal>
       <Modal open={open3} onClose={this.onCloseModal3} center>
         <PdfFormODM checkedmissions={this.state.checkedmissions}/>
+      </Modal>
+      <Modal open={open4} onClose={this.onCloseModal4} center>
+        <MissionsSerie nomission={this.state.selectednomission}/>
       </Modal>
         <div class="col-md-3">
 
