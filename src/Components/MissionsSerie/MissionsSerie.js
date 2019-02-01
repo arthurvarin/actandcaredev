@@ -178,7 +178,7 @@ export default class MissionsSerie extends Component {
     if(nomission.length === 13 && nomission.charAt(12)==='1' ){
       return ""
     }else{
-      return <button onClick={() => this.deleteMission(nomission)}>Supprimer</button>
+      return <button onClick={() => this.deleteMission(nomission)}>&#9003;</button>
     }
   }
 
@@ -190,18 +190,18 @@ export default class MissionsSerie extends Component {
       <input type="checkbox" name={mission.nomission} value="checked" onChange={this.checkselected}/>
       </th>
         <th>
-          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f; Modifier</button>
+          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>&#x270f;</button>
         </th>
         <th>
         {this.options_mission_listestatut_color(mission)}
         </th>
-        <th>{mission.specialite}</th>
-        <th>{this.extraireDateFrancais(mission.datededebut)}</th>
-        <th>{mission.ville}</th>
-        <th>{mission.type}</th>
-        <th>{mission.typedetablissement}</th>
-        <th>{mission.remuneration}</th>
-        <th>{this.boutonsupprimer(mission.nomission)}</th>
+        <th size="sm">{mission.specialite}</th>
+        <th size="sm">{this.extraireDateFrancais(mission.datededebut)}</th>
+        <th size="sm">{mission.ville}</th>
+        <th size="sm">{mission.type}</th>
+        <th size="sm">{mission.typedetablissement}</th>
+        <th size="sm">{mission.remuneration}</th>
+        <th size="sm">{this.boutonsupprimer(mission.nomission)}</th>
       </tr>
 
 
@@ -211,13 +211,13 @@ export default class MissionsSerie extends Component {
         <tr>
           <th scope="col" ></th>
           <th scope="col" ></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" ></th>
         </tr>
         {listItem}
@@ -332,8 +332,14 @@ export default class MissionsSerie extends Component {
         <h1>Mission du {this.dateformatreduit(this.state.datededebut)} au {this.dateformatreduit(this.state.datedefin)}</h1>
       </div>
       <div>
-        <button onClick={this.onOpenModal2} class="btn btn-md btn-block" id="addNewElement" >Générer un devis</button>
-        <button onClick={this.onOpenModal3} class="btn btn-md btn-block" id="addNewElement" >Générer un ODM</button>
+        <div class="row">
+          <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <button onClick={this.onOpenModal2} class="btn btn-md btn-block" id="addNewElementrmm" >Générer un devis</button>
+              <button onClick={this.onOpenModal3} class="btn btn-md btn-block" id="addNewElementrmm" >Générer un ODM</button>
+            </div>
+          <div class="col-md-3"></div>
+        </div>
       </div>
       <div>
       {this.state.display}

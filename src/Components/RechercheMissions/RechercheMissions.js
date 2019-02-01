@@ -455,7 +455,7 @@ export default class RechercheMissions extends Component {
         <th caret size="sm">{mission.type}</th>
         <th caret size="sm">{mission.typedetablissement}</th>
         <th caret size="sm">{mission.remuneration}</th>
-        <th caret size="sm"><button onClick={() => this.deleteMission(mission.nomission)} class="deleteButton" > &#9003; </button></th>
+        <th caret size="sm"><button onClick={() => this.deleteMission(mission.nomission)} class="deleteButton" > &#9003; Supprimer </button></th>
       </tr>
 
 
@@ -465,14 +465,14 @@ export default class RechercheMissions extends Component {
         <tr>
           <th scope="col" class="titrecol"></th>
           <th scope="col"class="titrecol" ></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')}> Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol" id="typedemission"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'typedetablissement')}> Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol" caret size="sm"></th>
 
         </tr>
         {listItem}
@@ -844,8 +844,12 @@ export default class RechercheMissions extends Component {
                 </div>
               </div>
               <div class="form-row">
-                  <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
+              <div class="form-group col-md-7 ">
+                  <button type="submit" class="btn btn-md btn-block" id="addNewElementrm" >Rechercher missions</button>
+              </div>
+              <div class="form-group col-md-5 ">
                   <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
+              </div>
               </div>
             </div>
             <div>
