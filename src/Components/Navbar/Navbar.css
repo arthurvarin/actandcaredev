@@ -1,23 +1,23 @@
 #navigation {
-  background-color: #008ae6;
+  background: rgb(30,30,30);
   position: fixed;
   top:0;
+  text-align: center;
   z-index:3;
-  overflow: hidden;
-  width: 79em;
-  padding : 0;
-  height: 2.5em;
+  width: 100%;
+  padding-top: 5%;
+  height: 5%;
+  font-size: 1.3vmax;
 }
 
 #logoaccueil{
-    height: 3em;
-    width: 7.9em;
+    height: 3%;
+    width: 10%;
 }
+
 #navigation{
-  background: rgb(30,30,30);
+
   color: white;
-  font-family: sans-serif;
-  height: 4em;
 
 }
 #navigation .container-navbar{
@@ -29,27 +29,26 @@
 }
 
 #navigation .li-logo{
-  height: auto;
-  width: 10em;
+  width: 12%;
+  padding-right: 5%;
+  padding-top: 5%;
   float: left;
   -webkit-transition: 0.5s ease;
-  font-size: 20px;
 }
 #navigation .li-option{
-  margin-top: 1em;
-  height: auto;
+  margin-top: 1%;
+  padding-top: 5%;
   float: left;
   -webkit-transition: 0.5s ease;
   cursor: pointer;
-  font-size: 1.3em;
+
 }
 #navigation .li-option-right{
-  margin-top: 1em;
-  height: auto;
+  margin-top: 1%;
+  padding-top: 5%;
   float: right;
   -webkit-transition: 0.5s ease;
   cursor: pointer;
-  font-size: 1.3em;
 }
 #navigation .container-navbar a{
   color:white;

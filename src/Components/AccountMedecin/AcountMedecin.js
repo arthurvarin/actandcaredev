@@ -20,7 +20,6 @@ export default class AccountMedecin extends Component {
       open: false,
       openReauth: false
     }
-    //this.display = this.display.bind(this)
 
 
     //// Ville & région

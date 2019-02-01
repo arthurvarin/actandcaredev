@@ -1,6 +1,5 @@
 import React from 'react';
 import {Redirect} from "react-router-dom";
-import './Signin.css'
 import * as firebase from 'firebase';
 
 export default class Logout extends React.Component {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './RMissions.css'
 import * as firebase from 'firebase';
 import {
   DropdownToggle,
@@ -331,31 +332,31 @@ export default class RechercheMissionsMedecin extends Component {
         {/* <th>
         {this.options_mission_listestatut_color(mission)}
         </th> */}
-        <th>{mission.specialite}</th>
-        <th>{this.extraireDateFrancais(mission.datededebut)}</th>
-        <th>{mission.ville}</th>
-        <th>{mission.type}</th>
-        <th>{mission.typedetablissement}</th>
-        <th>{mission.remuneration}</th>
+        <th caret size="sm">{mission.specialite}</th>
+        <th caret size="sm" >{this.extraireDateFrancais(mission.datededebut)}</th>
+        <th caret size="sm">{mission.ville}</th>
+        <th caret size="sm">{mission.type}</th>
+        <th caret size="sm">{mission.typedetablissement}</th>
+        <th caret size="sm">{mission.remuneration}</th>
         <th>
-          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
+          <button type="button" class="btn btn-md btn-block" id="rendreadm" name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
           {/* class="btn btn-md btn-block" id="addNewElement" */}
-          <br></br>
-          <button onClick={() => this.deleteMission(mission.nomission)}>Postuler</button></th>
+          <button type="button" class="btn btn-md btn-block" id="valider" onClick={() => this.deleteMission(mission.nomission)}>Postuler</button>
+        </th>
       </tr>
 
 
     );
     this.setState({
-      display: <div class="table-responsive"><table class="table table-striped">
+      display: <div class="table-responsive"><table id="tablemission" size="sm">
         <tr>
           {/* <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th> */}
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" id="typedemissionmed"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" id="typedemissionmed" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'typedetablissement')} > Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" ><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
         </tr>
         {listItem}
       </table></div>
@@ -616,7 +617,7 @@ export default class RechercheMissionsMedecin extends Component {
             <form id="choixcriteres" onSubmit={this.handleSubmit.bind(this)}>
               <div class="card">
                 <header class="card-header">
-                  <h6 class="title"><h4>Choisissez vos critères de recherche</h4></h6>
+                  <h7 class="title"><b><u>Entrez vos critères de recherche</u></b></h7>
                 </header>
                 <div class="filter-content">
                   <div class="card-body">
@@ -628,12 +629,8 @@ export default class RechercheMissionsMedecin extends Component {
                         </select>
                       </div>
                       <div class="form-group col-md-6">
-                        <label><b>Statut</b></label>
-
-                        {/*  <select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
-                        {optionslistestatut}
-                      </select> */}
-                        {optionslistestatut_color}
+                        <label><b>Nom du site</b></label>
+                          <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
                       </div>
                     </div>
                     <label><b>Dates</b></label>
@@ -685,10 +682,6 @@ export default class RechercheMissionsMedecin extends Component {
 
 
                     </div>
-                    <div class="form-group">
-                      <label><b>Nom du site</b></label>
-                      <Input type="text" name="nomdusite" value={this.state.nomdusite} onChange={this.handleChange} ></Input>
-                    </div>
 
                     <label><b>Rémunération</b></label>
                     <div class="form-row">
@@ -723,8 +716,12 @@ export default class RechercheMissionsMedecin extends Component {
                   </div>
                 </div>
                 <div class="form-row">
-                  <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Rechercher missions</button>
-                  <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
+                  <div class="form-group col-md-7">
+                    <button type="submit" class="btn btn-md btn-block" id="addNewElementrm" >Rechercher missions</button>
+                  </div>
+                  <div class="form-group col-md-5">
+                    <button type="button" class="btn btn-md btn-block" id="cancelbutton" onClick={this.resetfilter} >Réinitialiser</button>
+                  </div>
                 </div>
               </div>
               <div>
@@ -745,7 +742,6 @@ export default class RechercheMissionsMedecin extends Component {
 
           </div>
 
-          <div class="col-md-1"></div>
         </div>
       </div>
     );

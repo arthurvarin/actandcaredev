@@ -53,6 +53,11 @@ margin-left: 1%;
   min-width: 10vmax;
 }
 
+#typedemissionmed{
+  max-height: 1em;
+  min-width: 10vmax;
+}
+
 option {
   font-size: 80%;
 }
@@ -84,14 +89,4 @@ option {
   font-size: 100%;
   text-align: center;
   display: block;
-}
-
-#addNewElementrmm {
-  background-color:  #ff9900;
-  margin-left: 1%;
-  width: 100%;
-  font-size: 100%;
-  text-align: center;
-  display: block;
-  margin-bottom: 3%;
 }
