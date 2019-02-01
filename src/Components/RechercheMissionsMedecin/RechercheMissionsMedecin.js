@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './RMissions.css'
 import * as firebase from 'firebase';
+
+import './RMissionsMedecin.css'
 import {
   DropdownToggle,
   UncontrolledDropdown,
@@ -339,10 +341,10 @@ export default class RechercheMissionsMedecin extends Component {
         <th caret size="sm">{mission.typedetablissement}</th>
         <th caret size="sm">{mission.remuneration}</th>
         <th>
-          <button type="button" class="btn btn-md btn-block" id="rendreadm" name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
+          <button type="button" class="btn btn-md btn-block" id="details" name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
           {/* class="btn btn-md btn-block" id="addNewElement" */}
-          <button type="button" class="btn btn-md btn-block" id="valider" onClick={() => this.deleteMission(mission.nomission)}>Postuler</button>
-        </th>
+          <br></br>
+          <button type="button" class="btn btn-md btn-block" id="postuler">Postuler</button></th>
       </tr>
 
 

@@ -458,106 +458,121 @@ export default class AjoutMissions extends React.Component {
 
             <div class="form-group">
               <div class="form-row">
-                <div class="col-md-6">
+              <div class="col-md-1"></div>
+                <div class="col-md-5">
                   <label for="specialite"><b>Spécialité</b></label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <select type="text" class="form-control" value={this.state.specialite} onChange={this.handlespecialiteChange}  >
                     {optionslistespecialite}
                   </select>
                 </div>
+                <div class="col-md-1"></div>
               </div>
             </div>
 
             <div class="form-group">
               <div class="form-row">
-                <div class="col-md-6">
+              <div class="col-md-1"></div>
+                <div class="col-md-5">
                   <label for="type"><b>Type de mission</b></label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <select type="text" class="form-control" value={this.state.type} onChange={this.handletypeChange}  >
                     {optionslistetype}
                   </select>
                 </div>
+                <div class="col-md-1"></div>
               </div>
             </div>
 
             <div class="form-group">
               <div class="form-row">
-                <div class="col-md-6">
+              <div class="col-md-1"></div>
+                <div class="col-md-5">
                   <label for="typedetablissement"><b>Type d'établissement</b></label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <select type="text" class="form-control" value={this.state.typedetablissement} onChange={this.handletypedetablissementChange}  >
                     {optionslistetypedetablissement}
                   </select>
                 </div>
+                <div class="col-md-1"></div>
               </div>
             </div>
 
 
             <div class="form-row">
-              <div class="form-group col-md-6">
+            <div class="col-md-1"></div>
+              <div class="form-group col-md-5">
                 <label><b>Ville</b></label>
                 <input type="text" class="form-control" name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></input>
                 <select type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
                   {this.displayVilles()}
                 </select>
               </div>
-              <div class="form-group col-md-6 ">
+              <div class="form-group col-md-5 ">
                 <label><b>Région</b></label>
                 <select type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
                   {/* <select type="text" class="form-control" name="region" value={this.state.region}  > */}
                   {this.displayRegions()}
                 </select>
               </div>
+              <div class="col-md-1"></div>
             </div>
 
             <div class="form-group">
               <div class="form-row">
-                <div class="col-md-6">
+              <div class="col-md-1"></div>
+                <div class="col-md-5">
                   <label for="typedetablissement"><b>Nom du site</b></label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <input type="text" class="form-control" value={this.state.nomdusite} onChange={this.handlenomdusiteChange} />
                 </div>
+                <div class="col-md-1"></div>
               </div>
             </div>
 
             <div class="form-group">
               <div class="form-row">
-                <div class="col-md-6">
+              <div class="col-md-1"></div>
+                <div class="col-md-5">
                   <label for="datededebut"><b>Date de début</b></label>
                   <input type="date" class="form-control" value={this.state.datededebut} onChange={this.handledatededebutChange} />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <label for="datedefin"><b>Date de fin</b></label>
                   <input type="date" class="form-control" value={this.state.datedefin} onChange={this.handledatedefinChange} />
                 </div>
+                <div class="col-md-1"></div>
               </div>
             </div>
 
             <div class="form-group">
               <div class="form-row">
-                <div class="col-md-6">
+              <div class="col-md-1"></div>
+                <div class="col-md-5">
                   <label for="heurededebut"><b>Heure de début</b></label>
                   <input type="time" class="form-control" value={this.state.heurededebut} onChange={this.handleheurededebutChange} />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <label for="heuredefin"><b>Heure de fin</b></label>
                   <input type="time" class="form-control" value={this.state.heuredefin} onChange={this.handleheuredefinChange} />
                 </div>
+                <div class="col-md-1"></div>
               </div>
             </div>
 
 
             <div class="form-group">
               <div class="form-row">
-                <div class="col-md-6">
+              <div class="col-md-1"></div>
+                <div class="col-md-5">
                   <label for="remuneration"><b>Rémunération</b></label>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="input-group input-group-default mb-3">
 
                     <div class="input-group-prepend">
@@ -572,6 +587,7 @@ export default class AjoutMissions extends React.Component {
                       {optionslistetypedremuneration}
                     </select>
                 </div>
+                <div class="col-md-1"></div>
 
                 </div>
             </div>
@@ -579,8 +595,14 @@ export default class AjoutMissions extends React.Component {
 
 
             <div class="form-group">
-              <label for="commentaires"><b>Commentaires</b></label>
-              <input type="text-area" rows="5" class="form-control" value={this.state.commentaires} onChange={this.handlecommentairesChange} />
+              <div class="form-row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                  <label for="commentaires"><b>Commentaires</b></label>
+                  <input type="text-area" rows="5" class="form-control" value={this.state.commentaires} onChange={this.handlecommentairesChange} />
+                </div>
+                <div class="col-md-2"></div>
+              </div>
             </div>
 
             <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Partager la mission avec les médecins</button>
