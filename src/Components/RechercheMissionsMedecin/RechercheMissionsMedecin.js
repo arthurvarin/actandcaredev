@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
+
+import './RMissionsMedecin.css'
 import {
   DropdownToggle,
   UncontrolledDropdown,
@@ -338,16 +340,16 @@ export default class RechercheMissionsMedecin extends Component {
         <th>{mission.typedetablissement}</th>
         <th>{mission.remuneration}</th>
         <th>
-          <button name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
+          <button type="button" class="btn btn-md btn-block" id="details" name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
           {/* class="btn btn-md btn-block" id="addNewElement" */}
           <br></br>
-          <button onClick={() => this.deleteMission(mission.nomission)}>Postuler</button></th>
+          <button type="button" class="btn btn-md btn-block" id="postuler">Postuler</button></th>
       </tr>
 
 
     );
     this.setState({
-      display: <div class="table-responsive"><table class="table table-striped">
+      display: <div class="table-responsive"><table id="tablemission" size="sm">
         <tr>
           {/* <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'statut')} > Statut actuel de la mission </DropdownToggle></UncontrolledDropdown></th> */}
           <th scope="col" ><UncontrolledDropdown><DropdownToggle onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>

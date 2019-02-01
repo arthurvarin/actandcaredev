@@ -4,14 +4,14 @@
   top:0;
   z-index:3;
   overflow: hidden;
-  width: 79em;
+  width: 100%;
   padding : 0;
-  height: 2.5em;
+  height: 3%;
 }
 
 #logoaccueil{
     height: 3em;
-    width: 7.9em;
+    width: 10%;
 }
 #navigation{
   background: rgb(30,30,30);

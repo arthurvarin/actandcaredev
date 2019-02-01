@@ -1,0 +1,73 @@
+#choixcriteres{
+  margin-right: -1.5em;
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.table-responsive{
+  overflow-x: auto;
+  min-width: inherit;
+
+}
+
+#postuler{
+  background-color:  #b2d8b2;
+  width: 6em;
+  margin-bottom: 6%;
+}
+
+#details{
+  background-color:  #ffe0b2;
+  width: 6em;
+  margin-bottom: -10%;
+  margin-top: 8%;
+}
+
+
+.titrecol{
+  max-height: 0.5em;
+  min-width: 0em;
+}
+
+#tablemission{
+  padding: 1.2em;
+  margin-left: 1.5%;
+    text-align: center;
+    vertical-align: center;
+    font-size: 0.8em;
+}
+
+#whole_page{
+  width: 100%;
+  margin-top: 6%;
+}
+
+.form-control{
+  font-size: 0.4em;
+}
+
+.card {
+  background-color: #66c2ff !important;
+  font-size: 0.8em;
+}
+
+th {
+padding: 0.4em;
+vertical-align: center;
+}
+
+option {
+  font-size: 0.8em;
+}
+
+.card-header {
+  text-align: center;
+  background-color: white  !important;
+  font-size: 1.3em;
+}
+
+
+#cancelbutton{
+  background-color: red;
+  color: white;
+}

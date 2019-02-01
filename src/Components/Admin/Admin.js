@@ -120,7 +120,7 @@ export default class Admin extends Component {
             <h2>Accounts Management</h2>
 
             <div id="container" className="col-md-12">
-              <div>
+              <div class="table-responsive">
                 <table id="tablemissionadmin">
                   <tr>
                     {/* <th scope="col">UID: {this.state.listKeys[i]}</th> */}

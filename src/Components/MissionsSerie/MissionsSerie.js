@@ -207,7 +207,7 @@ export default class MissionsSerie extends Component {
 
     );
     this.setState({
-      display: <div class="table-responsive"><table class="table table-striped">
+      display: <div class="table-responsive"><table id="tablemission" size="sm">
         <tr>
           <th scope="col" ></th>
           <th scope="col" ></th>
