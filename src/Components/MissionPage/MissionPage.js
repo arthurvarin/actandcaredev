@@ -15,6 +15,7 @@ export default class MissionPage extends React.Component {
     this.state = {
       nomission: this.props.nomission,
       nomdusite: "",
+      nomdemedecin: "",
       ville: "",
       ville_selected:"",
       region_selected:"",
@@ -42,6 +43,7 @@ export default class MissionPage extends React.Component {
     };
     this.GetValues(this.props.nomission);
     this.handlenomdusiteChange = this.handlenomdusiteChange.bind(this);
+    this.handlenomdemedecinChange = this.handlenomdemedecinChange.bind(this);
     this.handlevilleChange = this.handlevilleChange.bind(this);
     this.handletypedetablissementChange = this.handletypedetablissementChange.bind(this);
     this.handleregionChange = this.handleregionChange.bind(this);
@@ -76,6 +78,9 @@ export default class MissionPage extends React.Component {
   }
   handlenomdusiteChange(event) {
     this.setState({ nomdusite: event.target.value, nomdusitemanual: true });
+  }
+  handlenomdemedecinChange(event) {
+    this.setState({ nomdemedecin: event.target.value });
   }
   handletypedetablissementChange(event) {
     this.setState({ typedetablissement: event.target.value });
@@ -126,6 +131,7 @@ export default class MissionPage extends React.Component {
           ville: mission.val().ville,
           region: mission.val().region,
           nomdusite: mission.val().nomdusite,
+          nomdemedecin: mission.val().nomdemedecin,
           heurededebut: mission.val().heurededebut,
           heuredefin: mission.val().heuredefin,
           datededebut: mission.val().datededebut,
@@ -166,8 +172,8 @@ export default class MissionPage extends React.Component {
       datedefin: this.state.datedefin,
       typeremuneration: this.state.typeremuneration,
       remuneration: this.state.remuneration,
-      commentaires: this.state.commentaires
-
+      commentaires: this.state.commentaires,
+      nomdemedecin: this.state.nomdemedecin
     })
     this.refs.notificator.success("Succès", "La mission à été mise à jour ", 4000);
 
@@ -429,6 +435,11 @@ export default class MissionPage extends React.Component {
             <div class="form-group">
               <label for="commentaires"><b>Commentaires</b></label>
               <input type="text-area" class="form-control" value={this.state.commentaires} onChange={this.handlecommentairesChange} />
+            </div>
+
+            <div class="form-group">
+              <label for="nomdemedecin"><b>Nom du médecin</b></label>
+              <input type="text-area" class="form-control" value={this.state.nomdemedecin} onChange={this.handlenomdemedecinChange} />
             </div>
 
             <div class="form-row">

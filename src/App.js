@@ -82,6 +82,7 @@ class App extends Component {
         {/* Pages médecins */}
         <MedecinRoute path="/rm_medecin" component={RechercheMissionsMedecin} authenticated={authenticated}/>
         <MedecinRoute path="/account_medecin" component={AccountMedecin} authenticated={authenticated}/>
+        {/* <Route path="*" component={Signin} /> */}
       </div>
     );
   }

@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: '50px',
     borderColor: 'black',
-    width: '11%'
+    width: '13s%',
+    textAlign: 'center',
     },
   border: {
     fontSize: 8,

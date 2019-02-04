@@ -350,6 +350,22 @@ export default class RechercheMissions extends Component {
     this.setState({ filtersdisplay: filtersdisplay });
   }
 
+  dateformatreduit(date){
+    let mois = dateFormat(date, "mm").toString();
+    let numero = dateFormat(date, "dd").toString();
+    let annee = dateFormat(date, "yyyy").toString();
+
+    return numero + "/" + mois + "/" + annee
+
+  }
+
+  dateformatreduitreduit(date){
+    let mois = dateFormat(date, "mm").toString();
+    let numero = dateFormat(date, "dd").toString();
+    return numero + "/" + mois 
+
+  }
+
   extraireDateFrancais(date) {
 
     let jour = dateFormat(date, "dddd").toString();
@@ -436,6 +452,14 @@ export default class RechercheMissions extends Component {
     }
   }
 
+  afficherdate(nomission,datededebut,datedefin){
+    if( nomission.length > 12 ){
+      return  "Du " + this.dateformatreduitreduit(datededebut) + " au " + this.dateformatreduit(datedefin)
+    }else{
+      return this.extraireDateFrancais(datededebut)
+    }
+  }
+
   updateDisplay() {
     let listItem = this.state.filteredMissions.map((mission, index) =>
 
@@ -450,7 +474,7 @@ export default class RechercheMissions extends Component {
         {this.options_mission_listestatut_color(mission)}
         </th>
         <th caret size="sm">{mission.specialite}</th>
-        <th caret size="sm">{this.extraireDateFrancais(mission.datededebut)}</th>
+        <th caret size="sm">{this.afficherdate(mission.nomission,mission.datededebut,mission.datedefin)}</th>
         <th caret size="sm">{mission.ville}</th>
         <th caret size="sm">{mission.type}</th>
         <th caret size="sm">{mission.typedetablissement}</th>
@@ -484,7 +508,7 @@ export default class RechercheMissions extends Component {
     this.setState({
       filternames: [],
       filtervalues: [],
-      filteredVilles: [],
+      filteredVilles: [{ "nom": "Choisir une ville" }],
       nomdusite: "",
       ville: "",
       region: "",

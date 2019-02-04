@@ -199,7 +199,7 @@ setmissions(){
        for (let i = 0; i < this.state.listemissions.length; i++) {
 
        if ( this.state.listemissions[i] === child.val()['nomission']){
-          let tmpmission = {nomission: child.val()['nomission'], datededebut: child.val()['datededebut'], type: child.val()['type'], nomdupraticien:"", specialite: child.val()['specialite'], remuneration: child.val()['remuneration'], commission:""};
+          let tmpmission = {nomission: child.val()['nomission'], datededebut: child.val()['datededebut'], type: child.val()['type'], nomdupraticien: child.val()['nomdemedecin'], specialite: child.val()['specialite'], remuneration: child.val()['remuneration'], commission:""};
           result.push(tmpmission);
        }
        }

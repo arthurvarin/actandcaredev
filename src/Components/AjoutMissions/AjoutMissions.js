@@ -217,7 +217,8 @@ export default class AjoutMissions extends React.Component {
           heuredefin: this.state.heuredefin,
           remuneration: this.state.remuneration,
           commentaires: this.state.commentaires,
-          statut: "Recherche en cours"
+          statut: "Recherche en cours",
+          nomdemedecin: ""
         });
 
     } else {
@@ -237,7 +238,8 @@ export default class AjoutMissions extends React.Component {
           heuredefin: this.state.heuredefin,
           remuneration: this.state.remuneration,
           commentaires: this.state.commentaires,
-          statut: "Recherche en cours"
+          statut: "Recherche en cours",
+          nomdemedecin: ""
         });
     }
 

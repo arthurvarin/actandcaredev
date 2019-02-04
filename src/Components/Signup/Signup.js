@@ -4,13 +4,15 @@ import listespecialite from '../../Jasons/listespecialite.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
 import Navbar from '../NavbarLogin/NavbarLogin.js'
+import UserCreated from '../UserCreated/UserCreated';
 
 export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       filteredVilles: [{ "nom": "Choisir une ville", "region": { "nom": "" } }],
-      filteredRegions: listeregions1
+      filteredRegions: listeregions1,
+      usercreated:false
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -118,6 +120,7 @@ export default class Signup extends React.Component {
     if (user) {
     } else {
       alert("Error submitting form please try signin up again!")
+      ///ERREUR MAL GEREE ///
       document.location.href = '/login'
     }
 
@@ -137,10 +140,10 @@ export default class Signup extends React.Component {
         RPPS: this.state.RPPS,
         statut: "En attente",
         createdOn: firebase.database.ServerValue.TIMESTAMP
-      }, function (error) {
+      }, (error) =>{
         if (error) {
         } else {
-          document.location.href = '/usercreated'
+          this.setState({usercreated:true})
         }
       });
 
@@ -162,7 +165,10 @@ export default class Signup extends React.Component {
 
 
   render() {
-    return (
+    const {usercreated}=this.state
+
+    if(usercreated)return <UserCreated></UserCreated>
+    else return (
       <div>
         <header>
           <Navbar></Navbar>

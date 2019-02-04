@@ -189,12 +189,8 @@ export default class MissionPageMedecin extends React.Component {
               <div class="form-group">
                 <div class="form-row">
                   <div class="col-md-6">
-                    <label for="datededebut"><b>Date de début</b></label>
+                    <label for="datededebut"><b>Date de la mission</b></label>
                     <input disabled type="date" class="form-control" value={this.state.datededebut} onChange={this.handledatededebutChange} />
-                  </div>
-                  <div class="col-md-6">
-                    <label for="datedefin"><b>Date de fin</b></label>
-                    <input disabled type="date" class="form-control" value={this.state.datedefin} onChange={this.handledatedefinChange} />
                   </div>
                 </div>
               </div>
