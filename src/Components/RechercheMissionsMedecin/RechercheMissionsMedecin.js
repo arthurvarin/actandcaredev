@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import './RMissions.css'
 import * as firebase from 'firebase';
-
 import './RMissionsMedecin.css'
 import {
   DropdownToggle,

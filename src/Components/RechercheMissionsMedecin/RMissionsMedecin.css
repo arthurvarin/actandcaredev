@@ -1,7 +1,7 @@
 #choixcriteres{
-  margin-right: -1.5em;
-  margin-left: 0.5em;
-  margin-bottom: 0.5em;
+  margin-right: -4%;
+  margin-left: 0.5%;
+  margin-bottom: 0.5%;
 }
 
 .table-responsive{
@@ -23,18 +23,15 @@
   margin-top: 8%;
 }
 
-
 .titrecol{
-  max-height: 0.5em;
-  min-width: 0em;
+  min-width: 5em;
+  font-size: 1vmax;
 }
 
 #tablemission{
-  padding: 1.2em;
-  margin-left: 1.5%;
     text-align: center;
     vertical-align: center;
-    font-size: 0.8em;
+    font-size: 1vw;
 }
 
 #whole_page{
@@ -43,7 +40,7 @@
 }
 
 .form-control{
-  font-size: 0.4em;
+
 }
 
 .card {
@@ -52,12 +49,8 @@
 }
 
 th {
-padding: 0.4em;
 vertical-align: center;
-}
-
-option {
-  font-size: 0.8em;
+margin-left: 1%;
 }
 
 .card-header {
@@ -66,8 +59,36 @@ option {
   font-size: 1.3em;
 }
 
+#typedemission{
+  max-height: 1em;
+  min-width: 10vmax;
+}
+
+#typedemissionmed{
+  max-height: 1em;
+  min-width: 10vmax;
+}
 
 #cancelbutton{
   background-color: red;
   color: white;
+}
+
+#cancelbutton{
+  background-color: red;
+  color: white;
+  text-align: center;
+  width: 100%;
+  margin-left: -4%;
+  font-size: 100%;
+  display: block;
+}
+
+#addNewElementrm {
+  background-color:  #ff9900;
+  margin-left: 1%;
+  width: 100%;
+  font-size: 100%;
+  text-align: center;
+  display: block;
 }

@@ -34,10 +34,6 @@
   margin-top: 6%;
 }
 
-.form-control{
-  font-size: 0.4em;
-}
-
 .card {
   background-color: #66c2ff !important;
   font-size: 0.8em;
@@ -51,10 +47,6 @@ margin-left: 1%;
 #typedemission{
   max-height: 1em;
   min-width: 10vmax;
-}
-
-option {
-  font-size: 80%;
 }
 
 .card-header {

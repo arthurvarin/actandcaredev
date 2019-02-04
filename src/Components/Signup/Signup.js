@@ -1,8 +1,9 @@
 import React from 'react';
-import './Signin.css'
+import './Signup.css'
 import listespecialite from '../../Jasons/listespecialite.json'
 import listeregions1 from '../../Jasons/regions.json'
 import * as firebase from 'firebase';
+import Navbar from '../NavbarLogin/NavbarLogin.js'
 
 export default class Signup extends React.Component {
   constructor(props) {
@@ -119,7 +120,7 @@ export default class Signup extends React.Component {
       alert("Error submitting form please try signin up again!")
       document.location.href = '/login'
     }
-  
+
     firebase.database().ref('users/' + user.uid).set(
       {
         // name: user.displayName===undefined ?  "Anonymous":user.displayName, //BECAUSE ANONYMOUS LOG ALOWED
@@ -162,86 +163,90 @@ export default class Signup extends React.Component {
 
   render() {
     return (
+      <div>
+        <header>
+          <Navbar></Navbar>
+        </header>
+        <div id="wrapper">
+          <form id="login" onSubmit={this.handleSubmit.bind(this)}>
+            <h2>Compléter le profil:</h2>
 
-      <div id="wrapper">
-        <form id="login" onSubmit={this.handleSubmit.bind(this)}>
-          <h2>Compléter le profil:</h2>
-          
-          <div class="form-group">
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label class="labelsignup" for="naissance"><b>Date de naissance</b></label>
+                </div>
+                <div class="col-md-6">
+                  <input type="date" class="form-control" name="naissance" onChange={this.handleChange} required></input>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label for="rue" class="labelsignup"><b>Rue et numéro</b></label>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="rue" placeholder="Ex: 37 Quai de Grenelle" onChange={this.handleChange} required></input>
+                </div>
+              </div>
+            </div>
+
             <div class="form-row">
-              <div class="col-md-6">
-                <label for="naissance"><b>Date de naissance</b></label>
+              <div class="form-group col-md-6">
+                <label class="labelsignup"><b>Ville</b></label>
+                <input type="text" class="form-control" name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></input>
+                <select required type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
+                  {this.displayVilles()}
+                </select>
               </div>
-              <div class="col-md-6">
-                <input type="date" class="form-control" name="naissance" onChange={this.handleChange} required></input>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="rue"><b>Rue et numéro</b></label>
-              </div>
-              <div class="col-md-6">
-                <input type="text" class="form-control" name="rue" placeholder="Ex: 37 Quai de Grenelle" onChange={this.handleChange} required></input>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label><b>Ville</b></label>
-              <input type="text" class="form-control" name="ville" value={this.state.ville_nom} onChange={this.handleChangeVille}></input>
-              <select required type="text" class="form-control" name="ville" value={this.state.ville_selected} onChange={this.handleVilleSelection}>
-                {this.displayVilles()}
-              </select>
-            </div>
-            <div class="form-group col-md-6 ">
-              <label><b>Région</b></label>
-              <select required type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
-                {this.displayRegions()}
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="tel"><b>Numéro de téléphone portable</b></label>
-              </div>
-              <div class="col-md-6">
-                <input type="tel" class="form-control" name="tel" placeholder="Ex: 0645326789" onChange={this.handleChange} required></input>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="specialite"><b>Spécialité</b></label>
-              </div>
-              <div class="col-md-6">
-                <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange} required>
-                  {this.optionslistespecialite()}
+              <div class="form-group col-md-6 ">
+                <label class="labelsignup"><b>Région</b></label>
+                <select required type="text" class="form-control" name="region" value={this.state.region_selected} onChange={this.handleChangeRegion}  >
+                  {this.displayRegions()}
                 </select>
               </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col-md-6">
-                <label for="RPPS"><b>Numéro RPPS</b></label>
-              </div>
-              <div class="col-md-6">
-                <input required type="number" class="form-control" name="RPPS" onChange={this.handleChange}></input>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label class="labelsignup" for="tel"><b>Numéro de téléphone portable</b></label>
+                </div>
+                <div class="col-md-6">
+                  <input type="tel" class="form-control" name="tel" placeholder="Ex: 0645326789" onChange={this.handleChange} required></input>
+                </div>
               </div>
             </div>
-          </div>
-          <br></br>
-          <button type="submit" class="btn btn-md btn-block" id="addNewElement">Valider</button>
-        </form>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label class="labelsignup" for="specialite"><b>Spécialité</b></label>
+                </div>
+                <div class="col-md-6">
+                  <select type="text" class="form-control" name="specialite" value={this.state.specialite} onChange={this.handleChange} required>
+                    {this.optionslistespecialite()}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label class="labelsignup" for="RPPS"><b>Numéro RPPS</b></label>
+                </div>
+                <div class="col-md-6">
+                  <input required type="number" class="form-control" name="RPPS" onChange={this.handleChange}></input>
+                </div>
+              </div>
+            </div>
+            <br></br>
+            <button type="submit" class="btn btn-md btn-block" id="addNewElement">Valider</button>
+          </form>
+        </div>
       </div>
 
     );

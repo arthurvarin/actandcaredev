@@ -1,5 +1,5 @@
 import React from 'react';
-import './Signin.css'
+import './UserCreated.css'
 import {Redirect} from "react-router-dom";
 
 export default class UserCreated extends React.Component {
@@ -14,7 +14,7 @@ export default class UserCreated extends React.Component {
         <form id="login">
         <h2>Utilisateur créé! En attente de validation. Merci de contacter Act&Care concernant votre dossier</h2>
         <p></p>
-        <button onClick={this.handleClick.bind(this)}>Accueil</button>
+        <button type="button" class="btn btn-md btn-block" id="accueilbutt" onClick={this.handleClick.bind(this)}>Accueil</button>
         </form>
       </div>
     );

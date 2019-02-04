@@ -1,0 +1,15 @@
+#login {
+  padding:5em;
+}
+#login h2{
+	text-align: center;
+	padding-bottom: 1em;
+}
+
+#accueilbutt{
+  margin-left: 25%;
+  background-color:  #92949D;
+  color:black;
+  display: block;
+  width: 50%;
+}

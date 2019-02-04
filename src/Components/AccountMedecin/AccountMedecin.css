@@ -1,15 +1,14 @@
 #wrapperam {
   padding: 2%;
-  margin-top: 3%;
-  margin-bottom: 1%;
-  margin-left: 3%;
-  margin-right: 3%;
-  min-width: 90%;
+  padding-top: 1.5%;
+  margin-top: 6.5%;
+  margin-bottom: 2%;
+  margin-left: 10%;
+  margin-right: 10%;
   background-color: #ccebff;
-  height: 100%;
   background-color: #fcf9f5;
 }
 
 #titlecompte{
-  padding-bottom: 1%;
+  padding: 2%;
 }
