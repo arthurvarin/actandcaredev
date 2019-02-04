@@ -7,7 +7,7 @@ import logo from '../../Icons/logo.png';
 import Navbar from '../NavbarLogin/NavbarLogin.js'
 
 var uiConfig = {
-  signInSuccessUrl: '/ajoutmissions',
+  signInSuccessUrl: '/',
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
