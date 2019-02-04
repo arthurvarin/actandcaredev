@@ -548,19 +548,7 @@ export default class RechercheMissionsMedecin extends Component {
       }
     })
   }
-  optionslistestatut_color() {
-    let optionslistestatut = this.optionslistestatut();
-    if (this.state.statut === "Recherche en cours") return (<select type="text" class="form-control alert-danger" name="statut" value={this.state.statut} onChange={this.handleChange}  >
-      {optionslistestatut}
-    </select>)
-    else if (this.state.statut === "Pourvu") return (<select type="text" class="form-control alert-success" name="statut" value={this.state.statut} onChange={this.handleChange}  >
-      {optionslistestatut}
-    </select>)
-    else return (<select type="text" class="form-control" name="statut" value={this.state.statut} onChange={this.handleChange}  >
-      {optionslistestatut}
-    </select>)
 
-  }
   optionslistestatut_color_bis() {
     if (this.state.statut === "Recherche en cours") return (<input disabled type="text" class="alert-danger" name="statut" value={this.state.statut}>
     </input>)
@@ -601,8 +589,7 @@ export default class RechercheMissionsMedecin extends Component {
       )
     })
 
-    let optionslistestatut_color = this.optionslistestatut_color();
-
+  
     return (
 
       <div>
