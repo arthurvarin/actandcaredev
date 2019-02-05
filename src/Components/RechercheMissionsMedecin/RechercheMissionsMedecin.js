@@ -484,7 +484,7 @@ export default class RechercheMissions extends Component {
 
     );
     this.setState({
-      display: <div class="table-responsive"><table id="tablemission" size="sm">
+      display: <div class="table-responsive"><table id="tablemissionmed" size="sm">
         <tr>
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'specialite')} > Spécialité </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>

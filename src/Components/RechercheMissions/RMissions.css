@@ -53,6 +53,12 @@ margin-left: 1%;
 
 }
 
+#tablemission{
+  text-align: center;
+  vertical-align: center;
+  font-size: 0.8em;
+}
+
 #cancelbutton{
   background-color: red;
   color: white;
