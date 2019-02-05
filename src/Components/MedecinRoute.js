@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import Signin from '../Components/Signin/Signin.js'
 
 export default function MedecinRoute({
   component: Component,
@@ -20,7 +21,7 @@ export default function MedecinRoute({
         else if(authenticated === "complete_signup"){
           return <Redirect to="/signup"/>
         }
-        else return <Redirect to="/login" />
+        else return <Signin></Signin>
       }
       }
     />

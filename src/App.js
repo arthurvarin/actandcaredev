@@ -73,7 +73,7 @@ class App extends Component {
         <PrivateRoute exact path="/" component={RechercheMissions} authenticated={authenticated}/>
         <PrivateRoute exact path="/inscriptions" component={Admin} authenticated={authenticated}/>
         <PrivateRoute path="/account" component={Account} authenticated={authenticated}/>
-        <Route path="/login" component={Signin} />
+        <Route path="/login" component={Signin}/>
         <Route path="/signup" component={Signup} user={user} />
         <Route path="/test" component={Test} />
         <Route path="/usercreated" component={UserCreated} />

@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import Signin from '../Components/Signin/Signin.js'
 
 export default function PrivateRoute({
   component: Component,
@@ -23,7 +24,7 @@ export default function PrivateRoute({
         else if(authenticated === "valide"){
           return <Redirect to="/rm_medecin"/>
         }
-        else return <Redirect to="/login" />
+        else return <Signin></Signin>
       }
       }
     />
