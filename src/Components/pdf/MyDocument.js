@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import {Image, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import {Image, Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -59,25 +59,34 @@ const styles = StyleSheet.create({
   },
   date: {
     marginTop: '30px',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Helvetica-Bold',
+    color: '#4d4d4d'
   },
   double: {
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Helvetica-Bold',
+    color: '#4d4d4d'
   },
   devis: {
     fontSize: 18,
     textAlign: 'center',
+    fontFamily: 'Helvetica-Bold',
+    color: '#00bfff'
   },
   titre: {
     fontSize: 18,
     textAlign: 'center',
     padding: '10px',
-    marginBottom: 5
+    marginBottom: 5,
+    fontFamily: 'Helvetica-Bold',
+    color: '#00bfff'
   },
   titre2: {
     fontSize: 18,
     textAlign: 'center',
-    marginTop: 7
+    marginTop: 7,
+    color: '#00bfff'
   },
   list: {
     fontSize: 12,
@@ -161,18 +170,40 @@ const styles = StyleSheet.create({
       margin: 40
     },
     jumplinebig: {
-      margin: 50,
-      patting: 5,
-      fontSize:10,
+      margin: 90,
+      patting: 15,
+      fontSize:15,
       color: 'white'
-    }
+    },
+  footerX: {
+    position: 'absolute',
+    fontSize: 12,
+    bottom: 10,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    color: 'grey'
+  },
+footerZ: {
+  position: 'absolute',
+  fontSize: 7,
+  bottom: 25,
+  left: 0,
+  right: 0,
+  textAlign: 'center',
+  color: 'grey'
+},
+footerY: {
+  position: 'absolute',
+  fontSize: 7,
+  bottom: 33,
+  left: 0,
+  right: 0,
+  textAlign: 'center',
+  color: 'grey'
+}
 });
 
-/* const missions = [
-    {nomission:"M201811001", datededebut:"2018-11-01", type:"Jour", nomdupraticien:"Mr Chouf", specialite:"Gériatrie", remuneration:"2500", commission:"300"},
-    {nomission:"M201811001", datededebut:"2018-11-01", type:"Jour", nomdupraticien:"Mr Chouf", specialite:"Gériatrie", remuneration:"2500", commission:"300"}];
-
- */
 
 
 export default class MissionModal extends Component {
@@ -234,8 +265,6 @@ export default class MissionModal extends Component {
      </View>
      <View style={styles.column}>
      <Text style={styles.intheboxespace}> </Text>
-         <Text style={styles.footer}>SARL Act&Care - 42 rue de Maubeuge - 75009 PAris - 01 79 73 88 00</Text>
-         <Text style={styles.footer}>Capital social de 30 000 € - RCS de Paris 825 306 251 - SIRET 825 306 251 00018 - code Ape 7112B</Text>
      </View>
      </View>
 
@@ -244,10 +273,10 @@ export default class MissionModal extends Component {
 
   addspace(index){
     let toreturn;
-    if(index=== 6){
-      toreturn = <Text style={styles.jumpline}> </Text>;
+    if(index=== 5){
+      toreturn = <Text style={styles.jumplinebig}> </Text>;
     }
-    if( index === 20 || index === 27 || index === 33 || index === 40){
+    if( index === 19 || index === 26 || index === 32 || index === 39){
       toreturn = <Text style={styles.jumplinebig}> </Text>;
     }
     return toreturn;
@@ -308,28 +337,45 @@ export default class MissionModal extends Component {
               </View>
                 {this.state.mission}
 
+                <Text
+                        style={styles.footerX}
+                        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+                        fixed
+                      />
+                <Text
+                        style={styles.footerY}
+                        fixed
+                      >SARL Act&Care - 42 rue de Maubeuge - 75009 PAris - 01 79 73 88 00</Text>
+                <Text
+                        style={styles.footerZ}
+                        fixed
+                      >Capital social de 30 000 € - RCS de Paris 825 306 251 - SIRET 825 306 251 00018 - code Ape 7112B</Text>
+
+
+
+
         </Page>
+
         <Page>
         {this.state.endofdoc}
+        <Text
+                style={styles.footerX}
+                render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+                fixed
+              />
+        <Text
+                style={styles.footerY}
+                fixed
+              >SARL Act&Care - 42 rue de Maubeuge - 75009 PAris - 01 79 73 88 00</Text>
+        <Text
+                style={styles.footerZ}
+                fixed
+              >Capital social de 30 000 € - RCS de Paris 825 306 251 - SIRET 825 306 251 00018 - code Ape 7112B</Text>
+
         </Page>
       </Document>
     )
 
-    //<Text>{this.props.nomission}</Text>
-    //<Text>{this.props.type}</Text>
-    //<Text>{this.props.typedetablissement}</Text>
-    //<Text>{this.props.statut}</Text>
-    //<Text>{this.props.specialite}</Text>
-    //<Text>{this.props.ville}</Text>
-    //<Text>{this.props.region}</Text>
-    //<Text>{this.props.nomdusite}</Text>
-    //<Text>{this.props.heurededebut}</Text>
-    //<Text>{this.props.heuredefin}</Text>
-    //<Text>{this.props.datededebut}</Text>
-    //<Text>{this.props.datedefin}</Text>
-    //<Text>{this.props.remuneration}</Text>
-    //<Text>{this.props.typeremuneration}</Text>
-    //<Text>{this.props.commentaires}</Text>
   }
 
 

@@ -81,27 +81,37 @@ const styles = StyleSheet.create({
   },
   date: {
     marginTop: '30px',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Helvetica-Bold',
+    color: '#4d4d4d'
   },
   double: {
     fontSize: 12,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Helvetica-Bold',
+    color: '#4d4d4d'
   },
   devis: {
     fontSize: 18,
     textAlign: 'center',
+    fontFamily: 'Helvetica-Bold',
+    color: '#00bfff'
   },
   titre: {
     fontSize: 18,
     textAlign: 'center',
     padding: '10px',
-    marginBottom: 5
+    marginBottom: 5,
+    fontFamily: 'Helvetica-Bold',
+    color: '#00bfff'
   },
   titre2: {
     fontSize: 12,
     textAlign: 'center',
     marginTop: 7,
-    marginBottom: 7
+    marginBottom: 7,
+    fontFamily: 'Helvetica-Bold',
+    color: '#00bfff'
   },
   titre3: {
     fontSize: 12,
@@ -219,10 +229,37 @@ const styles = StyleSheet.create({
       color: 'grey',
       textAlign: 'center'
     },
+    footerX: {
+      position: 'absolute',
+      fontSize: 12,
+      bottom: 10,
+      left: 0,
+      right: 0,
+      textAlign: 'center',
+      color: 'grey'
+    },
+  footerZ: {
+    position: 'absolute',
+    fontSize: 7,
+    bottom: 25,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    color: 'grey'
+  },
+  footerY: {
+    position: 'absolute',
+    fontSize: 7,
+    bottom: 33,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    color: 'grey'
+  },
     jumpline: {
       margin: 50,
       patting: 5,
-      fontSize:10,
+      fontSize:5,
       color: 'white'
     },
     jumplinebig: {
@@ -239,6 +276,7 @@ export default class MissionModal extends Component {
     super(props);
      let listemissions = this.props.missions.map((mission, index) =>
        <View>
+       {this.addspace(index)}
        <View style={styles.row}>
        <Text style={styles.borderleft}>{mission.nomission}</Text>
        <Text style={styles.border}>{mission.datededebut}</Text>
@@ -247,7 +285,7 @@ export default class MissionModal extends Component {
        <Text style={styles.border1}>{mission.heuredefin}</Text>
        <Text style={styles.border2}>{mission.remuneration}</Text>
        </View>
-       {this.addspace(index)}
+
        </View>
 
      );
@@ -300,8 +338,8 @@ export default class MissionModal extends Component {
      <View style={styles.row}>
 
        <View style={styles.sectionborder1}>
-             <Text style={styles.intheboxmention}>Merci d’avoir rejoint le réseau d’Act&Care ! Nous sommes ravis de vous compter parmi nous. </Text>
-             <Text style={styles.intheboxmention}>Pour votre information, l’hôpital prendra en charge les différents frais associés à cette mission : restaurations, frais de
+             <Text style={styles.inthebox}>Merci d’avoir rejoint le réseau d’Act&Care ! Nous sommes ravis de vous compter parmi nous. </Text>
+             <Text style={styles.inthebox}>Pour votre information, l’hôpital prendra en charge les différents frais associés à cette mission : restaurations, frais de
 transport, hébergement. </Text>
              <Text style={styles.intheboxminiespace}> </Text>
              <Text style={styles.inthebox}>Pour rappel : vous êtes rémunéré par le Centre hospitalier. Veillez à signer un contrat de travail avant de
@@ -309,15 +347,10 @@ commencer votre mission. Pour tout activité libérale vous devez avoir souscrit
 civile. En travaillant avec Act&Care vous vous engagez à être en règle avec le statut de médecin remplaçant
 ( âge, PH temps partiel, repos de sécurité, inscription à l’ordre)  </Text>
              <Text style={styles.intheboxminiespace}> </Text>
-             <Text style={styles.intheboxmention}>Nous sommes à votre disposition pour répondre à toutes vos questions ! </Text>
+             <Text style={styles.inthebox}>Nous sommes à votre disposition pour répondre à toutes vos questions ! </Text>
              <Text style={styles.intheboxminiespace}> </Text>
              <Text style={styles.intheboxcenter}>Nous vous souhaitons une très bonne mission !</Text>
        </View>
-     </View>
-     <View style={styles.column}>
-     <Text style={styles.intheboxespace}> </Text>
-         <Text style={styles.footer}>SARL Act&Care - 42 rue de Maubeuge - 75009 PAris - 01 79 73 88 00</Text>
-         <Text style={styles.footer}>Capital social de 30 000 € - RCS de Paris 825 306 251 - SIRET 825 306 251 00018 - code Ape 7112B</Text>
      </View>
      </View>
 
@@ -326,10 +359,10 @@ civile. En travaillant avec Act&Care vous vous engagez à être en règle avec l
 
   addspace(index){
     let toreturn;
-    if(index=== 9){
-      toreturn = <Text style={styles.jumpline}>X</Text>;
+    if(index=== 8){
+      toreturn = <Text style={styles.jumplinebig}>X</Text>;
     }
-    if( index === 23 || index === 37 || index === 51 ){
+    if( index === 21 || index === 35 || index === 49 ){
       toreturn = <Text style={styles.jumplinebig}>X</Text>;
     }
     return toreturn;
@@ -355,19 +388,21 @@ civile. En travaillant avec Act&Care vous vous engagez à être en règle avec l
                 </View>
               </View>
               <View style={styles.row}>
-                <Text style={styles.devis}>MISSION</Text>
+                <Text style={styles.devis}>ORDRE DE MISSION</Text>
               </View>
+              <Text style={styles.intheboxespace}> </Text>
               <View style={styles.row}>
-                <View style={styles.section2}>
                 <Text style={styles.double}>MEDECIN : {"Dr. "+this.props.nommedecin}</Text>
-                </View>
-                <View style={styles.section2}>
-                <Text style={styles.double}>SPÉCIALITE : {this.props.specialite}</Text>
-                </View>
+              </View>
+              <Text style={styles.intheboxespace}> </Text>
+              <View style={styles.row}>
+                <Text style={styles.double}>SPÉCIALITÉ : {this.props.specialite}</Text>
               </View>
 
+              <Text style={styles.intheboxespace}> </Text>
+
               <View style={styles.row}>
-                <Text style={styles.titre}>LA COMMANDE</Text>
+                <Text style={styles.titre}>DETAIL DE LA MISSION</Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.borderleft}>N° MISSION</Text>
@@ -378,10 +413,38 @@ civile. En travaillant avec Act&Care vous vous engagez à être en règle avec l
                 <Text style={styles.border2}>RÉMUNÉRATION DU PRATICIEN NET EN €</Text>
               </View>
                 {this.state.mission}
+                <Text
+                        style={styles.footerX}
+                        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+                        fixed
+                      />
+                <Text
+                        style={styles.footerY}
+                        fixed
+                      >SARL Act&Care - 42 rue de Maubeuge - 75009 PAris - 01 79 73 88 00</Text>
+                <Text
+                        style={styles.footerZ}
+                        fixed
+                      >Capital social de 30 000 € - RCS de Paris 825 306 251 - SIRET 825 306 251 00018 - code Ape 7112B</Text>
+
 
         </Page>
         <Page>
         {this.state.endofdoc}
+        <Text
+                style={styles.footerX}
+                render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+                fixed
+              />
+        <Text
+                style={styles.footerY}
+                fixed
+              >SARL Act&Care - 42 rue de Maubeuge - 75009 PAris - 01 79 73 88 00</Text>
+        <Text
+                style={styles.footerZ}
+                fixed
+              >Capital social de 30 000 € - RCS de Paris 825 306 251 - SIRET 825 306 251 00018 - code Ape 7112B</Text>
+
         </Page>
       </Document>
     )

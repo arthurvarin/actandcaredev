@@ -199,7 +199,19 @@ setmissions(){
        for (let i = 0; i < this.state.listemissions.length; i++) {
 
        if ( this.state.listemissions[i] === child.val()['nomission']){
-          let tmpmission = {nomission: child.val()['nomission'], datededebut: child.val()['datededebut'], type: child.val()['type'], nomdupraticien: child.val()['nomdemedecin'], specialite: child.val()['specialite'], remuneration: child.val()['remuneration'], commission:""};
+          let comission = "";
+          if(child.val()['type']==="Nuit" || child.val()['type']==="Jour")
+            comission = "45"
+          if(child.val()['type']==="Jour + Astreinte" || child.val()['type']==="Astreinte seule")
+            comission = "55"
+          if(child.val()['type']==="Garde 24h")
+            comission = "95"
+
+          let type = child.val()['type'];
+          if(type === "Jour + Astreinte")
+            type= "Jour    + Astreinte"
+
+          let tmpmission = {nomission: child.val()['nomission'], datededebut: this.extraireDateFrancais(child.val()['datededebut']), type: type, nomdupraticien: child.val()['nomdemedecin'], specialite: child.val()['specialite'], remuneration: child.val()['remuneration'], commission: comission};
           result.push(tmpmission);
        }
        }
@@ -265,6 +277,78 @@ sendsubmit(){
   this.setState({redirect: true})
 }
 
+
+extraireDateFrancais(date) {
+
+  let jour = dateFormat(date, "dddd").toString();
+  let mois = dateFormat(date, "mmmm").toString();
+  let numero = dateFormat(date, "dd").toString();
+  let annee = dateFormat(date, "yyyy").toString();
+
+  if(numero === "01")
+    numero = "1er"
+  if(numero === "02")
+    numero = "2"
+  if(numero === "03")
+    numero = "3"
+  if(numero === "04")
+    numero = "4"
+  if(numero === "05")
+    numero = "5"
+  if(numero === "06")
+    numero = "6"
+  if(numero === "07")
+    numero = "7"
+  if(numero === "08")
+    numero = "8"
+  if(numero === "09")
+    numero = "9"
+
+
+
+  if (jour === "Monday")
+    jour = "Lundi";
+  if (jour === "Tuesday")
+    jour = "Mardi";
+  if (jour === "Wednesday")
+    jour = "Mercredi";
+  if (jour === "Thursday")
+    jour = "Jeudi";
+  if (jour === "Friday")
+    jour = "Vendredi";
+  if (jour === "Saturday")
+    jour = "Samedi";
+  if (jour === "Sunday")
+    jour = "Dimanche";
+
+  if (mois === "January")
+    mois = "Janvier";
+  if (mois === "February")
+    mois = "Février";
+  if (mois === "March")
+    mois = "Mars";
+  if (mois === "April")
+    mois = "Avril";
+  if (mois === "May")
+    mois = "Mai";
+  if (mois === "June")
+    mois = "Juin";
+  if (mois === "July")
+    mois = "Juillet";
+  if (mois === "August")
+    mois = "Aout";
+  if (mois === "September")
+    mois = "Septembre";
+  if (mois === "October")
+    mois = "Octobre";
+  if (mois === "November")
+    mois = "Novembre";
+  if (mois === "December")
+    mois = "Décembre";
+
+  return jour + " " + numero + " " + mois + " " + annee;
+
+}
 
 render (){
   if (this.state.redirect===true){

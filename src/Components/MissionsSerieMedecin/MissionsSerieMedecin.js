@@ -186,8 +186,7 @@ export default class MissionsSerieMedecin extends Component {
         <th size="sm">{mission.typedetablissement}</th>
         <th size="sm">{mission.remuneration}</th>
         <th><button type="button" class="btn btn-md btn-block" id="details" name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
-        <br></br>
-        <button type="button" class="btn btn-md btn-block" id="postuler">Postuler</button></th>
+        <br></br></th>
       </tr>
 
 

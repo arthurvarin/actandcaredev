@@ -435,15 +435,13 @@ export default class RechercheMissions extends Component {
   deuxiemebouton(nomission) {
     if (nomission.length > 12) {
       return <th> <button type="button" class="btn btn-md btn-block" id="details" name={nomission} onClick={() => this.onOpenModal4(nomission)}>Détails</button>
-      <br></br>
-      <button type="button" class="btn btn-md btn-block" id="postuler">Postuler</button></th>
-    
+      <br></br></th>
+
     }
     else {
       return (<th>
         <button type="button" class="btn btn-md btn-block" id="details" name={nomission} onClick={() => this.onOpenModal(nomission)}>Détails</button>
-        <br></br>
-        <button type="button" class="btn btn-md btn-block" id="postuler">Postuler</button></th>
+        <br></br></th>
         )
     }
   }
@@ -476,9 +474,6 @@ export default class RechercheMissions extends Component {
         <th caret size="sm">{mission.remuneration}</th>
 
           {this.deuxiemebouton(mission.nomission)}
-          {/*<th> <button type="button" class="btn btn-md btn-block" id="details" name={mission.nomission} onClick={() => this.onOpenModal(mission.nomission)}>Détails</button>
-          <br></br>
-          <button type="button" class="btn btn-md btn-block" id="postuler">Postuler</button></th> */}
       </tr>
 
 
@@ -490,7 +485,7 @@ export default class RechercheMissions extends Component {
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol" id="typedemission"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'typedetablissement')}> Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'typedetablissement')}> Type d'établissement </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol" caret size="sm"></th>
 
@@ -740,7 +735,7 @@ export default class RechercheMissions extends Component {
                           {optionslistespecialite}
                         </select>
                       </div>
-                     
+
                     </div>
                     <label><b>Date</b></label>
                     <div class="form-row">
@@ -800,11 +795,11 @@ export default class RechercheMissions extends Component {
                     <div class="form-row">
                       <div class="form-group col-md-6">
                         <label>Min</label>
-                        <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder="$0"></input>
+                        <input type="number" class="form-control" name="remunerationmin" value={this.state.remunerationmin} onChange={this.handleChange} placeholder=""></input>
                       </div>
                       <div class="form-group col-md-6 ">
                         <label>Max</label>
-                        <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder="$0"></input>
+                        <input type="number" class="form-control" name="remunerationmax" value={this.state.remunerationmax} onChange={this.handleChange} placeholder=""></input>
                       </div>
                     </div>
 
@@ -816,7 +811,7 @@ export default class RechercheMissions extends Component {
                         </select>
                       </div>
                       <div class="form-group col-md-6">
-                        <label><b>Type d'E.S</b></label>
+                        <label><b>Type d'établissement</b></label>
                         <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
                           {optionslistetypedetablissement}
                         </select>

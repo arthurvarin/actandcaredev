@@ -41,7 +41,7 @@ export default class MissionPageMedecin extends React.Component {
 
     };
     this.GetValues(this.props.nomission);
-    
+
     this.GetValues = this.GetValues.bind(this);
 
   }
@@ -153,7 +153,7 @@ export default class MissionPageMedecin extends React.Component {
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label><b>Ville</b></label>
-                  <input disabled type="text" class="form-control" name="ville" value={this.state.ville_nom}></input>                  
+                  <input disabled type="text" class="form-control" name="ville" value={this.state.ville_nom}></input>
                 </div>
                 <div class="form-group col-md-6 ">
                   <label><b>Région</b></label>
@@ -238,9 +238,6 @@ export default class MissionPageMedecin extends React.Component {
               <input disabled type="text" class="form-control" value={this.state.commentaires}/>
             </div>
 
-            <div class="form-row">
-              <button type="submit" class="btn btn-md btn-block" id="addNewElement" >Postuler</button>
-            </div>
 
             <br></br>
           </form>

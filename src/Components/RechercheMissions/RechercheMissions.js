@@ -362,7 +362,7 @@ export default class RechercheMissions extends Component {
   dateformatreduitreduit(date){
     let mois = dateFormat(date, "mm").toString();
     let numero = dateFormat(date, "dd").toString();
-    return numero + "/" + mois 
+    return numero + "/" + mois
 
   }
 
@@ -494,7 +494,7 @@ export default class RechercheMissions extends Component {
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'datedefin')} > Date </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'ville')} > Ville </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol" id="typedemission"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'type')} > Type de mission </DropdownToggle></UncontrolledDropdown></th>
-          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'typedetablissement')}> Type d'E.S. </DropdownToggle></UncontrolledDropdown></th>
+          <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'typedetablissement')}> Type d'établissement </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol"><UncontrolledDropdown><DropdownToggle size="sm" onClick={e => this.onSort(e, 'remuneration')} > Rémunération </DropdownToggle></UncontrolledDropdown></th>
           <th scope="col" class="titrecol" caret size="sm"></th>
 
@@ -855,7 +855,7 @@ export default class RechercheMissions extends Component {
                       </select>
                     </div>
                     <div class="form-group col-md-6">
-                      <label><b>Type d'E.S</b></label>
+                      <label><b>Type d'établissement</b></label>
                       <select type="text" class="form-control" name="typedetablissement" value={this.state.typedetablissement} onChange={this.handleChange}>
                         {optionslistetypedetablissement}
                       </select>

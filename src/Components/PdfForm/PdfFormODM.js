@@ -209,7 +209,7 @@ setmissions(){
               this.setState({nomdusite : child.val()['nomdusite']});
           }
 
-          let tmpmission = {nomission: child.val()['nomission'], datededebut: child.val()['datededebut'], type: child.val()['type'], heurededebut: child.val()['heurededebut'], heuredefin: child.val()['heuredefin'], remuneration: child.val()['remuneration']};
+          let tmpmission = {nomission: child.val()['nomission'], datededebut: this.extraireDateFrancais(child.val()['datededebut']), type: child.val()['type'], heurededebut: child.val()['heurededebut'], heuredefin: child.val()['heuredefin'], remuneration: child.val()['remuneration']};
           result.push(tmpmission);
        }
        }
@@ -225,6 +225,27 @@ extraireDateFrancais(date) {
   let mois = dateFormat(date, "mmmm").toString();
   let numero = dateFormat(date, "dd").toString();
   let annee = dateFormat(date, "yyyy").toString();
+
+  if(numero === "01")
+    numero = "1er"
+  if(numero === "02")
+    numero = "2"
+  if(numero === "03")
+    numero = "3"
+  if(numero === "04")
+    numero = "4"
+  if(numero === "05")
+    numero = "5"
+  if(numero === "06")
+    numero = "6"
+  if(numero === "07")
+    numero = "7"
+  if(numero === "08")
+    numero = "8"
+  if(numero === "09")
+    numero = "9"
+
+
 
   if (jour === "Monday")
     jour = "Lundi";
